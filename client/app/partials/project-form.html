@@ -1,0 +1,81 @@
+<div class="block-content">
+    <div class="pull-right">
+        <a href="#/project/{{ project.getPrimaryKey() }}" class="btn btn-two rounded"><i class="fa fa-info"></i></a>
+    </div>
+
+    <h1>{{ {true: 'New', false: 'Edit'}[project.getPrimaryKey() == undefined] }} project</h1>
+
+    <form class="space-top" name="projectForm"  ng-class="{ 'has-error': projectForm.name.$error.required }">
+        <div class="form-group">
+            <label class="control-label">Name</label>
+            <div class="form-widget">
+                <input type="text" name="name" data-ng-model="project.name" class="form-control" required/>
+                <span class="error" ng-show="projectForm.name.$error.required">Required!</span><br>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error': projectForm.repository.$error.required }">
+            <label class="control-label">Repository</label>
+            <div class="form-widget">
+                <input type="text" name="repository" data-ng-model="project.repository" class="form-control" required/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error': projectForm.type.$error.required }">
+            <label class="control-label">Type</label>
+            <div class="form-widget">
+                <select name="type" data-ng-model="project.type" class="form-control" required>
+                    <option value="core">Core</option>
+                    <option value="hosp">Hosp</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error': projectForm.description.$error.required }">
+            <label class="control-label">Description</label>
+            <div class="form-widget">
+                <textarea type="text" name="description" data-ng-model="project.description" class="form-control" required></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Color</label>
+            <div class="form-widget">
+                <input type="color" title="Project Color" data-colorpicker data-ng-model="project.color" />
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error': projectForm.project_owner.$error.required }">
+            <label class="control-label">Project Owner</label>
+            <div class="form-widget">
+                <input type="text" name="project_owner" data-ng-model="project.project_owner" class="form-control" required/>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error': projectForm.scrum_master.$error.required }">
+            <label class="control-label">Scrum Master</label>
+            <div class="form-widget">
+                <input type="text" name="scrum_master" data-ng-model="project.scrum_master" class="form-control" required/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Dependencies</label>
+            <div class="form-widget">
+                <select multiple="true" data-ng-model="project.dependancies" data-ng-options="pr.getPrimaryKey() as pr.name for pr in projects" class="form-control"></select>
+            </div>
+        </div>
+
+        <div ng-if="gitlab.enabled" class="form-group">
+            <label class="control-label">Gitlab Name (ex: namespace/path)</label>
+            <div class="form-widget">
+                <input type="text" data-ng-model="project.extra.gitlab" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button ng-disabled="projectForm.$invalid" data-ng-click="save()" class="btn btn-one">Save</button>
+        </div>
+    </form>
+
+</div>

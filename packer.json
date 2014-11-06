@@ -1,0 +1,62 @@
+{
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "iso_url": "http://cdimage.debian.org/debian-cd/current/i386/iso-cd/debian-7.7.0-i386-netinst.iso",
+            "iso_checksum": "76d512c44a9b7eca53ea2812ad5ac36f",
+            "iso_checksum_type": "md5",
+            "guest_os_type": "Debian",
+            "headless": true,
+            "disk_size": 5120,
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "http_directory": ".",
+            "http_port_min": 9000,
+            "http_port_max": 9500,
+            "boot_wait": "5s",
+            "boot_command": ["<esc><wait>auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/cookbooks/preseed.cfg<enter>"],
+            "shutdown_command": "sudo halt -p",
+            "vm_name": "pmsiplan"
+        }
+    ],
+
+    "provisioners": [
+        {
+            "type": "shell",
+            "only": ["virtualbox-iso"],
+            "inline": [
+                "sudo apt-get install -y git curl vim htop",
+
+                "mkdir -pm 700 /home/vagrant/.ssh",
+                "echo \"ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key\" > /home/vagrant/.ssh/authorized_keys",
+                "chmod 0600 /home/vagrant/.ssh/authorized_keys",
+                "chown -R vagrant:vagrant /home/vagrant/",
+
+                "curl -L https://www.opscode.com/chef/install.sh | sudo bash -s -- -v 11.10.0"
+            ]
+        },
+        {
+            "type": "chef-solo",
+            "cookbook_paths": ["vendor/cookbooks"],
+            "run_list": [
+                "apache2::default",
+                "pmsiplan::nodejs",
+                "pmsiplan::mongodb"
+            ],
+            "json": {
+                "nodejs": {
+                    "version": "0.10.25"
+                }
+            }
+        }
+    ],
+
+    "post-processors": [
+        {
+            "type": "vagrant",
+            "only": ["virtualbox-iso"],
+            "keep_input_artifact": true,
+            "output": "pmsiplan.box"
+        }
+    ]
+}

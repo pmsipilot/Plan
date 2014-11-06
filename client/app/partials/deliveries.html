@@ -1,0 +1,29 @@
+<div class="block-content">
+    <div class="pull-right">
+        <a href="#/delivery/new" class="btn btn-icon btn-three"><i class="icon fa fa-plus"></i> Add a new release</a>
+    </div>
+    <div class="clear"></div>
+    <table class="table table-three space-top table-striped" data-ng-table="tableParams" show-filter="true">
+        <tr data-ng-repeat="delivery in $data">
+            <td data-title="'Version'" sortable="'version'" filter="{ 'version': 'text' }">{{ delivery.version }}</td>
+            <td data-title="'Description'" sortable="'description'" filter="{ 'description': 'text' }">{{ delivery.description }}</td>
+            <td data-title="'Locked'" sortable="'locked'">
+                <span ng-show="delivery.locked" class="label label-danger">Yes</span>
+                <span ng-hide="delivery.locked" class="label label-success">No</span>
+            </td>
+            <td data-title="'Status'" sortable="'ready'">
+                <span ng-show="delivery.ready && delivery.ready!== undefined" class="label label-success"><i class="fa fa-check"></i></span>
+                <span ng-hide="delivery.ready && delivery.ready!== undefined" class="label label-danger"><i class="fa fa-remove"></i></span>
+            </td>
+            <td>
+                <div class="pull-right">
+                    <a ng-if="!delivery.locked" href="#/delivery/{{ delivery.getPrimaryKey() }}/edit" class="btn btn-two rounded"><i class="fa fa-edit"></i></a>
+                    <a ng-if="!delivery.locked" ng-click="lock(delivery)" class="btn btn-two rounded" title="Lock the delivery"><i class="fa fa-lock"></i></a>
+                    <a ng-if="delivery.locked" ng-click="unlock(delivery)" class="btn btn-two rounded" title="Unlock the delivery"><i class="fa fa-unlock"></i></a>
+                    <a href="#/delivery/{{ delivery.getPrimaryKey() }}" class="btn btn-two rounded"><i class="fa fa-info"></i></a>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</div>

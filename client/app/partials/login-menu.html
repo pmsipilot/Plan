@@ -1,0 +1,13 @@
+<div data-ng-if="loggedin">
+    <div class="dropdown user pull-right dropdown-three">
+        <a class="dropdown-toggle btn btn-two">
+            <i class="fa fa-cog"></i>
+        </a>
+        <ul class="dropdown-menu user pull-right">
+            <li>
+                <a class="pointer" data-ng-click="logout();">Logout</a>
+            </li>
+        </ul>
+    </div>
+    <div class="pull-right username space-right">{{ user.data.name }}</div>
+</div>

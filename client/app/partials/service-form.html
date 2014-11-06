@@ -1,0 +1,22 @@
+<div class="block-content">
+
+    <h1>Configure the service : <strong>{{ service.name }}</strong></h1>
+
+    <form class="space-top">
+        <div class="form-group">
+            <label class="control-label">Active</label>
+            <div class="form-widget">
+                <input type="checkbox" data-ng-model="service.enabled"/>
+            </div>
+        </div>
+
+        <div ng-switch="service.name">
+            <div ng-switch-when="gitlab"><div ng-include="'partials/service/gitlab-form.html'"></div></div>
+        </div>
+
+        <div class="form-group">
+            <button data-ng-click="save()" class="btn btn-one">Save</button>
+        </div>
+    </form>
+
+</div>

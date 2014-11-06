@@ -1,0 +1,14 @@
+module.exports = {
+    db: 'mongodb://<%= node['pmsiplan']['mongodb']['host'] %>:<%= node['pmsiplan']['mongodb']['port'] %>/<%= node['pmsiplan']['mongodb']['database'] %>',
+    prefix: 'api',
+    histo: 'histo',
+    resources: require('./resources'),
+    ldap: {
+        url: 'ldap://localhost:389',
+        searchBase: 'OU=SBSUsers,OU=Users,OU=MyBusiness,dc=abc-objectif,dc=local',
+        searchFilter: '(sAMAccountName={{username}})',
+        adminDn: 'cn=username,OU=SBSUsers,OU=Users,OU=MyBusiness,dc=abc-objectif,dc=local',
+        adminPassword: 'password#',
+        usernameField: 'sAMAccountName'
+    }
+};

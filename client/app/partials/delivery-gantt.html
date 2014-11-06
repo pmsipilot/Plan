@@ -1,0 +1,17 @@
+<div class="block-content">
+    <div ng-if="!delivery.locked" class="pull-right space-left">
+        <a href="#/delivery/{{ delivery.getPrimaryKey() }}/edit" class="btn btn-two rounded"><i class="fa fa-edit"></i></a>
+    </div>
+
+    <div class="pull-right">
+        <a class="btn square btn-two" href="#/delivery/{{ delivery.getPrimaryKey() }}"><i class="fa fa-table"></i></a>
+        <a class="btn square btn-two active" href="#/delivery/{{ delivery.getPrimaryKey() }}/gantt"><i class="fa fa-bar-chart"></i></a>
+        <a class="btn square btn-two" href="#/delivery/{{ delivery.getPrimaryKey() }}/dependancies"><i class="fa fa-code-fork"></i></a>
+    </div>
+
+    <h1>Delivery {{ delivery.version }}</h1>
+
+    <div class="clear"></div>
+
+    <div data-gantt-chart="chartData"></div>
+</div>
