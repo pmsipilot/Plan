@@ -28,7 +28,7 @@ module.exports = function(grunt) {
                     {expand: true, cwd: 'app', src: ['index.html'], dest: '../public'},
                     {expand: true, cwd: 'app/partials', src: ['**'], dest: '../public/partials'},
                     {expand: true, cwd: 'bower_components/authenticateJS/build/partials', src: ['**'], dest: '../public/partials/authenticateJS'},
-                    {expand: true, src: ['bower_components/fontawesome/font/*'], dest: '../public/font/', flatten: true},
+                    {expand: true, src: ['bower_components/fontawesome/fonts/*'], dest: '../public/font/', flatten: true},
                     {expand: true, src: ['bower_components/pmsipilot-ui/font/*'], dest: '../public/font/', flatten: true},
                     {expand: true, cwd: 'bower_components/pmsipilot-ui/images/', src: ['**'], dest: '../public/images'}
                 ]
