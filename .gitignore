@@ -6,7 +6,6 @@ server/config/config.js
 
 public
 
-/Vagrantfile
 /.vagrant
 
 /vendor
