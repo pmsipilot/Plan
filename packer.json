@@ -6,7 +6,7 @@
             "iso_checksum": "76d512c44a9b7eca53ea2812ad5ac36f",
             "iso_checksum_type": "md5",
             "guest_os_type": "Debian",
-            "headless": true,
+            "headless": false,
             "disk_size": 5120,
             "ssh_username": "vagrant",
             "ssh_password": "vagrant",
@@ -37,7 +37,7 @@
         },
         {
             "type": "chef-solo",
-            "cookbook_paths": ["vendor/cookbooks"],
+            "cookbook_paths": ["berks-cookbooks"],
             "run_list": [
                 "apache2::default",
                 "pmsiplan::nodejs",
@@ -45,7 +45,7 @@
             ],
             "json": {
                 "nodejs": {
-                    "version": "0.10.25"
+                    "install_method": "binary"
                 }
             }
         }
