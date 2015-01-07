@@ -251,6 +251,17 @@ angular.module('pmsiplan', [
                 security: false
             })
 
+            .when('/dashboard', {
+                templateUrl: 'partials/dashboard.html',
+                controller: 'DashboardController',
+                resolve: {
+                    dashboard: ['AngularDataStore', function(AngularDataStore) {
+                        return AngularDataStore.findAll('dashboard');
+                    }]
+                },
+                security: false
+            })
+
             .otherwise({
                 redirectTo: '/delivery'
             });
