@@ -28,3 +28,9 @@ passport.use(new LdapStrategy({ server: config.ldap }, function(ldapUser, done) 
 
 bedoon.app.post('/ldap/auth/login', passport.authenticate('ldapauth', { successRedirect: '/api/auth/loggedin',
     failureRedirect: '/api/auth/failed' }));
+
+bedoon.app.get('/dashboard', function(req, res) {
+    bedoon.models.delivery.find(function(err, deliveries) {
+        res.json(deliveries);
+    });
+});
