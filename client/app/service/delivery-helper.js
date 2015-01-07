@@ -3,6 +3,21 @@ angular
     .factory('DeliveryHelper', ['$q', 'AngularDataStore', function ServiceFactory ($q, AngularDataStore) {
 
     return {
+        progress: function (delivery) {
+            return AngularDataStore.findBy('project_delivery', {delivery: delivery.getPrimaryKey()}).then(function(projectDeliveries) {
+                var nbProjects = projectDeliveries.length;
+                var nbDeliveredProjects = 0;
+                
+                angular.forEach(projectDeliveries, function (prDelivery) {
+                    if (prDelivery.status === 'delivered') {
+                        nbDeliveredProjects++;
+                    }
+                });
+
+                return nbDeliveredProjects / nbProjects;
+            });
+        },
+
         isReady: function (delivery) {
             return AngularDataStore.findBy('project_delivery', {delivery: delivery.getPrimaryKey()}).then(function(projectDeliveries) {
                 var ready = true;

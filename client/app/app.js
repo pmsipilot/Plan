@@ -89,7 +89,19 @@ angular.module('pmsiplan', [
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.
 
-            when('/project', {
+            when('/status', {
+                templateUrl: 'partials/status.html',
+                controller: 'StatusController',
+                resolve: {
+                    deliveries: ['AngularDataStore', function(AngularDataStore) {
+                        return AngularDataStore.findAll('delivery');
+                    }]
+                },
+                security: true,
+                active: 'status'
+            })
+
+            .when('/project', {
                 templateUrl: 'partials/projects.html',
                 controller: 'ProjectsController',
                 resolve: {
@@ -252,7 +264,8 @@ angular.module('pmsiplan', [
             })
 
             .otherwise({
-                redirectTo: '/delivery'
+                redirectTo: '/status'
             });
     }])
 ;
+
