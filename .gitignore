@@ -6,15 +6,8 @@ server/config/config.js
 
 public
 
-/.vagrant
-
 /vendor
 /.bundle
 
-/output-*
-/packer_cache
-*.box
-
 npm-debug.log
 
-berks-cookbooks/

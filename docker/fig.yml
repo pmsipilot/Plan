@@ -1,0 +1,23 @@
+app:
+    build: .
+    links:
+        - db
+    volumes:
+        - ../client:/var/www/pmsiplan/client
+        - ../server:/var/www/pmsiplan/server
+    ports:
+        - "3700:3700"
+    expose:
+        - "3700"
+    command: /usr/bin/supervisord
+    environment:
+        MONGO_URL: mongodb://db:27017/pmsiplan
+        API_PREFIX: api
+        HISTORY: histo
+
+db:
+  image: dockerfile/mongodb
+  ports:
+   - "27017:27017"
+  expose:
+   - "27017"

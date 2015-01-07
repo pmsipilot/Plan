@@ -7,52 +7,18 @@ Features:
 * versions' dependencies: one project can depends on multiple sub-projects. PMSIPlan links projects each other in order to manage versions' dependencies & bottlenecks.
 * release management: the tool shows you what are the current statuses of your next software releases
 
+## Pre requisites
 
-## VM installation (Virtualbox)
+* [Docker](https://docs.docker.com)
+* [Fig](http://www.fig.sh/)
 
-Pre requisites: Ruby, Bundler, Virtualbox, Vagrant, Vagrant plugin Berkshelf
+## Installation
+
+This will build 2 containers with MongoDB and PMSIplan.
 
 ```shell
-$ git clone git@github.com:pmsipilot/pmsiplan.git
-$ cd pmsiplan
-$ make
+$ cd docker
+$ fig up
 ```
-
-This will build a virtual machine pre installed with MongoDB and PMSIPlan.
 
 From here, the application is available at the following URL: `http://localhost:3700`.
-
-## Manual installation
-
-Pre requisites: MongoDB, node.js
-
-```shell
-$ git clone git@github.com:pmsipilot/pmsiplan.git
-$ cd pmsiplan
-$ npm install -g bower grunt-cli
-```
-
-### Server setup
-
-Copy and edit the default configuration:
-
-```shell
-$ cp server/app/config.js.dist server/app/config.js
-```
-
-And run the server:
-
-```shell
-$ cd server
-$ npm install
-$ node server/app/index.js
-```
-
-### Client
-
-```shell
-$ cd client
-$ npm install && bower install
-$ grunt
-```
-

@@ -15,7 +15,7 @@
 NAME=PMSIplan
 NODE_BIN_DIR=$(dirname $(which node))
 NODE_PATH=/usr/local/lib/node_modules
-APPLICATION_DIRECTORY=<%= node['pmsiplan']['server']['root'] %>
+APPLICATION_DIRECTORY=/var/www/pmsiplan/server
 APPLICATION_START=app/index.js
 PIDFILE=/var/run/pmsiplan.pid
 LOGFILE=/var/log/pmsiplan.log
