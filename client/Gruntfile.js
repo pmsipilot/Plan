@@ -54,7 +54,6 @@ module.exports = function(grunt) {
                     'bower_components/spectrum/spectrum.js',
                     'bower_components/lodash/dist/lodash.min.js',
                     'bower_components/d3/d3.js',
-                    'bower_components/socket.io-client/socket.io.js',
                     'bower_components/authenticateJS/build/authenticate.js',
 
                     // Angular Data
