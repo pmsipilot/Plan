@@ -2,5 +2,13 @@ module.exports = {
     db: process.env.MONGO_URL,
     prefix: process.env.API_PREFIX,
     histo: process.env.HISTORY,
-    resources: require('./resources')
+    resources: require('./resources'),
+    ldap: {
+        url: process.env.LDAP_URL,
+        searchBase: process.env.LDAP_SEARCH_BASE,
+        searchFilter: process.env.LDAP_SEARCH_FILTER,
+        adminDn: process.env.LDAP_ADMIN_DN,
+        adminPassword: process.env.LDAP_ADMIN_PWD,
+        usernameField: process.env.LDAP_USERNAME_FIELD
+    }
 };
