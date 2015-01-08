@@ -24,7 +24,7 @@ angular.module('pmsiplan', [
 
     .config(['AngularDataRestAdapterProvider', 'AngularDataStoreProvider', function(AngularDataRestAdapterProvider, AngularDataStoreProvider) {
         AngularDataRestAdapterProvider.setBaseUrl('api');
-        //AngularDataStoreProvider.setSocketIOBaseUrl("/");
+        AngularDataStoreProvider.setSocketIOBaseUrl("/");
 
         AngularDataStoreProvider.addModel({
             name: 'project',
