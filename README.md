@@ -14,11 +14,14 @@ Features:
 
 ## Installation
 
-This will build 2 containers with MongoDB and PMSIplan.
+The following steps will build 2 containers with MongoDB and PMSIplan.
+
+### Development
 
 ```shell
 $ cd docker
-$ fig up
+$ make
+$ make dev
 ```
 
 From here, the application is available at the following URL: `http://localhost:3700`.

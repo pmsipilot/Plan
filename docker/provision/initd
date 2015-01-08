@@ -48,7 +48,7 @@ start() {
 }
 
 stop() {
-    if [ ! -z "$(_pid)" ]
+    if [ ! -z "$(_pid)" || ! is_running ]
     then
         echo "Shutting down $NAME..."
 
@@ -92,6 +92,11 @@ status() {
     else
         echo "$NAME is not running."
     fi
+}
+
+is_running() {
+    ps aux | grep $(cat $PIDFILE)| grep -v grep 2>&1 1>/dev/null
+    return $?
 }
 
 case "$1" in

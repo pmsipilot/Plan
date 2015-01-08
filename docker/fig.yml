@@ -1,3 +1,10 @@
+db:
+    image: dockerfile/mongodb
+    ports:
+        - "27017:27017"
+    expose:
+        - "27017"
+
 app:
     build: .
     links:
@@ -14,10 +21,4 @@ app:
         MONGO_URL: mongodb://db:27017/pmsiplan
         API_PREFIX: api
         HISTORY: histo
-
-db:
-  image: dockerfile/mongodb
-  ports:
-   - "27017:27017"
-  expose:
-   - "27017"
+        PMSIPLAN_ENV: dev
