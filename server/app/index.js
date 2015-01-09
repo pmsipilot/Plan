@@ -31,6 +31,33 @@ bedoon.app.post('/ldap/auth/login', passport.authenticate('ldapauth', { successR
 
 bedoon.app.get('/dashboard', function(req, res) {
     bedoon.models.delivery.find(function(err, deliveries) {
-        res.json(deliveries);
+        var statuses = [];
+
+        deliveries.forEach(function(delivery) {
+            delivery = {
+                id: delivery._id.toString(),
+                description: delivery.description,
+                version: delivery.version,
+                ready: true,
+                progress: 0
+            };
+
+            bedoon.models.project_delivery.find({delivery: delivery.id}, function(err, project_deliveries) {
+                project_deliveries.forEach(function(project_delivery) {
+                    if (project_delivery.status !== 'delivered') {
+                        delivery.ready = false;
+                    } else {
+                        delivery.progress++;
+                    }
+                });
+
+                delivery.progress = (delivery.progress / project_deliveries.length) * 100;
+                statuses.push(delivery);
+
+                if (statuses.length === deliveries.length) {
+                    res.json(statuses);
+                }
+            });
+        });
     });
 });

@@ -67,7 +67,7 @@ module.exports = {
                 content: String,
                 date: String,
                 username: String
-            },
+            }
         }
     },
 

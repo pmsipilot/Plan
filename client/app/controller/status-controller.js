@@ -4,15 +4,7 @@ angular.module('pmsiplan').controller('StatusController', ['$scope', '$filter', 
         function init () {
             $scope.deliveries = [];
             angular.forEach(deliveries, function(delivery) {
-                var newDelivery = angular.copy(delivery);
-                DeliveryHelper.isReady(delivery).then(function(ready) {
-                    newDelivery.ready = ready;
-                });
-                DeliveryHelper.progress(delivery).then(function(progress) {
-                    newDelivery.progress = progress * 100;
-                });
-
-                $scope.deliveries.push(newDelivery);
+                $scope.deliveries.push(delivery);
             });
         }
 
