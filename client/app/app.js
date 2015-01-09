@@ -93,11 +93,13 @@ angular.module('pmsiplan', [
                 templateUrl: 'partials/status.html',
                 controller: 'StatusController',
                 resolve: {
-                    deliveries: ['AngularDataStore', function(AngularDataStore) {
-                        return AngularDataStore.findAll('delivery');
+                    deliveries: ['$http', function($http) {
+                        return $http.get('/dashboard').then(function(response) {
+                            return response.data;
+                        });
                     }]
                 },
-                security: true,
+                security: false,
                 active: 'status'
             })
 
@@ -260,17 +262,6 @@ angular.module('pmsiplan', [
 
             .when('/login', {
                 templateUrl: 'partials/login.html',
-                security: false
-            })
-
-            .when('/dashboard', {
-                templateUrl: 'partials/dashboard.html',
-                controller: 'DashboardController',
-                resolve: {
-                    dashboard: ['AngularDataStore', function(AngularDataStore) {
-                        return AngularDataStore.findAll('dashboard');
-                    }]
-                },
                 security: false
             })
 
