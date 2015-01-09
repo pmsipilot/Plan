@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h3 class="modal-title">Profile: {{ user.name }}</h3>
+</div>
+
+<div class="modal-body">
+    <form>
+        <div class="form-group">
+            <label for="token">Token</label>
+            <div class="form-widget">
+                <input type="text" class="form-control" id="token" data-ng-model="user.token" data-ng-keypress="return false" disabled>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="ok()">Cancel</button>
+</div>
