@@ -3,17 +3,32 @@ var config = require("../config/config"),
     Bedoon = require('bedoon'),
     express = require('express'),
     passport = require('passport'),
+    crypto = require('crypto'),
     bedoon = new Bedoon(config),
-    port = 3700
-;
-bedoon.app.use(express.static(__dirname + '/../../public'));
-bedoon.run(3700);
-console.log("Listening on port " + 3700);
+    port = 3700,
+    LdapStrategy = require('passport-ldapauth').Strategy,
+    BearerStrategy = require('passport-http-bearer').Strategy;
 
+passport.use(new BearerStrategy(
+    { passReqToCallback: true },
+    function(req, token, done) {
+        bedoon.models.user.findOne({ token: token }, function (err, user) {
+            if (err) {
+                return done(err);
+            }
 
-var LdapStrategy = require('passport-ldapauth').Strategy;
+            if (!user) {
+                return done(null, false);
+            }
 
-passport.use(new LdapStrategy({ server: config.ldap }, function(ldapUser, done) {
+            return done(null, user);
+        });
+    }
+));
+
+passport.use(new LdapStrategy(
+    { server: config.ldap },
+    function(ldapUser, done) {
         bedoon.models.user.findOne({ username: ldapUser.sAMAccountName }, function (err, user) {
             if (!user) {
                 user = new bedoon.models.user();
@@ -21,10 +36,30 @@ passport.use(new LdapStrategy({ server: config.ldap }, function(ldapUser, done) 
                 user.name = ldapUser.name;
                 user.save();
             }
-            
+
+            if (!user.token) {
+                user.token = crypto.randomBytes(32).toString('hex');
+                user.save();
+            }
+
             return done(null, user);
         });
-  }));
+    }
+));
+
+bedoon.app.use(express.static(__dirname + '/../../public'));
+
+var auth = passport.authenticate(['bearer'], { session: false });
+bedoon.app.use('/api/*', function(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        return auth(req, res, next);
+    }
+});
+
+bedoon.run(3700);
+console.log("Listening on port " + 3700);
 
 bedoon.app.post('/ldap/auth/login', passport.authenticate('ldapauth', { successRedirect: '/api/auth/loggedin',
     failureRedirect: '/api/auth/failed' }));
