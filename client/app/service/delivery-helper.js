@@ -2,9 +2,13 @@ angular
     .module('pmsiplan')
     .factory('DeliveryHelper', ['$q', 'AngularDataStore', function ServiceFactory ($q, AngularDataStore) {
 
+    var getPrimaryKey = function(entity) {
+        return entity.getPrimaryKey ? entity.getPrimaryKey() : entity._id.toString();
+    };
+
     return {
         progress: function (delivery) {
-            return AngularDataStore.findBy('project_delivery', {delivery: delivery.getPrimaryKey()}).then(function(projectDeliveries) {
+            return AngularDataStore.findBy('project_delivery', {delivery: getPrimaryKey(delivery)}).then(function(projectDeliveries) {
                 var nbProjects = projectDeliveries.length;
                 var nbDeliveredProjects = 0;
                 
@@ -19,7 +23,7 @@ angular
         },
 
         isReady: function (delivery) {
-            return AngularDataStore.findBy('project_delivery', {delivery: delivery.getPrimaryKey()}).then(function(projectDeliveries) {
+            return AngularDataStore.findBy('project_delivery', {delivery: getPrimaryKey(delivery)}).then(function(projectDeliveries) {
                 var ready = true;
                 angular.forEach(projectDeliveries, function (prDelivery) {
                     if (prDelivery.status !== 'delivered') {
@@ -34,10 +38,10 @@ angular
             var dependanciesConfig = [],
                 promises = [],
                 defer = $q.defer();
-            promises.push(AngularDataStore.findBy('project_delivery', { delivery: delivery.getPrimaryKey() }).then(function(projectDeliveries) {
+            promises.push(AngularDataStore.findBy('project_delivery', {delivery: getPrimaryKey(delivery)}).then(function(projectDeliveries) {
                 angular.forEach(projectDeliveries, function(projectDelivery) {
                     promises.push(projectDelivery.getProject().then(function(pr) {
-                        if (project.getPrimaryKey() !== pr.getPrimaryKey() && project.dependancies.indexOf(pr.getPrimaryKey()) !== -1 ) {
+                        if (getPrimaryKey(project) !== getPrimaryKey(pr) && project.dependancies.indexOf(getPrimaryKey(pr)) !== -1 ) {
                             dependanciesConfig.push({
                                 project: pr,
                                 projectDelivery: projectDelivery

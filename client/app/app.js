@@ -254,7 +254,7 @@ angular.module('pmsiplan', [
                 resolve: {
                     service: ['$route', 'ServiceFactory', function($route, ServiceFactory) {
                         return ServiceFactory.getService($route.current.params.name);
-                    }],
+                    }]
                 },
                 security: true,
                 active: 'service'
