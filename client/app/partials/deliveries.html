@@ -8,8 +8,8 @@
             <td data-title="'Version'" sortable="'version'" filter="{ 'version': 'text' }">{{ delivery.version }}</td>
             <td data-title="'Description'" sortable="'description'" filter="{ 'description': 'text' }">{{ delivery.description }}</td>
             <td data-title="'Locked'" sortable="'locked'">
-                <span ng-show="delivery.locked" class="label label-danger">Yes</span>
-                <span ng-hide="delivery.locked" class="label label-success">No</span>
+                <span ng-show="delivery.locked" class="label label-success">Yes</span>
+                <span ng-hide="delivery.locked" class="label label-danger">No</span>
             </td>
             <td data-title="'Status'" sortable="'ready'">
                 <span ng-show="delivery.ready && delivery.ready!== undefined" class="label label-success"><i class="fa fa-check"></i></span>
