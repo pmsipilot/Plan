@@ -48,7 +48,7 @@ start() {
 }
 
 stop() {
-    if [ ! -z "$(_pid)" || ! is_running ]
+    if [[ ! -f $PIDFILE || ! is_running ]]
     then
         echo "Shutting down $NAME..."
 
