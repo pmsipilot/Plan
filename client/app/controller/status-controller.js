@@ -3,7 +3,10 @@ angular.module('pmsiplan').controller('StatusController', ['$scope', '$filter', 
 
         function init () {
             $scope.deliveries = [];
+
             angular.forEach(deliveries, function(delivery) {
+                delivery.progress = delivery.progress || 0;
+
                 $scope.deliveries.push(delivery);
             });
         }

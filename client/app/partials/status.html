@@ -1,13 +1,13 @@
 <div class="block-content">
   <div class="clear"></div>
 
-  <div ng-repeat="delivery in baseDeliveries | orderBy:['version']">
+  <div ng-repeat="delivery in baseDeliveries | orderBy:'version':true">
 
     <div>
       <h1 style="border: none">{{ delivery.version }} {{ delivery.description }}</h1>
     </div>
   
-    <h2 ng-switch="delivery.version">
+    <h2>
       <span style="float: right">{{ delivery.progress | number:0 }}%</span>
     </h2>
  
