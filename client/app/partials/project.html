@@ -135,7 +135,7 @@
             </tr>
             </thead>
             <tbody>
-                <tr data-ng-repeat="pr_delivery in projectDeliveries | orderBy: 'projectDelivery.version'">
+                <tr data-ng-repeat="pr_delivery in projectDeliveries | orderBy: 'projectDelivery.version':true">
                     <td>{{ pr_delivery.projectDelivery.version }}</td>
                     <td>
                         <span data-project-delivery-status="pr_delivery.projectDelivery.status"></span>
