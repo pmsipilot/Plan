@@ -46,7 +46,7 @@
             <div class="form-group" ng-class="{ 'has-error': versionForm.release.$error.required }">
                 <label class="control-label">Release</label>
                 <div class="form-widget">
-                    <select name="release" data-ng-model="projectDelivery.delivery" data-ng-options="delivery.getPrimaryKey() as delivery.version for delivery in deliveries"></select>
+                    <select name="release" data-ng-model="projectDelivery.delivery" data-ng-options="delivery.getPrimaryKey() as delivery.version for delivery in deliveries" class="form-control"></select>
                 </div>
             </div>
 
@@ -105,7 +105,7 @@
             <div class="form-group" ng-class="{ 'has-error': versionForm.features.$error.required }">
                 <label class="control-label">Features</label>
                 <div class="form-wdiget">
-                    <textarea name="features" data-ng-model="projectDelivery.features" class="form-control" required />
+                    <textarea name="features" data-ng-model="projectDelivery.features" class="form-control" required rows="5" />
                 </div>
             </div>
 
