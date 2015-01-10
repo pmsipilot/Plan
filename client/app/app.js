@@ -116,6 +116,18 @@ angular.module('pmsiplan', [
                 active: 'status'
             })
 
+            .when('/timeline', {
+                templateUrl: 'partials/timeline.html',
+                controller: 'TimelineController',
+                resolve: {
+                    history: ['AngularDataStore', function(AngularDataStore) {
+                        return AngularDataStore.findAll('histo');
+                    }]
+                },
+                security: true,
+                active: 'timeline'
+            })
+
             .when('/project', {
                 templateUrl: 'partials/projects.html',
                 controller: 'ProjectsController',

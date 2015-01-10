@@ -5,7 +5,7 @@ module.exports = {
             attributes: {
                 name: String
             }
-        },
+   },
         user: true
     },
 

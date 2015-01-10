@@ -2,10 +2,11 @@ angular.module('pmsiplan').directive('resourceHistory', ['AngularDataStore', fun
     return {
         templateUrl: 'partials/directive/resource-history.html',
         scope: {
-            resourceId: '=id'
+            resourceId: '=id',
+            historyEntries: '=history'
         },
         link: function(scope, element, attrs) {
-            AngularDataStore.findBy('histo', { resource: attrs.type }).then(function(history) {
+            var callback = function(history) {
                 scope.history = history
                     .map(function(entry) {
                         entry.content = JSON.parse(entry.content);
@@ -13,9 +14,19 @@ angular.module('pmsiplan').directive('resourceHistory', ['AngularDataStore', fun
                         return entry;
                     })
                     .filter(function(entry) {
-                        return entry.content._id === scope.resourceId;
+                        return !scope.resourceId || entry.content._id === scope.resourceId;
                     });
-            });
+            };
+
+            if(attrs.type) {
+                scope.type = attrs.type;
+
+                AngularDataStore.findBy('histo', { resource: attrs.type }).then(callback);
+            }
+
+            if(scope.historyEntries) {
+                callback(scope.historyEntries);
+            }
         }
     };
 }]);
