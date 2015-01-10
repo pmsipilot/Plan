@@ -1,0 +1,18 @@
+<div class="block-content">
+    <h1>History</h1>
+
+    <div class="history block clearfix" data-ng-repeat="entry in history|orderBy:'date':true">
+        <div class="row">
+            <span class="icon" data-ng-switch="entry.action" data-ng-class="{add: entry.action == 'POST', delete: entry.action == 'DELETE', edit: entry.action == 'PUT'}">
+                <i class="fa fa-plus" data-ng-switch-when="POST"></i>
+                <i class="fa fa-minus" data-ng-switch-when="DELETE"></i>
+                <i class="fa fa-edit" data-ng-switch-when="PUT"></i>
+            </span>
+
+            {{ entry.date|date:'yyyy-MM-dd HH:mm:ss' }} - {{ entry.username }}
+        </div>
+
+
+        <pre><code>{{ entry.content }}</code></pre>
+    </div>
+</div>

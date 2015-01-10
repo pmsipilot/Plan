@@ -84,6 +84,19 @@ angular.module('pmsiplan', [
             },
             primaryKey: '_id'
         });
+
+        AngularDataStoreProvider.addModel({
+            name: 'histo',
+            fields: {
+                _id: {type: 'integer'},
+                resource: {type: 'string'},
+                action: {type: 'string'},
+                date: {type: 'date'},
+                content: {type: 'string'},
+                username: {type: 'string'}
+            },
+            primaryKey: '_id'
+        });
     }])
 
     .config(['$routeProvider', function($routeProvider) {
