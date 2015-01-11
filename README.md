@@ -24,3 +24,7 @@ $ fig up
 ```
 
 From here, the application is available at the following URL: `http://localhost:3700`.
+
+**Note:** If you are using [bot2docker](http://boot2docker.io/) the application won't directly be available on `localhost`.
+In fact, boot2docker runs in a VM on your host. To get its IP, run `boot2docker ip` and then go to
+`http://boot2docker-ip:3700`.
