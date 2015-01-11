@@ -2,8 +2,7 @@ FROM dockerfile/nodejs-bower-grunt
 
 ENV DEBIAN_FRONTEND noninteractive
 
-VOLUME /app/client
-VOLUME /app/server
+VOLUME /app
 VOLUME /service
 
 ADD service/pmsiplan/ /service/pmsiplan
