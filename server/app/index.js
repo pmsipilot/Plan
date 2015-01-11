@@ -74,19 +74,37 @@ bedoon.app.get('/dashboard', function(req, res) {
                 description: delivery.description,
                 version: delivery.version,
                 ready: true,
-                progress: 0
+                progress: 0,
+                progressPlanned: 0,
+                progressCurrent: 0,
+                progressBlocked: 0
             };
 
             bedoon.models.project_delivery.find({delivery: delivery.id}, function(err, project_deliveries) {
                 project_deliveries.forEach(function(project_delivery) {
                     if (project_delivery.status !== 'delivered') {
                         delivery.ready = false;
+
+                        if (project_delivery.status === 'planned') {
+                            delivery.progressPlanned++;
+                        }
+
+                        if (project_delivery.status === 'current') {
+                            delivery.progressCurrent++;
+                        }
+
+                        if (project_delivery.status === 'blocked') {
+                            delivery.progressBlocked++;
+                        }
                     } else {
                         delivery.progress++;
                     }
                 });
 
                 delivery.progress = (delivery.progress / project_deliveries.length) * 100;
+                delivery.progressPlanned = (delivery.progressPlanned / project_deliveries.length) * 100;
+                delivery.progressCurrent = (delivery.progressCurrent / project_deliveries.length) * 100;
+                delivery.progressBlocked = (delivery.progressBlocked / project_deliveries.length) * 100;
                 statuses.push(delivery);
 
                 if (statuses.length === deliveries.length) {
