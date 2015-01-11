@@ -1,4 +1,4 @@
-<div class="history block clearfix" data-ng-repeat="entry in history|orderBy:'date':true">
+<div class="history block clearfix" data-ng-repeat="entry in history|orderBy:'date':true" data-ng-init="showContent = false">
     <div class="row">
         <span class="icon" data-ng-switch="entry.action" data-ng-class="{add: entry.action == 'POST', delete: entry.action == 'DELETE', edit: entry.action == 'PUT'}">
             <i class="fa fa-plus" data-ng-switch-when="POST"></i>
@@ -12,9 +12,10 @@
             <span data-ng-if="!type && entry.resource == 'delivery'"> Release - </span>
             <span data-ng-if="!type && entry.resource == 'service'"> Service - </span>
             {{ entry.date|date:'yyyy-MM-dd HH:mm:ss' }} - {{ entry.username }}
+            <small data-ng-click="showContent = !showContent"> (show/hide content)</small>
         </strong>
     </div>
 
 
-    <pre><code>{{ entry.content }}</code></pre>
+    <pre data-ng-show="showContent"><code>{{ entry.content }}</code></pre>
 </div>
