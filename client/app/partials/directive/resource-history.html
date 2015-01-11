@@ -20,7 +20,7 @@
             <span data-ng-if="!type && entry.resource == 'project'">{{ entry.content.name }}</span>
             <span data-ng-if="!type && entry.resource == 'project_delivery'">{{ entry.content.name }}</span>
             <span data-ng-if="!type && entry.resource == 'delivery'">{{ entry.content.version }}</span>
-            <span data-ng-if="!type && entry.resource == 'project_delivery'">{{ project.name }} {{ entry.content.version }}</span>
+            <span data-ng-if="!type && entry.resource == 'project_delivery'">{{ entry.project.name }} {{ entry.content.version }}</span>
 
             on {{ entry.date|date:'yyyy-MM-dd HH:mm:ss' }}
 
