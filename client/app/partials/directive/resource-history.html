@@ -30,12 +30,12 @@
 
     <div data-ng-show="entry.isContentVisible" class="entry">
         <table class="table table-bordered table-striped">
-            <tr ng-repeat="(key, value) in entry.content" data-ng-if="isProperty(entry.content, key)">
+            <tr data-ng-repeat="(key, value) in entry.content" data-ng-if="isProperty(entry.content, key)">
                 <th>{{ key }}</th>
                 <td data-ng-if="key != 'project' && key != 'delivery'">{{ value }}</td>
                 <td data-ng-if="key == 'project'">
                     <table class="table table-bordered table-striped">
-                            <tr ng-repeat="(pkey, pvalue) in entry.project" data-ng-if="isProperty(entry.project, pkey)">
+                        <tr data-ng-repeat="(pkey, pvalue) in entry.project" data-ng-if="isProperty(entry.project, pkey)">
                             <th>{{ pkey }}</th>
                             <td>{{ pvalue }}</td>
                         </tr>
@@ -43,7 +43,7 @@
                 </td>
                 <td data-ng-if="key == 'delivery'">
                     <table class="table table-bordered table-striped">
-                        <tr ng-repeat="(dkey, dvalue) in entry.delivery" data-ng-if="isProperty(entry.delivery, dkey)">
+                        <tr data-ng-repeat="(dkey, dvalue) in entry.delivery" data-ng-if="isProperty(entry.delivery, dkey)">
                             <th>{{ dkey }}</th>
                             <td>{{ dvalue }}</td>
                         </tr>
@@ -53,3 +53,5 @@
         </table>
     </div>
 </div>
+
+<button data-ng-hide="page + 1 >= nbPages" class="btn btn-one" data-ng-click="more()">Load more...</button>

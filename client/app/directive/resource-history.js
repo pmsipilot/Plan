@@ -2,11 +2,12 @@ angular.module('pmsiplan').directive('resourceHistory', ['AngularDataStore', fun
     return {
         templateUrl: 'partials/directive/resource-history.html',
         scope: {
-            resourceId: '=id',
-            historyEntries: '=history'
+            id: '=id',
+            entries: '=entries'
         },
         link: function(scope, element, attrs) {
-            var projects = {},
+            var nbEntryPerPage = 25,
+                projects = {},
                 deliveries = {},
                 getDelivery = function(entry) {
                     if(deliveries[entry.content.delivery]) {
@@ -30,16 +31,43 @@ angular.module('pmsiplan').directive('resourceHistory', ['AngularDataStore', fun
                         });
                     }
                 },
-                callback = function(history) {
-                    scope.history = history
+                callback = function(entries) {
+                    entries = entries
+                        .sort(function (a, b) {
+                            if (a.date < b.date) {
+                                return 1;
+                            }
+
+                            if (a.date > b.date) {
+                                return -1;
+                            }
+
+
+                            return 0;
+                        })
                         .map(function(entry) {
-                            entry.content = JSON.parse(entry.content);
+                            try {
+                                entry.content = JSON.parse(entry.content);
+                            } catch(err) {}
 
                             return entry;
-                        })
-                        .filter(function(entry) {
-                            return !scope.resourceId || entry.content._id === scope.resourceId;
-                        })
+                        });
+
+                    if (scope.id) {
+                        entries = entries.filter(function(entry) {
+                            console.log(entry.content._id, scope.id);
+                            return entry.content._id === scope.id;
+                        });
+                    }
+
+                    scope.nbPages = Math.ceil(entries.length / nbEntryPerPage);
+
+                    if(scope.page + 1 > scope.nbPages) {
+                        return;
+                    }
+
+                    scope.history = scope.history.concat(entries
+                        .slice(nbEntryPerPage * scope.page, nbEntryPerPage * (scope.page + 1))
                         .map(function(entry) {
                             entry.showContent = function() {
                                 if (!entry.isContentVisible) {
@@ -60,22 +88,37 @@ angular.module('pmsiplan').directive('resourceHistory', ['AngularDataStore', fun
                             }
 
                             return entry;
-                        });
+                        })
+                    );
                 };
 
-            if(attrs.type) {
-                scope.type = attrs.type;
+            scope.history = [];
+            scope.page = 0;
+            scope.fetch = function() {
+                if(attrs.type && !scope.entries) {
+                    scope.type = attrs.type;
 
-                AngularDataStore.findBy('histo', { resource: attrs.type }).then(callback);
-            }
+                    AngularDataStore.findBy('histo', { resource: attrs.type }).then(function(entries) {
+                        scope.entries = entries;
 
-            if(scope.historyEntries) {
-                callback(scope.historyEntries);
-            }
+                        callback(scope.entries);
+                    });
+                }
 
+                if(scope.entries) {
+                    callback(scope.entries);
+                }
+            };
+            scope.more = function() {
+                scope.page = scope.page + 1;
+
+                scope.fetch();
+            };
             scope.isProperty = function(obj, prop) {
                 return typeof obj[prop] === "string";
             };
+
+            scope.fetch();
         }
     };
 }]);
