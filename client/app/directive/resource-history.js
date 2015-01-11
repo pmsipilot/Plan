@@ -115,7 +115,7 @@ angular.module('pmsiplan').directive('resourceHistory', ['AngularDataStore', fun
                 scope.fetch();
             };
             scope.isProperty = function(obj, prop) {
-                return typeof obj[prop] === "string";
+                return ['function', 'object'].indexOf(typeof obj[prop]) === -1 && prop !== '_id';
             };
 
             scope.fetch();
