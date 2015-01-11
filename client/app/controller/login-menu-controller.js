@@ -1,5 +1,5 @@
-angular.module('pmsiplan').controller('LoginMenuController', ['$scope', '$location', 'AuthenticateJS',
-    function ($scope, $location, AuthenticateJS) {
+angular.module('pmsiplan').controller('LoginMenuController', ['$scope', '$location', 'AuthenticateJS', '$modal',
+    function ($scope, $location, AuthenticateJS, $modal) {
         var reset = function () {
             $scope.loggedin = AuthenticateJS.isLoggedIn();
             $scope.user = AuthenticateJS.getUser();
@@ -12,6 +12,24 @@ angular.module('pmsiplan').controller('LoginMenuController', ['$scope', '$locati
         $scope.logout = function () {
             AuthenticateJS.logout().then(function () {
                 $location.url('/login');
+            });
+        };
+
+        $scope.profile = function () {
+            $modal.open({
+                templateUrl: 'partials/profile-modal.html',
+                controller: function ($scope, $modalInstance, user) {
+                    $scope.user = user;
+
+                    $scope.ok = function () {
+                        $modalInstance.dismiss('ok');
+                    };
+                },
+                resolve: {
+                    user: function () {
+                        return $scope.user.data;
+                    }
+                }
             });
         };
 

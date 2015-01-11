@@ -3,7 +3,8 @@ module.exports = {
         type: 'document',
         schema: {
             attributes: {
-                name: String
+                name: String,
+                token: String
             }
         },
         user: true
