@@ -8,6 +8,7 @@ VOLUME /service
 
 ADD service/pmsiplan/ /service/pmsiplan
 ADD provision/start.sh /start.sh
+RUN chmod 0755 /start.sh
 
 EXPOSE 3700
 
