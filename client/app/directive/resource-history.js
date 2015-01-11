@@ -8,6 +8,7 @@ angular.module('pmsiplan').directive('resourceHistory', ['AngularDataStore', fun
         link: function(scope, element, attrs) {
             var callback = function(history) {
                 scope.history = history
+                    .slice(-50)
                     .map(function(entry) {
                         entry.content = JSON.parse(entry.content);
 
