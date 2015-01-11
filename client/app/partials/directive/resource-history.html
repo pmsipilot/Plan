@@ -1,0 +1,20 @@
+<div class="history block clearfix" data-ng-repeat="entry in history|orderBy:'date':true">
+    <div class="row">
+        <span class="icon" data-ng-switch="entry.action" data-ng-class="{add: entry.action == 'POST', delete: entry.action == 'DELETE', edit: entry.action == 'PUT'}">
+            <i class="fa fa-plus" data-ng-switch-when="POST"></i>
+            <i class="fa fa-minus" data-ng-switch-when="DELETE"></i>
+            <i class="fa fa-edit" data-ng-switch-when="PUT"></i>
+        </span>
+
+        <strong>
+            <span data-ng-if="!type && entry.resource == 'project'"> Project - </span>
+            <span data-ng-if="!type && entry.resource == 'project_delivery'"> Project version - </span>
+            <span data-ng-if="!type && entry.resource == 'delivery'"> Release - </span>
+            <span data-ng-if="!type && entry.resource == 'service'"> Service - </span>
+            {{ entry.date|date:'yyyy-MM-dd HH:mm:ss' }} - {{ entry.username }}
+        </strong>
+    </div>
+
+
+    <pre><code>{{ entry.content }}</code></pre>
+</div>

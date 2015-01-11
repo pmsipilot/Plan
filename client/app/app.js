@@ -84,6 +84,19 @@ angular.module('pmsiplan', [
             },
             primaryKey: '_id'
         });
+
+        AngularDataStoreProvider.addModel({
+            name: 'histo',
+            fields: {
+                _id: {type: 'integer'},
+                resource: {type: 'string'},
+                action: {type: 'string'},
+                date: {type: 'date'},
+                content: {type: 'string'},
+                username: {type: 'string'}
+            },
+            primaryKey: '_id'
+        });
     }])
 
     .config(['$routeProvider', function($routeProvider) {
@@ -101,6 +114,18 @@ angular.module('pmsiplan', [
                 },
                 security: false,
                 active: 'status'
+            })
+
+            .when('/timeline', {
+                templateUrl: 'partials/timeline.html',
+                controller: 'TimelineController',
+                resolve: {
+                    history: ['AngularDataStore', function(AngularDataStore) {
+                        return AngularDataStore.findAll('histo');
+                    }]
+                },
+                security: true,
+                active: 'timeline'
             })
 
             .when('/project', {

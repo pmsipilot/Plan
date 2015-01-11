@@ -154,3 +154,47 @@ ul.pagination li.disabled a {
         cursor: auto;
     }
 }
+
+.history {
+    margin-bottom: 0;
+    padding: 0 0 10px 20px;
+
+    &:first-of-type {
+        padding-top: 20px;
+    }
+
+    span.icon {
+        -moz-border-radius: 15px;
+        -webkit-border-radius: 15px;
+        -o-border-radius: 15px;
+        -ms-border-radius: 15px;
+        border-radius: 15px;
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        border: 0;
+        display: inline-block;
+        line-height: 30px;
+        text-align: center;
+        font-size: 13px;
+        margin-right: 15px;
+
+        &.add {
+            background-color: #5cb85c;
+        }
+
+        &.edit {
+            background-color: #f0ad4e;
+        }
+
+        &.delete {
+          background-color: #d9534f;
+        }
+    }
+
+    pre {
+        margin-bottom: 0;
+        margin-left: 35px;
+        padding: 10px;
+    }
+}

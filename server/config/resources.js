@@ -6,7 +6,7 @@ module.exports = {
                 name: String,
                 token: String
             }
-        },
+   },
         user: true
     },
 
@@ -66,7 +66,7 @@ module.exports = {
                 primaryKey: String,
                 action: String,
                 content: String,
-                date: String,
+                date: Date,
                 username: String
             }
         }
