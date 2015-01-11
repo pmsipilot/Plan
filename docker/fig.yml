@@ -22,3 +22,9 @@ app:
         API_PREFIX: api
         HISTORY: histo
         PMSIPLAN_ENV: dev
+        LDAP_URL:
+        LDAP_SEARCH_BASE:
+        LDAP_SEARCH_FILTER:
+        LDAP_ADMIN_DN:
+        LDAP_ADMIN_PWD:
+        LDAP_USERNAME_FIELD:
