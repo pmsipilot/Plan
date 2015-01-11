@@ -1,4 +1,4 @@
-<div class="history block clearfix" data-ng-repeat="entry in history|orderBy:'date':true" data-ng-init="showContent = false">
+<div class="history block clearfix" data-ng-repeat="entry in history|orderBy:'date':true">
     <div class="row">
         <span class="icon" data-ng-switch="entry.action">
             <i class="fa fa-plus" data-ng-switch-when="POST"></i>
@@ -24,11 +24,11 @@
 
             on {{ entry.date|date:'yyyy-MM-dd HH:mm:ss' }}
 
-            <small data-ng-click="showContent = !showContent"> (show/hide content)</small>
+            <small data-ng-click="entry.showContent()"> (show/hide content)</small>
         </strong>
     </div>
 
-    <div data-ng-show="showContent" class="entry">
+    <div data-ng-show="entry.isContentVisible" class="entry">
         <table class="table table-bordered table-striped">
             <tr ng-repeat="(key, value) in entry.content" data-ng-if="isProperty(entry.content, key)">
                 <th>{{ key }}</th>

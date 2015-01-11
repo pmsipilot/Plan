@@ -6,9 +6,10 @@ angular.module('pmsiplan').directive('resourceHistory', ['AngularDataStore', fun
             historyEntries: '=history'
         },
         link: function(scope, element, attrs) {
-            var callback = function(history) {
+            var projects = {},
+                deliveries = {},
+                callback = function(history) {
                 scope.history = history
-                    .slice(-50)
                     .map(function(entry) {
                         entry.content = JSON.parse(entry.content);
 
@@ -18,17 +19,35 @@ angular.module('pmsiplan').directive('resourceHistory', ['AngularDataStore', fun
                         return !scope.resourceId || entry.content._id === scope.resourceId;
                     })
                     .map(function(entry) {
-                        if(entry.content.project) {
-                            AngularDataStore.findBy('project', {_id: entry.content.project}).then(function(projects) {
-                                entry.project = projects[0];
-                            });
-                        }
+                        entry.showContent = function() {
+                            if (!entry.isContentVisible) {
+                                if(entry.content.project) {
+                                    if(projects[entry.content.project]) {
+                                        entry.project = projects[entry.content.project];
+                                    } else {
+                                        AngularDataStore.findBy('project', {_id: entry.content.project}).then(function(proj) {
+                                            projects[entry.content.project] = proj[0];
 
-                        if(entry.content.delivery) {
-                            AngularDataStore.findBy('delivery', {_id: entry.content.delivery}).then(function(deliveries) {
-                                entry.delivery = deliveries[0];
-                            });
-                        }
+                                            entry.project = projects[entry.content.project];
+                                        });
+                                    }
+                                }
+
+                                if(entry.content.delivery) {
+                                    if(deliveries[entry.content.delivery]) {
+                                        entry.delivery = deliveries[entry.content.delivery];
+                                    } else {
+                                        AngularDataStore.findBy('delivery', {_id: entry.content.delivery}).then(function(delivs) {
+                                            deliveries[entry.content.delivery] = delivs[0];
+
+                                            entry.delivery = deliveries[entry.content.delivery];
+                                        });
+                                    }
+                                }
+                            }
+
+                            entry.isContentVisible = !entry.isContentVisible;
+                        };
 
                         return entry;
                     });
