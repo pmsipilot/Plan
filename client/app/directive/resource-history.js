@@ -43,6 +43,10 @@ angular.module('pmsiplan').directive('resourceHistory', ['AngularDataStore', fun
             if(scope.historyEntries) {
                 callback(scope.historyEntries);
             }
+
+            scope.isProperty = function(obj, prop) {
+                return typeof obj[prop] === "string";
+            };
         }
     };
 }]);

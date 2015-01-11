@@ -28,6 +28,28 @@
         </strong>
     </div>
 
-
-    <pre data-ng-show="showContent"><code>{{ entry.content }}</code></pre>
+    <div data-ng-show="showContent" class="entry">
+        <table class="table table-bordered table-striped">
+            <tr ng-repeat="(key, value) in entry.content" data-ng-if="isProperty(entry.content, key)">
+                <th>{{ key }}</th>
+                <td data-ng-if="key != 'project' && key != 'delivery'">{{ value }}</td>
+                <td data-ng-if="key == 'project'">
+                    <table class="table table-bordered table-striped">
+                            <tr ng-repeat="(pkey, pvalue) in entry.project" data-ng-if="isProperty(entry.project, pkey)">
+                            <th>{{ pkey }}</th>
+                            <td>{{ pvalue }}</td>
+                        </tr>
+                    </table>
+                </td>
+                <td data-ng-if="key == 'delivery'">
+                    <table class="table table-bordered table-striped">
+                        <tr ng-repeat="(dkey, dvalue) in entry.delivery" data-ng-if="isProperty(entry.delivery, dkey)">
+                            <th>{{ dkey }}</th>
+                            <td>{{ dvalue }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
