@@ -20,8 +20,7 @@ The following steps will build 2 containers with MongoDB and PMSIplan.
 
 ```shell
 $ cd docker
-$ make
-$ make dev
+$ fig up
 ```
 
 From here, the application is available at the following URL: `http://localhost:3700`.
