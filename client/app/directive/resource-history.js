@@ -20,13 +20,13 @@ angular.module('pmsiplan').directive('resourceHistory', ['AngularDataStore', fun
                     .map(function(entry) {
                         if(entry.content.project) {
                             AngularDataStore.findBy('project', {_id: entry.content.project}).then(function(projects) {
-                                scope.project = projects[0];
+                                entry.project = projects[0];
                             });
                         }
 
                         if(entry.content.delivery) {
                             AngularDataStore.findBy('delivery', {_id: entry.content.delivery}).then(function(deliveries) {
-                                scope.delivery = deliveries[0];
+                                entry.delivery = deliveries[0];
                             });
                         }
 
