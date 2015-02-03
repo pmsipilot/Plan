@@ -84,20 +84,23 @@ bedoon.app.get('/dashboard', function(req, res) {
                 project_deliveries.forEach(function(project_delivery) {
                     if (project_delivery.status !== 'delivered') {
                         delivery.ready = false;
+                    }
 
-                        if (project_delivery.status === 'planned') {
+                    switch (project_delivery.status) {
+                        case 'planned':
                             delivery.progressPlanned++;
-                        }
+                            break;
 
-                        if (project_delivery.status === 'current') {
+                        case 'current':
                             delivery.progressCurrent++;
-                        }
+                            break;
 
-                        if (project_delivery.status === 'blocked') {
+                        case 'blocked':
                             delivery.progressBlocked++;
-                        }
-                    } else {
-                        delivery.progress++;
+                            break;
+
+                        default:
+                            delivery.progress++;
                     }
                 });
 
