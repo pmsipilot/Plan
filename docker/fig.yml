@@ -18,13 +18,13 @@ app:
         - "3700"
     command: /usr/bin/supervisord
     environment:
-        MONGO_URL: mongodb://db:27017/pmsiplan
-        API_PREFIX: api
-        HISTORY: histo
-        PMSIPLAN_ENV: dev
-        LDAP_URL:
-        LDAP_SEARCH_BASE:
-        LDAP_SEARCH_FILTER:
-        LDAP_ADMIN_DN:
-        LDAP_ADMIN_PWD:
-        LDAP_USERNAME_FIELD:
+        NODE_ENV: development
+        PMSIPLAN_MONGO_URL: mongodb://db:27017/pmsiplan
+        PMSIPLAN_API_PREFIX: api
+        PMSIPLAN_HISTORY: histo
+        PMSIPLAN_LDAP_URL:
+        PMSIPLAN_LDAP_SEARCH_BASE:
+        PMSIPLAN_LDAP_SEARCH_FILTER:
+        PMSIPLAN_LDAP_ADMIN_DN:
+        PMSIPLAN_LDAP_ADMIN_PWD:
+        PMSIPLAN_LDAP_USERNAME_FIELD:
