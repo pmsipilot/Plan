@@ -12,10 +12,10 @@
     </h2>
  
     <div class="progress" style="clear: right" title="{{ delivery.progress }}% Delivered, {{ delivery.progressPlanned }}% Planned, {{ delivery.progressCurrent }}% Work in progress, {{ delivery.progressBlocked }}% Blocked">
-      <div class="progress-bar progress-bar-success" style="width: {{ delivery.progress }}%"><span class="sr-only">{{ delivery.progress }}% Delivered</span></div>
-      <div class="progress-bar progress-bar-info" style="width: {{ delivery.progressPlanned }}%"><span class="sr-only">{{ delivery.progressPlanned }}% Planned</span></div>
-      <div class="progress-bar progress-bar-warning" style="width: {{ delivery.progressCurrent }}%"><span class="sr-only">{{ delivery.progressCurrent }}% Work in progress</span></div>
-      <div class="progress-bar progress-bar-danger" style="width: {{ delivery.progressBlocked }}%"><span class="sr-only">{{ delivery.progressBlocked }}% Blocked</span></div>
+      <div class="progress-bar progress-bar-success" style="width: {{ delivery.progress }}%"><span data-ng-if="delivery.progress > 0">{{ delivery.progress|number:1 }}% Delivered</span></div>
+      <div class="progress-bar progress-bar-info" style="width: {{ delivery.progressPlanned }}%"><span data-ng-if="delivery.progressPlanned > 0">{{ delivery.progressPlanned|number:1 }}% Planned</span></div>
+      <div class="progress-bar progress-bar-warning" style="width: {{ delivery.progressCurrent }}%"><span data-ng-if="delivery.progressCurrent > 0">{{ delivery.progressCurrent|number:1 }}% Work in progress</span></div>
+      <div class="progress-bar progress-bar-danger" style="width: {{ delivery.progressBlocked }}%"><span data-ng-if="delivery.progressBlocked > 0">{{ delivery.progressBlocked|number:1 }}% Blocked</span></div>
     </div>
   </div>
 </div>
