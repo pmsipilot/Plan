@@ -55,7 +55,6 @@ angular.module('pmsiplan').directive('resourceHistory', ['AngularDataStore', fun
 
                     if (scope.id) {
                         entries = entries.filter(function(entry) {
-                            console.log(entry.content._id, scope.id);
                             return entry.content._id === scope.id;
                         });
                     }
