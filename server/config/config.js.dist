@@ -1,14 +1,14 @@
 module.exports = {
-    db: process.env.MONGO_URL,
-    prefix: process.env.API_PREFIX,
-    histo: process.env.HISTORY,
+    db: process.env.PMSIPLAN_MONGO_URL,
+    prefix: process.env.PMSIPLAN_API_PREFIX,
+    histo: process.env.PMSIPLAN_HISTORY,
     resources: require('./resources'),
     ldap: {
-        url: process.env.LDAP_URL,
-        searchBase: process.env.LDAP_SEARCH_BASE,
-        searchFilter: process.env.LDAP_SEARCH_FILTER,
-        adminDn: process.env.LDAP_ADMIN_DN,
-        adminPassword: process.env.LDAP_ADMIN_PWD,
-        usernameField: process.env.LDAP_USERNAME_FIELD
+        url: process.env.PMSIPLAN_LDAP_URL,
+        searchBase: process.env.PMSIPLAN_LDAP_SEARCH_BASE,
+        searchFilter: process.env.PMSIPLAN_LDAP_SEARCH_FILTER,
+        adminDn: process.env.PMSIPLAN_LDAP_ADMIN_DN,
+        adminPassword: process.env.PMSIPLAN_LDAP_ADMIN_PWD,
+        usernameField: process.env.PMSIPLAN_LDAP_USERNAME_FIELD
     }
 };
