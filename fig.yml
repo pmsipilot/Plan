@@ -10,13 +10,12 @@ app:
     links:
         - db
     volumes:
-        - ../client:/app/client
-        - ../server:/app/server
+        - ./client:/app/client
+        - ./server:/app/server
     ports:
         - "3700:3700"
     expose:
         - "3700"
-    command: /usr/bin/supervisord
     environment:
         NODE_ENV: development
         PMSIPLAN_MONGO_URL: mongodb://db:27017/pmsiplan
