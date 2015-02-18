@@ -1,7 +1,10 @@
 <div class="block-content">
+  <div class="pull-right">
+    <a class="pointer" ng-click="showDelivered = ! showDelivered">{{ showDelivered ? 'Hide' : 'Show' }} delivered releases</a>
+  </div>
   <div class="clear"></div>
-
-  <div ng-repeat="delivery in baseDeliveries | orderBy:'version':true" class="delivery-status">
+  <div class="space-top"></div>
+  <div ng-if="showDelivered || delivery.progress < 100" ng-repeat="delivery in baseDeliveries | orderBy:'version':true" class="delivery-status">
     <h3 class="pull-right">{{ delivery.progress | number:0 }}%</h3>
     <h2><a ng-href="#/delivery/{{ delivery.id }}">{{ delivery.version }} {{ delivery.description }}</a></h2>
  

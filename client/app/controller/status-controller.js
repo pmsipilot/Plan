@@ -2,6 +2,7 @@ angular.module('pmsiplan').controller('StatusController', ['$scope', '$filter', 
     function ($scope, $filter, AngularDataStore, DeliveryHelper, deliveries) {
 
         function init () {
+            $scope.showDelivered = false;
             $scope.deliveries = [];
 
             angular.forEach(deliveries, function(delivery) {
