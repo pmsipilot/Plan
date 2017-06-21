@@ -1,4 +1,3 @@
 #!/bin/bash
 
-cd /app/server
-exec node /app/server/app/index.js
+cd /app/server && node ./app/index.js

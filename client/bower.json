@@ -24,7 +24,7 @@
     "d3": "~3.4.1",
     "ng-table": "0.3.1",
     "authenticateJS": "~0.1.1",
-    "pmsipilot-ui": "~1.0.0"
+    "pmsipilot-ui": "~4.0.0"
   },
   "resolutions": {
     "font-awesome": "~4.2.0",

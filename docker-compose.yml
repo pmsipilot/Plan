@@ -1,5 +1,5 @@
 db:
-    image: dockerfile/mongodb
+    image: mongo
     ports:
         - "27017:27017"
     expose:
@@ -26,4 +26,3 @@ app:
         PMSIPLAN_LDAP_SEARCH_FILTER:
         PMSIPLAN_LDAP_ADMIN_DN:
         PMSIPLAN_LDAP_ADMIN_PWD:
-        PMSIPLAN_LDAP_USERNAME_FIELD:
