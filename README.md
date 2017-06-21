@@ -10,7 +10,7 @@ Features:
 ## Pre requisites
 
 * [Docker](https://docs.docker.com)
-* [Fig](http://www.fig.sh/)
+* [Docker Compose](https://docs.docker.com/compose/)
 
 ## Installation
 
@@ -19,12 +19,8 @@ The following steps will build 2 containers with MongoDB and PMSIplan.
 ### Development
 
 ```shell
-$ cd docker
-$ fig up
+$ docker-compose up
 ```
 
 From here, the application is available at the following URL: `http://localhost:3700`.
 
-**Note:** If you are using [boot2docker](http://boot2docker.io/) the application won't directly be available on `localhost`.
-In fact, boot2docker runs in a VM on your host. To get its IP, run `boot2docker ip` and then go to
-`http://boot2docker-ip:3700`.
