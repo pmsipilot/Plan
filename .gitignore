@@ -12,4 +12,6 @@ public
 /.bundle
 
 npm-debug.log
+data/
+docker-compose.*.yml
 
