@@ -12,6 +12,9 @@
                         <a class="btn square btn-two" href="#!/delivery/{{ delivery.getPrimaryKey() }}/dependancies"><i class="fa fa-code-fork"></i></a>
                     </div>
                     <a ng-if="!delivery.locked" href="#!/delivery/{{ delivery.getPrimaryKey() }}/edit" class="btn btn-two rounded"><i class="fa fa-edit"></i></a>
+                    <a ng-if="!delivery.locked" ng-click="lock(delivery)" class="btn btn-two rounded" title="Lock the delivery"><i class="fa fa-lock"></i></a>
+                    <a ng-if="delivery.locked" ng-click="unlock(delivery)" class="btn btn-two rounded" title="Unlock the delivery"><i class="fa fa-unlock"></i></a>
+
                     <a ng-show="delivery.description" data-ng-click="showDescription = !showDescription" class="btn btn-two rounded"><i class="fa fa-align-justify"></i></a>
                 </div>
             </div>

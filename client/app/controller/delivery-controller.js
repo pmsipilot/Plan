@@ -16,6 +16,16 @@ angular.module('pmsiplan').controller('DeliveryController', ['$scope', '$filter'
             }
         };
 
+        $scope.lock = function () {
+            delivery.locked = true;
+            AngularDataStore.save(delivery);
+        };
+
+        $scope.unlock = function () {
+            delivery.locked = false;
+            AngularDataStore.save(delivery);
+        };
+
         $scope.deliveryProjects = [];
         AngularDataStore.findBy('project_delivery', {delivery: delivery.getPrimaryKey()}).then(function(projectDeliveries) {
             var computeDeliveryProjects = function () {
