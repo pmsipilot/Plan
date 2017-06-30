@@ -34,6 +34,7 @@ passport.use(new LdapStrategy(
                 user = new bedoon.models.user();
                 user.username = ldapUser.sAMAccountName;
                 user.name = ldapUser.name;
+                user.email = ldapUser.mail;
                 user.save();
             }
 

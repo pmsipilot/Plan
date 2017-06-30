@@ -35,7 +35,6 @@
         <h2>{{ projectDelivery.isNew ? 'New' : 'Edit' }} version {{ projectDelivery.isNew ? '' : projectDelivery.version }} </h2>
 
         <form class="space-top" name="versionForm">
-
             <div class="form-group" data-ng-hide="projectDeliveryDelivered" ng-class="{ 'has-error': versionForm.version.$error.required }">
                 <label class="control-label">Version</label>
                 <div class="form-widget">
@@ -54,11 +53,8 @@
                 <label class="control-label">Start Date</label>
                 <div class="form-widget datapicker">
                     <input name="start_date"
-                        type="text"
-                        data-datepicker-popup="yyyy-MM-dd"
-                        data-show-button-bar="true"
+                        type="date"
                         data-ng-model="projectDelivery.start_date"
-                        data-show-weeks="false"
                         class="form-control"
                         required />
                 </div>
@@ -67,18 +63,7 @@
             <div class="form-group" ng-class="{ 'has-error': versionForm.delivery_date.$error.required }">
                 <label class="control-label">Planned for</label>
                 <div class="form-widget datapicker">
-                    <div data-ng-show="projectDelivery.isNew">
-                        <input name="delivery_date"
-                           type="text"
-                           data-datepicker-popup="yyyy-MM-dd"
-                           data-show-button-bar="true"
-                           data-ng-model="projectDelivery.target_date"
-                           data-show-weeks="false"
-                           class="form-control"
-                           required />
-                    </div>
-
-                    <span style="line-height: 32px" data-ng-hide="projectDelivery.isNew">{{ projectDelivery.target_date | date }}</span>
+                    <input name="delivery_date" type="date" data-ng-model="projectDelivery.target_date" class="form-control" required />
                 </div>
                 <div class="clear"></div>
             </div>
@@ -86,12 +71,7 @@
             <div class="form-group">
                 <label class="control-label">Delivery at</label>
                 <div class="form-widget datapicker">
-                    <input type="text"
-                           data-datepicker-popup="yyyy-MM-dd"
-                           data-show-button-bar="true"
-                           data-ng-model="projectDelivery.end_date"
-                           data-show-weeks="false"
-                           class="form-control" />
+                    <input type="date" data-ng-model="projectDelivery.end_date" class="form-control" />
                 </div>
             </div>
 
@@ -138,9 +118,9 @@
                     <td>
                         <span data-project-delivery-status="pr_delivery.projectDelivery.status"></span>
                     </td>
-                    <td>{{ pr_delivery.projectDelivery.start_date | date }}</td>
-                    <td>{{ pr_delivery.projectDelivery.end_date | date }}</td>
-                    <td>{{ pr_delivery.projectDelivery.target_date | date }}</td>
+                    <td>{{ pr_delivery.projectDelivery.start_date | moment }}</td>
+                    <td>{{ pr_delivery.projectDelivery.end_date | moment }}</td>
+                    <td>{{ pr_delivery.projectDelivery.target_date | moment }}</td>
 
                     <td>{{ pr_delivery.delivery.version }}</td>
                     <td>

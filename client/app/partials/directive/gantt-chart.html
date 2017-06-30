@@ -14,7 +14,7 @@
         <div class="gantt-current-date" data-ng-show="currentDatePercent" data-ng-style="{'left': currentDatePercent}"></div>
 
         <div class="gantt-ranges">
-            <div class="gantt-range" data-ng-repeat="range in ranges" data-ng-style="{left: range.percent}">- {{ range.value | date:'yyyy-MM-dd' }}</div>
+            <div class="gantt-range" data-ng-repeat="range in ranges" data-ng-style="{left: range.percent}">- {{ range.value | moment }}</div>
         </div>
     </div>
     

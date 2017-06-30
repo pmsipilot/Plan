@@ -3,10 +3,12 @@
   "version": "2.0.0",
   "private": true,
   "dependencies": {
+    "angular-gravatar": "^0.4.2",
     "angular-marked": "^1.2.2",
     "bedoon": "git+https://github.com/jubianchi/bedoon.git#master",
     "express": "~3.4.0",
     "marked": "^0.3.6",
+    "moment": "^2.18.1",
     "passport": "~0.3.2",
     "passport-http-bearer": "^1.0.1",
     "passport-ldapauth": "~2.0.0"

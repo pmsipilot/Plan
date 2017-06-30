@@ -3,7 +3,7 @@ angular
     .factory('DeliveryHelper', ['$q', 'AngularDataStore', function ServiceFactory ($q, AngularDataStore) {
 
     var getPrimaryKey = function(entity) {
-        return entity.getPrimaryKey ? entity.getPrimaryKey() : entity._id.toString();
+        return entity.getPrimaryKey ? entity.getPrimaryKey() : (entity._id ? entity._id.toString() : entity.id);
     };
 
     return {
@@ -58,6 +58,31 @@ angular
             });
 
             return defer.promise;
+        },
+
+        getStartAndTargetDates: function (delivery) {
+            return AngularDataStore.findBy('project_delivery', { delivery: getPrimaryKey(delivery) })
+                .then(function(projectDeliveries) {
+                    var start = null,
+                        target = null;
+
+                    angular.forEach(projectDeliveries, function(projectDelivery) {
+                        if (start === null || start > projectDelivery.start_date) {
+                            start = projectDelivery.start_date;
+                        }
+
+                        var end_date = projectDelivery.end_date < projectDelivery.target_date ? projectDelivery.end_date : projectDelivery.target_date;
+
+                        if (target === null || target < end_date) {
+                            target = end_date;
+                        }
+                    });
+
+                    return {
+                        start_date: start,
+                        target_date: target
+                    };
+                });
         }
     };
 }]);

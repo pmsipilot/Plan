@@ -5,7 +5,8 @@ angular.module('pmsiplan', [
     'ngTable',
     'ui.bootstrap',
     'authenticate.js',
-    'hc.marked'
+    'hc.marked',
+    'ui.gravatar'
 ])
     .config(['$locationProvider', 'AuthenticateJSProvider', function ($locationProvider, AuthenticateJSProvider) {
         AuthenticateJSProvider.setConfig({

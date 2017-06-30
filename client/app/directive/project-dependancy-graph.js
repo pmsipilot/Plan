@@ -89,8 +89,6 @@ angular.module('pmsiplan').directive('projectDependancyGraph', ['$q', function (
                             .append("path")
                             .attr("d", "M 0,0 V 8 L8,4 Z"); //this is actual shape for arrowhead
 
-                        console.log(graph);
-
                         force
                             .nodes(graph.nodes)
                             .links(graph.links)

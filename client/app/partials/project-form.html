@@ -10,7 +10,7 @@
             <label class="control-label">Name</label>
             <div class="form-widget">
                 <input type="text" name="name" data-ng-model="project.name" class="form-control" required/>
-                <span class="error" ng-show="projectForm.name.$error.required">Required!</span><br>
+                <span class="text-danger" ng-show="projectForm.name.$error.required">Required!</span><br>
             </div>
         </div>
 
@@ -34,7 +34,7 @@
         <div class="form-group" ng-class="{ 'has-error': projectForm.description.$error.required }">
             <label class="control-label">Description</label>
             <div class="form-widget">
-                <textarea type="text" name="description" data-ng-model="project.description" class="form-control" required rows="5"></textarea>
+                <textarea name="description" data-ng-model="project.description" class="form-control" required rows="5"></textarea>
             </div>
         </div>
 

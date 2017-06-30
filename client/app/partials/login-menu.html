@@ -1,13 +1,11 @@
 <div data-ng-if="loggedin">
     <div class="pull-right dropdown-three">
-        <button class="dropdown-toggle btn btn-two" data-toggle="dropdown">
+        <a class="dropdown-toggle btn btn-two" data-toggle="dropdown">
             <i class="fa fa-cog"></i>
-        </button>
+        </a>
         <ul class="dropdown-menu">
-            <li>
-                <a class="pointer" data-ng-click="profile();">Profile</a>
-                <a class="pointer" data-ng-click="logout();">Logout</a>
-            </li>
+            <li><a class="pointer" data-ng-click="profile();">Profile</a></li>
+            <li><a class="pointer" data-ng-click="logout();">Logout</a></li>
         </ul>
     </div>
     <div class="pull-right username space-right">{{ user.data.name }}</div>

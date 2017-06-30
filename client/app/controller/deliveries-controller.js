@@ -10,6 +10,12 @@ angular.module('pmsiplan').controller('DeliveriesController', ['$scope', '$filte
                 DeliveryHelper.isReady(delivery).then(function(ready) {
                     newDelivery.ready = ready;
                 });
+
+                DeliveryHelper.getStartAndTargetDates(newDelivery).then(function(dates) {
+                    newDelivery.start_date = dates.start_date;
+                    newDelivery.target_date = dates.target_date;
+                });
+
                 $scope.deliveries.push(newDelivery);
             });
         }

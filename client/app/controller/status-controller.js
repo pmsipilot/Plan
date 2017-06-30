@@ -1,22 +1,19 @@
 angular.module('pmsiplan').controller('StatusController', ['$scope', '$filter', 'AngularDataStore', 'DeliveryHelper', 'deliveries',
     function ($scope, $filter, AngularDataStore, DeliveryHelper, deliveries) {
-console.log('okokokokokokok');
-        function init () {
-            $scope.showDelivered = false;
-            $scope.deliveries = [];
+        $scope.deliveries = [];
 
-            angular.forEach(deliveries, function(delivery) {
-                delivery.progress = delivery.progress || 0;
-                delivery.progressPlanned = delivery.progressPlanned || 0;
-                delivery.progressCurrent = delivery.progressCurrent || 0;
-                delivery.progressBlocked = delivery.progressBlocked || 0;
+        angular.forEach(deliveries, function(delivery) {
+            delivery.progress = delivery.progress || 0;
+            delivery.progressPlanned = delivery.progressPlanned || 0;
+            delivery.progressCurrent = delivery.progressCurrent || 0;
+            delivery.progressBlocked = delivery.progressBlocked || 0;
 
-                $scope.deliveries.push(delivery);
+            DeliveryHelper.getStartAndTargetDates(delivery).then(function (dates) {
+                delivery.start_date = dates.start_date;
+                delivery.target_date = dates.target_date;
             });
-        }
 
-        init();
-
-        $scope.baseDeliveries = $scope.deliveries;
+            $scope.deliveries.push(delivery);
+        });
     }]);
 

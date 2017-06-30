@@ -60,7 +60,9 @@ module.exports = function(grunt) {
                     'node_modules/angular-datastore/src/module.js',
                     'node_modules/angular-datastore/src/**/*.js',
                     'node_modules/marked/marked.min.js',
-                    'node_modules/angular-marked/dist/angular-marked.min.js'
+                    'node_modules/angular-marked/dist/angular-marked.min.js',
+                    'node_modules/moment/moment.js',
+                    'node_modules/angular-gravatar/build/angular-gravatar.min.js'
                 ],
                 dest: 'server/public/js/vendor.js'
             },

@@ -3,8 +3,6 @@ angular.module('pmsiplan').controller('LoginMenuController', ['$scope', '$locati
         var reset = function () {
             $scope.loggedin = AuthenticateJS.isLoggedIn();
             $scope.user = AuthenticateJS.getUser();
-
-            console.log($scope);
         };
 
         $scope.$on('$routeChangeSuccess', function () {
