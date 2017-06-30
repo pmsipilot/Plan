@@ -7,19 +7,27 @@
             <div class="col-md-3">
                 <div class="pull-right">
                     <div class="btn-group space-right-small">
-                        <a class="btn square btn-two" href="#!/delivery/{{ delivery.getPrimaryKey() }}"><i class="fa fa-table"></i></a>
-                        <a class="btn square btn-two" href="#!/delivery/{{ delivery.getPrimaryKey() }}/gantt"><i class="fa fa-bar-chart"></i></a>
-                        <a class="btn square btn-two active" href="#!/delivery/{{ delivery.getPrimaryKey() }}/dependancies"><i class="fa fa-code-fork"></i></a>
+                        <a class="btn square btn-two" href="#!/delivery/{{ delivery.getPrimaryKey() }}">
+                            <i class="fa fa-table"></i>
+                        </a>
+                        <a class="btn square btn-two" href="#!/delivery/{{ delivery.getPrimaryKey() }}/gantt">
+                            <i class="fa fa-bar-chart"></i>
+                        </a>
+                        <a class="btn square btn-two active"
+                           href="#!/delivery/{{ delivery.getPrimaryKey() }}/dependancies">
+                            <i class="fa fa-code-fork"></i>
+                        </a>
                     </div>
-                    <a ng-if="!delivery.locked" href="#!/delivery/{{ delivery.getPrimaryKey() }}/edit" class="btn btn-two rounded"><i class="fa fa-edit"></i></a>
+                    <a ng-if="!delivery.locked" href="#!/delivery/{{ delivery.getPrimaryKey() }}/edit"
+                       class="btn btn-two rounded"><i class="fa fa-edit"></i></a>
+                    <a ng-if="!delivery.locked" ng-click="lock(delivery)" class="btn btn-two rounded"
+                       title="Lock the delivery"><i class="fa fa-lock"></i></a>
+                    <a ng-if="delivery.locked" ng-click="unlock(delivery)" class="btn btn-two rounded"
+                       title="Unlock the delivery"><i class="fa fa-unlock"></i></a>
                 </div>
             </div>
         </div>
-        <p data-ng-show="delivery.description" marked="delivery.description"></p>
     </div>
 
-    <div class="space-top" style="height: 100%">
-         <div id="graph-dependancy" style="position: absolute; bottom: 0; top: 80px; width: 100%;"
-         data-project-dependancy-graph="projects" data-project-config-in-delivery="deliveryProjects"> </div>
-    </div>
+    <div id="graph-dependancy" data-project-dependancy-graph="projects" data-project-config-in-delivery="deliveryProjects"></div>
 </div>

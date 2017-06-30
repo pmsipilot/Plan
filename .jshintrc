@@ -30,6 +30,8 @@
         "angular": false,
         "d3": false,
         "_": false,
-        "confirm": false
+        "confirm": false,
+        "moment": false,
+        "__dirname": false
     }
 }

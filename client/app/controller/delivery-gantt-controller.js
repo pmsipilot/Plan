@@ -9,6 +9,16 @@ angular.module('pmsiplan').controller('DeliveryGanttController', ['$scope', '$lo
             }
         };
 
+        $scope.lock = function () {
+            delivery.locked = true;
+            AngularDataStore.save(delivery);
+        };
+
+        $scope.unlock = function () {
+            delivery.locked = false;
+            AngularDataStore.save(delivery);
+        };
+
         $scope.chartData = [];
         var now = new Date();
         AngularDataStore.findBy('project_delivery', {delivery: delivery.getPrimaryKey()}).then(function(projectDeliveries) {

@@ -8,10 +8,11 @@ angular.module('pmsiplan').controller('StatusController', ['$scope', '$filter', 
             delivery.progressCurrent = delivery.progressCurrent || 0;
             delivery.progressBlocked = delivery.progressBlocked || 0;
 
-            DeliveryHelper.getStartAndTargetDates(delivery).then(function (dates) {
-                delivery.start_date = dates.start_date;
-                delivery.target_date = dates.target_date;
-            });
+            DeliveryHelper.getStartAndTargetDates(delivery)
+                .then(function (dates) {
+                    delivery.start_date = dates.start_date;
+                    delivery.target_date = dates.target_date;
+                });
 
             $scope.deliveries.push(delivery);
         });

@@ -1,9 +1,13 @@
 angular
     .module('pmsiplan')
-    .factory('DeliveryHelper', ['$q', 'AngularDataStore', function ServiceFactory ($q, AngularDataStore) {
+    .factory('DeliveryHelper', ['$q', 'AngularDataStore', function ($q, AngularDataStore) {
 
     var getPrimaryKey = function(entity) {
-        return entity.getPrimaryKey ? entity.getPrimaryKey() : (entity._id ? entity._id.toString() : entity.id);
+        if (entity.getPrimaryKey) {
+            return entity.getPrimaryKey();
+        }
+
+        return entity._id ? entity._id.toString() : entity.id;
     };
 
     return {
@@ -66,15 +70,16 @@ angular
                     var start = null,
                         target = null;
 
-                    angular.forEach(projectDeliveries, function(projectDelivery) {
-                        if (start === null || start > projectDelivery.start_date) {
-                            start = projectDelivery.start_date;
+                    angular.forEach(projectDeliveries, function(delivery) {
+                        if (start === null || start > delivery.start_date) {
+                            start = delivery.start_date;
                         }
 
-                        var end_date = projectDelivery.end_date && projectDelivery.end_date < projectDelivery.target_date ? projectDelivery.end_date : projectDelivery.target_date;
+                        var endDateIsSet = delivery.end_date && delivery.end_date < delivery.target_date;
+                        var endDate = endDateIsSet ? delivery.end_date : delivery.target_date;
 
-                        if (target === null || target < end_date) {
-                            target = end_date;
+                        if (target === null || target < endDate) {
+                            target = endDate;
                         }
                     });
 

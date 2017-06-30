@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-5">
                 <p><strong>Dependencies : </strong>
-                    <span data-ng-repeat="pr in dependancies"> {{ pr.name }},</span>
+                    <span data-ng-repeat="pr in dependancies"> {{ pr.name }}<span ng-ig="!$last">, </span></span>
                 </p>
 
                 <p ng-if="project.product_owner"><strong>Product owner: </strong>
