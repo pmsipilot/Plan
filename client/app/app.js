@@ -4,16 +4,15 @@ angular.module('pmsiplan', [
     'ngSanitize',
     'ngTable',
     'ui.bootstrap',
-    'authenticate.js'
+    'authenticate.js',
+    'hc.marked'
 ])
-
-    .config(['AuthenticateJSProvider', function (AuthenticateJSProvider) {
-
+    .config(['$locationProvider', 'AuthenticateJSProvider', function ($locationProvider, AuthenticateJSProvider) {
         AuthenticateJSProvider.setConfig({
-            host: '/',                  // your base api url
+            host: '/',                          // your base api url
             loginUrl: 'ldap/auth/login',        // login api url
-            logoutUrl: 'api/auth/logout',      // logout api url
-            loggedinUrl: 'api/auth/loggedin',  // api to get the user profile and roles
+            logoutUrl: 'api/auth/logout',       // logout api url
+            loggedinUrl: 'api/auth/loggedin',   // api to get the user profile and roles
 
             unauthorizedPage: '/unauthorized',  // url (frontend) of the unauthorized page
             targetPage: '/',                    // url (frontend) of the target page on login success

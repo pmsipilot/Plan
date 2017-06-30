@@ -1,5 +1,5 @@
-angular.module('pmsiplan').controller('DeliveriesController', ['$scope', '$filter', 'AngularDataStore', 'DeliveryHelper', 'deliveries', 'ngTableParams',
-    function ($scope, $filter, AngularDataStore, DeliveryHelper, deliveries, ngTableParams) {
+angular.module('pmsiplan').controller('DeliveriesController', ['$scope', '$filter', 'AngularDataStore', 'DeliveryHelper', 'deliveries', 'NgTableParams',
+    function ($scope, $filter, AngularDataStore, DeliveryHelper, deliveries, NgTableParams) {
 
         $scope.baseDeliveries = deliveries;
 
@@ -32,23 +32,14 @@ angular.module('pmsiplan').controller('DeliveriesController', ['$scope', '$filte
 
         init();
 
-        $scope.tableParams = new ngTableParams({
+        $scope.tableParams = new NgTableParams({
             page: 1,            // show first page
             count: 100,          // count per page
             sorting: {
                 version: 'desc'     // initial sorting
             }
         }, {
-            total: $scope.deliveries.length, // length of data
-            getData: function ($defer, params) {
-                // use build-in angular filter
-                var orderedData = params.filter() ? $filter('filter')($scope.deliveries, params.filter()) : $scope.deliveries;
-                orderedData = params.sorting() ? $filter('orderBy')(orderedData, params.orderBy()) : orderedData;
-                params.total(orderedData.length);
-                $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-            },
-            $scope: { $data: {} },
-            debugMode: false
+            dataset: $scope.deliveries
         });
 
         $scope.$watch('baseDeliveries', function () {

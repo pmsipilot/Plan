@@ -22,12 +22,12 @@
             </div>
             <div class="col-md-3">
                 <div class="pull-right">
-                    <a href="#/project/{{ project.getPrimaryKey() }}/edit" class="btn btn-two rounded" title="Edit this project"><i class="fa fa-edit"></i></a>
+                    <a href="#!/project/{{ project.getPrimaryKey() }}/edit" class="btn btn-two rounded" title="Edit this project"><i class="fa fa-edit"></i></a>
                     <a class="btn btn-two rounded" title="Add a project delivery" data-ng-click="addDelivery()"><i class="fa fa-plus"></i></a>
                 </div>
             </div>
         </div>
-        <p data-ng-show="project.description">{{ project.description }}</p>
+        <p data-ng-show="project.description" marked="project.description"></p>
     </div>
 
     <div class="block space-top" data-ng-show="projectDelivery !== null">
@@ -127,15 +127,13 @@
                 <th>Started at</th>
                 <th>Delivered at</th>
                 <th>Planned for</th>
-
                 <th>Release</th>
                 <th>Requirements</th>
-
                 <th></th>
             </tr>
             </thead>
             <tbody>
-                <tr data-ng-repeat="pr_delivery in projectDeliveries | orderBy: 'projectDelivery.version':true">
+                <tr data-ng-repeat-start="pr_delivery in projectDeliveries | orderBy: 'projectDelivery.version':true">
                     <td>{{ pr_delivery.projectDelivery.version }}</td>
                     <td>
                         <span data-project-delivery-status="pr_delivery.projectDelivery.status"></span>
@@ -145,14 +143,8 @@
                     <td>{{ pr_delivery.projectDelivery.target_date | date }}</td>
 
                     <td>{{ pr_delivery.delivery.version }}</td>
-                        <td>
-                            <div data-ng-show="pr_delivery.projectDelivery.features">
-                            <strong>Features</strong>
-                            <div data-ng-bind-html=" pr_delivery.projectDelivery.features | nl2br"></div>
-                        </div>
-
-                        <div data-ng-show="pr_delivery.dependencies.length" data-ng-class="{ 'space-top-small': pr_delivery.projectDelivery.features }">
-                            <strong>Dependencies</strong>
+                    <td>
+                        <div data-ng-show="pr_delivery.dependencies.length">
                             <ul>
                                 <li data-ng-repeat="dependancyConfig in pr_delivery.dependencies">
                                     {{ dependancyConfig.project.name }}
@@ -166,7 +158,13 @@
                     <td>
                         <div class="pull-right">
                             <a data-ng-click="editProjectDelivery(pr_delivery.projectDelivery)" class="btn btn-two rounded pointer"><i class="fa fa-edit"></i></a>
+                            <a ng-show="pr_delivery.projectDelivery.features" data-ng-click="showFeature = !showFeature" class="btn btn-two rounded pointer"><i class="fa fa-align-justify"></i></a>
                         </div>
+                    </td>
+                </tr>
+                <tr data-ng-repeat-end ng-show="showFeature && pr_delivery.projectDelivery.features">
+                    <td colspan="8">
+                        <div marked="pr_delivery.projectDelivery.features"></div>
                     </td>
                 </tr>
             </tbody>

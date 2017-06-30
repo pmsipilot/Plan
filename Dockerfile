@@ -1,29 +1,28 @@
-FROM digitallyseamless/nodejs-bower-grunt:0.10
+FROM node:6 as builder
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV NODE_ENV production
+ENV NODE_ENV=development
 
-RUN apt-get update -y && apt-get install -y daemontools
+RUN npm install -g grunt
 
-COPY ./docker/service/pmsiplan /service/pmsiplan
-COPY ./client /app/client
-COPY ./server /app/server
+COPY . /app
+WORKDIR /app
 
-RUN cd /app/server/ && cp config/config.js.dist config/config.js && npm install
+RUN npm install && \
+    grunt
 
-WORKDIR /app/client
+FROM node:6
 
-RUN NODE_ENV=development npm install && \
-    bower install --allow-root && \
-    grunt && \
-    rm -rf node_modules && \
-    rm -rf bower_components \
-    npm cache clean && \
-    (rm -rf /tmp/* || true)
+ENV NODE_ENV=production
 
 EXPOSE 3700
 
-VOLUME /app
-VOLUME /service
+COPY --from=builder /app/server /app/server
+COPY --from=builder /app/package.json /app/package.json
 
-CMD ["svscan", "/service"]
+WORKDIR /app
+
+RUN cp server/config/config.js.dist server/config/config.js && \
+    npm install && \
+    npm cache clean
+
+ENTRYPOINT ["node", "/app/server/app/index.js"]

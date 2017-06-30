@@ -4,18 +4,19 @@ db:
         - "27017:27017"
     expose:
         - "27017"
+    volumes:
+        - ./data/db:/data/db
+        - ./data/configdb:/data/configdb
 
 app:
     build: .
     links:
         - db
     volumes:
-        - ./client:/app/client
         - ./server:/app/server
+        - ./server/public:/app/server/public
     ports:
         - "3700:3700"
-    expose:
-        - "3700"
     environment:
         NODE_ENV: development
         PMSIPLAN_MONGO_URL: mongodb://db:27017/pmsiplan

@@ -1,6 +1,6 @@
 angular.module('pmsiplan').controller('StatusController', ['$scope', '$filter', 'AngularDataStore', 'DeliveryHelper', 'deliveries',
     function ($scope, $filter, AngularDataStore, DeliveryHelper, deliveries) {
-
+console.log('okokokokokokok');
         function init () {
             $scope.showDelivered = false;
             $scope.deliveries = [];

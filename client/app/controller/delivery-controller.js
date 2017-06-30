@@ -1,5 +1,5 @@
-angular.module('pmsiplan').controller('DeliveryController', ['$scope', '$filter', '$location', 'AngularDataStore', 'ServiceFactory', 'delivery', 'projects', 'ngTableParams',
-    function ($scope, $filter, $location, AngularDataStore, ServiceFactory, delivery, projects, ngTableParams) {
+angular.module('pmsiplan').controller('DeliveryController', ['$scope', '$filter', '$location', 'AngularDataStore', 'ServiceFactory', 'delivery', 'projects', 'NgTableParams',
+    function ($scope, $filter, $location, AngularDataStore, ServiceFactory, delivery, projects, NgTableParams) {
         $scope.delivery = delivery;
         $scope.projects = projects;
         $scope.deliveryProjects = [];
@@ -27,6 +27,7 @@ angular.module('pmsiplan').controller('DeliveryController', ['$scope', '$filter'
                         name: null,
                         poSm: null,
                         version: prDelivery.version,
+                        features: prDelivery.features,
                         startDate: prDelivery.start_date,
                         endDate: prDelivery.end_date,
                         plannedDate: prDelivery.target_date,
@@ -46,23 +47,14 @@ angular.module('pmsiplan').controller('DeliveryController', ['$scope', '$filter'
 
             computeDeliveryProjects();
 
-            $scope.tableParams = new ngTableParams({
+            $scope.tableParams = new NgTableParams({
                 page: 1,            // show first page
                 count: 100,          // count per page
                 sorting: {
                     name: 'asc'     // initial sorting
                 }
             }, {
-                total: $scope.deliveryProjects.length, // length of data
-                getData: function ($defer, params) {
-                    // use build-in angular filter
-                    var orderedData = params.filter() ? $filter('filter')($scope.deliveryProjects, params.filter()) : $scope.deliveryProjects;
-                    orderedData = params.sorting() ? $filter('orderBy')(orderedData, params.orderBy()) : orderedData;
-                    params.total(orderedData.length);
-                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-                },
-                $scope: { $data: {} },
-                debugMode: false
+                dataset: $scope.deliveryProjects
             });
 
             $scope.$watch('projects', function () {

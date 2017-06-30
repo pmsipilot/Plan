@@ -47,7 +47,7 @@ passport.use(new LdapStrategy(
     }
 ));
 
-bedoon.app.use(express.static(__dirname + '/../../public'));
+bedoon.app.use(express.static(__dirname + '/../public'));
 
 var auth = passport.authenticate(['bearer'], { session: false });
 bedoon.app.use('/api/*', function(req, res, next) {

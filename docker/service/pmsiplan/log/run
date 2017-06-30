@@ -1,3 +1,0 @@
-#!/bin/bash
-
-tee -a /var/log/pmsiplan.log

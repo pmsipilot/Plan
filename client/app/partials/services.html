@@ -1,5 +1,8 @@
 <div class="block-content">
     <h1>Services</h1>
+    <div class="pull-right">
+        <a href="#!/service/new" class="btn btn-icon btn-three"><i class="icon fa fa-plus"></i> Add a new service</a>
+    </div>
     <div class="clear"></div>
     <table class="table table-three space-top table-striped" data-ng-table="tableParams" show-filter="true">
         <tr data-ng-repeat="service in $data">
@@ -7,7 +10,7 @@
             <td data-title="'Active'" sortable="'enabled'" filter="{ 'enabled': 'boolean' }">{{ service.enabled ? 'Yes' : 'No' }}</td>
             <td>
                 <div class="pull-right">
-                    <a href="#/service/{{ service.name }}/edit" class="btn btn-two rounded"><i class="fa fa-gear"></i></a>
+                    <a href="#!/service/{{ service.name }}/edit" class="btn btn-two rounded"><i class="fa fa-gear"></i></a>
                 </div>
             </td>
         </tr>

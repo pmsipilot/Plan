@@ -1,6 +1,6 @@
 <div class="block-content">
     <div class="pull-right">
-        <a href="#/project/{{ project.getPrimaryKey() }}" class="btn btn-two rounded"><i class="fa fa-info"></i></a>
+        <a href="#!/project/{{ project.getPrimaryKey() }}" class="btn btn-two rounded"><i class="fa fa-info"></i></a>
     </div>
 
     <h1>{{ {true: 'New', false: 'Edit'}[project.getPrimaryKey() == undefined] }} project</h1>
@@ -41,7 +41,7 @@
         <div class="form-group">
             <label class="control-label">Color</label>
             <div class="form-widget">
-                <input type="color" title="Project Color" data-colorpicker data-ng-model="project.color" />
+                <input type="color" title="Project Color" data-ng-model="project.color" />
             </div>
         </div>
 

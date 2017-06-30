@@ -1,7 +1,7 @@
 
-@import '../../bower_components/fontawesome/less/font-awesome';
-@import '../../bower_components/bootstrap/less/bootstrap';
-@import '../../bower_components/pmsipilot-ui/less/bootstrap';
+@import '../../../node_modules/font-awesome/less/font-awesome';
+@import '../../../node_modules/bootstrap/less/bootstrap';
+@import '../../../node_modules/pmsipilot-ui/less/bootstrap';
 @import 'variables';
 
 body {
@@ -18,9 +18,6 @@ body {
     }
 }
 
-.label {
-    color: #666666;
-}
 
 
 .gantt-chart {
@@ -104,6 +101,11 @@ body {
     margin-bottom: 10px;
 }
 
+.ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
+    border-color: white transparent!important;
+    opacity: 1!important;
+}
+
 .ng-table.table-three th.sortable.sort-desc, .ng-table th.sortable.sort-asc {
     background-color: @themeColorThree + #111;
     text-shadow: none;
@@ -126,7 +128,7 @@ ul.pagination {
 ul.pagination li {
     display:  inline-block;
     position: relative;
-    margin-right: 1px solid #FFF;
+    border-right: 1px solid #FFF;
 }
 
 ul.pagination > li + li {
@@ -211,4 +213,16 @@ ul.pagination li.disabled a {
     h3 {
         line-height: 30px;
     }
+}
+
+.sidebar {
+    width: 200px;
+}
+
+.sidebar-resizer {
+    left: 200px;
+}
+
+.content {
+    left: 206px;
 }

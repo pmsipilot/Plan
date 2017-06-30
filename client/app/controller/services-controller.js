@@ -1,28 +1,19 @@
-angular.module('pmsiplan').controller('ServicesController', ['$scope', '$filter', 'ServiceFactory', 'ngTableParams',
-    function($scope, $filter, ServiceFactory, ngTableParams) {
+angular.module('pmsiplan').controller('ServicesController', ['$scope', '$filter', 'ServiceFactory', 'NgTableParams',
+    function($scope, $filter, ServiceFactory, NgTableParams) {
 
         $scope.services = [];
         ServiceFactory.getService('gitlab').then(function(service) {
             $scope.services.push(service);
         });
 
-        $scope.tableParams = new ngTableParams({
+        $scope.tableParams = new NgTableParams({
             page: 1,            // show first page
             count: 100,          // count per page
             sorting: {
                 version: 'desc'     // initial sorting
             }
         }, {
-            total: $scope.services.length, // length of data
-            getData: function ($defer, params) {
-                // use build-in angular filter
-                var orderedData = params.filter() ? $filter('filter')($scope.services, params.filter()) : $scope.services;
-                orderedData = params.sorting() ? $filter('orderBy')(orderedData, params.orderBy()) : orderedData;
-                params.total(orderedData.length);
-                $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-            },
-            $scope: { $data: {} },
-            debugMode: false
+            dataset: $scope.services
         });
         
         $scope.$watch('services', function () {

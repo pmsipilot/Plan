@@ -1,17 +1,22 @@
 <div class="block-content">
-    <div ng-if="!delivery.locked" class="pull-right space-left">
-        <a href="#/delivery/{{ delivery.getPrimaryKey() }}/edit" class="btn btn-two rounded"><i class="fa fa-edit"></i></a>
+    <div class="block">
+        <div class="row">
+            <div class="col-md-9">
+                <h1>Delivery {{ delivery.version }}</h1>
+            </div>
+            <div class="col-md-3">
+                <div class="pull-right">
+                    <div class="btn-group space-right-small">
+                        <a class="btn square btn-two" href="#!/delivery/{{ delivery.getPrimaryKey() }}"><i class="fa fa-table"></i></a>
+                        <a class="btn square btn-two active" href="#!/delivery/{{ delivery.getPrimaryKey() }}/gantt"><i class="fa fa-bar-chart"></i></a>
+                        <a class="btn square btn-two" href="#!/delivery/{{ delivery.getPrimaryKey() }}/dependancies"><i class="fa fa-code-fork"></i></a>
+                    </div>
+                    <a ng-if="!delivery.locked" href="#!/delivery/{{ delivery.getPrimaryKey() }}/edit" class="btn btn-two rounded"><i class="fa fa-edit"></i></a>
+                </div>
+            </div>
+        </div>
+        <p data-ng-show="delivery.description" marked="delivery.description"></p>
     </div>
 
-    <div class="pull-right">
-        <a class="btn square btn-two" href="#/delivery/{{ delivery.getPrimaryKey() }}"><i class="fa fa-table"></i></a>
-        <a class="btn square btn-two active" href="#/delivery/{{ delivery.getPrimaryKey() }}/gantt"><i class="fa fa-bar-chart"></i></a>
-        <a class="btn square btn-two" href="#/delivery/{{ delivery.getPrimaryKey() }}/dependancies"><i class="fa fa-code-fork"></i></a>
-    </div>
-
-    <h1>Delivery {{ delivery.version }}</h1>
-
-    <div class="clear"></div>
-
-    <div data-gantt-chart="chartData"></div>
+    <div class="space-top" data-gantt-chart="chartData"></div>
 </div>

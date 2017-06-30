@@ -1,22 +1,28 @@
 <div class="block-content">
-    <div ng-if="!delivery.locked" class="pull-right space-left">
-        <a href="#/delivery/{{ delivery.getPrimaryKey() }}/edit" class="btn btn-two rounded"><i class="fa fa-edit"></i></a>
+    <div class="block">
+        <div class="row">
+            <div class="col-md-9">
+                <h1>Delivery {{ delivery.version }}</h1>
+            </div>
+            <div class="col-md-3">
+                <div class="pull-right">
+                    <div class="btn-group space-right-small">
+                        <a class="btn square btn-two active" href="#!/delivery/{{ delivery.getPrimaryKey() }}"><i class="fa fa-table"></i></a>
+                        <a class="btn square btn-two" href="#!/delivery/{{ delivery.getPrimaryKey() }}/gantt"><i class="fa fa-bar-chart"></i></a>
+                        <a class="btn square btn-two" href="#!/delivery/{{ delivery.getPrimaryKey() }}/dependancies"><i class="fa fa-code-fork"></i></a>
+                    </div>
+                    <a ng-if="!delivery.locked" href="#!/delivery/{{ delivery.getPrimaryKey() }}/edit" class="btn btn-two rounded"><i class="fa fa-edit"></i></a>
+                    <a ng-show="delivery.description" data-ng-click="showDescription = !showDescription" class="btn btn-two rounded"><i class="fa fa-align-justify"></i></a>
+                </div>
+            </div>
+        </div>
+        <p data-ng-show="showDescription && delivery.description" marked="delivery.description"></p>
     </div>
-
-    <div class="pull-right">
-        <a class="btn square btn-two active" href="#/delivery/{{ delivery.getPrimaryKey() }}"><i class="fa fa-table"></i></a>
-        <a class="btn square btn-two" href="#/delivery/{{ delivery.getPrimaryKey() }}/gantt"><i class="fa fa-bar-chart"></i></a>
-        <a class="btn square btn-two" href="#/delivery/{{ delivery.getPrimaryKey() }}/dependancies"><i class="fa fa-code-fork"></i></a>
-    </div>
-
-    <h1>Delivery {{ delivery.version }}</h1>
-
-    <div class="clear"></div>
 
     <table class="table table-three table-striped space-top" data-ng-table="tableParams" show-filter="true">
-        <tr data-ng-repeat="prDelivery in $data">
+        <tr data-ng-repeat-start="prDelivery in $data">
             <td style="color: {{ prDelivery.color }}"><i class="fa fa-square"></i></td>
-            <td data-title="'Project'" sortable="'name'" filter="{ 'name': 'text' }"><a href="#/project/{{ prDelivery.primaryKey }}">{{ prDelivery.name }}</a></td>
+            <td data-title="'Project'" sortable="'name'" filter="{ 'name': 'text' }"><a href="#!/project/{{ prDelivery.primaryKey }}">{{ prDelivery.name }}</a></td>
             <td data-title="'PO/SM'" sortable="'poSm'" filter="{ 'poSm': 'text' }">{{ prDelivery.poSm }}</td>
             <td data-title="'Version'" sortable="'version'" filter="{ 'version': 'text' }">
                 {{ prDelivery.version ? prDelivery.version : 'not specified yet' }}
@@ -28,6 +34,14 @@
             <td data-title="'Planned for'" sortable="'plannedDate'">{{ prDelivery.plannedDate | date }}</td>
             <td data-title="'Delivered at'" sortable="'endDate'">{{ prDelivery.endDate | date }}</td>
             <td data-title="'Status'" sortable="'status'" filter="{ 'status': 'text' }"><span data-ng-if="prDelivery.status" data-project-delivery-status="prDelivery.status"></span></td>
+            <td>
+                <a ng-show="prDelivery.features" data-ng-click="showFeature = !showFeature" class="btn btn-two rounded pointer"><i class="fa fa-align-justify"></i></a>
+            </td>
+        </tr>
+        <tr data-ng-repeat-end ng-show="showFeature && prDelivery.features">
+            <td colspan="9">
+                <div marked="prDelivery.features"></div>
+            </td>
         </tr>
     </table>
 </div>

@@ -6,7 +6,7 @@
   <div class="space-top"></div>
   <div ng-if="showDelivered || delivery.progress < 100" ng-repeat="delivery in baseDeliveries | orderBy:'version':true" class="delivery-status">
     <h3 class="pull-right">{{ delivery.progress | number:0 }}%</h3>
-    <h2><a ng-href="#/delivery/{{ delivery.id }}">{{ delivery.version }} {{ delivery.description }}</a></h2>
+    <h2><a ng-href="#!/delivery/{{ delivery.id }}">{{ delivery.version }}</a></h2>
  
     <div class="progress clear" title="{{ delivery.progress }}% Delivered, {{ delivery.progressPlanned }}% Planned, {{ delivery.progressCurrent }}% Work in progress, {{ delivery.progressBlocked }}% Blocked">
       <div class="progress-bar progress-bar-success" style="width: {{ delivery.progress }}%"><span data-ng-if="delivery.progress > 0">{{ delivery.progress|number:1 }}% Delivered</span></div>
