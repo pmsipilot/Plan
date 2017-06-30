@@ -1,5 +1,5 @@
 // Loading Config
-var config = require("../config/config"),
+var config = require("config/config"),
     Bedoon = require('bedoon'),
     express = require('express'),
     passport = require('passport'),
@@ -11,7 +11,7 @@ var config = require("../config/config"),
 
 passport.use(new BearerStrategy(
     { passReqToCallback: true },
-    function(req, token, done) {
+    function (req, token, done) {
         bedoon.models.user.findOne({ token: token }, function (err, user) {
             if (err) {
                 return done(err);
@@ -28,7 +28,7 @@ passport.use(new BearerStrategy(
 
 passport.use(new LdapStrategy(
     { server: config.ldap },
-    function(ldapUser, done) {
+    function (ldapUser, done) {
         bedoon.models.user.findOne({ username: ldapUser.sAMAccountName }, function (err, user) {
             if (!user) {
                 user = new bedoon.models.user();
@@ -48,10 +48,10 @@ passport.use(new LdapStrategy(
     }
 ));
 
-bedoon.app.use(express.static(__dirname + '/../public'));
+bedoon.app.use(express.static(__dirname + '/public'));
 
 var auth = passport.authenticate(['bearer'], { session: false });
-bedoon.app.use('/api/*', function(req, res, next) {
+bedoon.app.use('/api/*', function (req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     } else {
@@ -62,14 +62,16 @@ bedoon.app.use('/api/*', function(req, res, next) {
 bedoon.run(3700);
 console.log("Listening on port " + 3700);
 
-bedoon.app.post('/ldap/auth/login', passport.authenticate('ldapauth', { successRedirect: '/api/auth/loggedin',
-    failureRedirect: '/api/auth/failed' }));
+bedoon.app.post('/ldap/auth/login', passport.authenticate('ldapauth', {
+    successRedirect: '/api/auth/loggedin',
+    failureRedirect: '/api/auth/failed'
+}));
 
-bedoon.app.get('/dashboard', function(req, res) {
-    bedoon.models.delivery.find(function(err, deliveries) {
+bedoon.app.get('/dashboard', function (req, res) {
+    bedoon.models.delivery.find(function (err, deliveries) {
         var statuses = [];
 
-        deliveries.forEach(function(delivery) {
+        deliveries.forEach(function (delivery) {
             delivery = {
                 id: delivery._id.toString(),
                 description: delivery.description,
@@ -81,8 +83,8 @@ bedoon.app.get('/dashboard', function(req, res) {
                 progressBlocked: 0
             };
 
-            bedoon.models.project_delivery.find({delivery: delivery.id}, function(err, project_deliveries) {
-                project_deliveries.forEach(function(project_delivery) {
+            bedoon.models.project_delivery.find({ delivery: delivery.id }, function (err, project_deliveries) {
+                project_deliveries.forEach(function (project_delivery) {
                     if (project_delivery.status !== 'delivered') {
                         delivery.ready = false;
                     }

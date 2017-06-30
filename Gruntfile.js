@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 
         // validate js files
         jshint: {
-            all: ['client/app/**/*.js']
+            all: ['client/**/*.js']
         },
 
         // Less build
@@ -16,7 +16,7 @@ module.exports = function(grunt) {
                     yuicompress: true
                 },
                 files: {
-                    "server/public/css/main.css": "client/app/less/main.less"
+                    "server/public/css/main.css": "client/less/main.less"
                 }
             }
         },
@@ -25,8 +25,8 @@ module.exports = function(grunt) {
         copy: {
             main: {
                 files: [
-                    {expand: true, cwd: 'client/app', src: ['index.html'], dest: 'server/public'},
-                    {expand: true, cwd: 'client/app/partials', src: ['**'], dest: 'server/public/partials'},
+                    {expand: true, cwd: 'client', src: ['index.html'], dest: 'server/public'},
+                    {expand: true, cwd: 'client/partials', src: ['**'], dest: 'server/public/partials'},
                     {expand: true, cwd: 'node_modules/authenticatejs/build/partials', src: ['**'], dest: 'server/public/partials/authenticateJS'},
                     {expand: true, src: ['node_modules/font-awesome/fonts/*'], dest: 'server/public/font/', flatten: true},
                     {expand: true, src: ['node_modules/pmsipilot-ui/font/*'], dest: 'server/public/font/', flatten: true},
@@ -37,9 +37,8 @@ module.exports = function(grunt) {
 
         // Concat Files
         concat: {
-
             application: {
-                src: ['client/app/**/*.js'],
+                src: ['client/**/*.js'],
                 dest: 'server/public/js/app.js'
             },
 
@@ -73,8 +72,23 @@ module.exports = function(grunt) {
                 ],
                 dest: 'server/public/css/vendor.css'
             }
-        }
+        },
 
+        uglify: {
+            application: {
+                options: {
+                    compress: true,
+                    mangle: false,
+                    output: {
+                        comments: false
+                    }
+                },
+                files: {
+                    'server/public/js/app.js': ['server/public/js/app.js'],
+                    'server/public/js/vendor.js': ['server/public/js/vendor.js']
+                }
+            }
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -84,6 +98,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
-    grunt.registerTask('default', ['less', 'copy', 'concat', 'jshint']);
-    grunt.registerTask('dev', ['less', 'copy', 'concat']);
+    grunt.registerTask('default', ['less', 'copy', 'concat', 'uglify', 'jshint']);
 };

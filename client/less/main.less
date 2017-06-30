@@ -1,7 +1,6 @@
-
-@import '../../../node_modules/font-awesome/less/font-awesome';
-@import '../../../node_modules/bootstrap/less/bootstrap';
-@import '../../../node_modules/pmsipilot-ui/less/bootstrap';
+@import '../../node_modules/font-awesome/less/font-awesome';
+@import '../../node_modules/bootstrap/less/bootstrap';
+@import '../../node_modules/pmsipilot-ui/less/bootstrap';
 @import 'variables';
 
 body {
@@ -18,14 +17,13 @@ body {
     }
 }
 
-
-
 .gantt-chart {
-
     position: relative;
     margin-right: 20px;
 
     .gantt-rows {
+        position: relative;
+
         .gantt-row {
             background: #ddd;
             height: 16px;
@@ -44,18 +42,15 @@ body {
         color: #999;
         margin-top: 8px;
         position: relative;
-        height: 40px;
-        border-top: 1px dashed #999;
+        height: 60px;
+        border-top: 1px dashed #333;
+        overflow: hidden;
 
         .gantt-range {
             position: absolute;
             margin-left: -15px;
-            top: 15px;
-            -webkit-transform: rotate(90deg);
-            -moz-transform: rotate(90deg);
-            -o-transform: rotate(90deg);
-            writing-mode: lr-tb;
-            white-space:nowrap;
+            top: 30px;
+            white-space: nowrap;
             -webkit-transform: rotate(56deg);
             -moz-transform: rotate(56deg);
             -o-transform: rotate(56deg);
@@ -66,9 +61,9 @@ body {
     .gantt-current-date {
         position: absolute;
         top: 0;
-        bottom: 0;
-        width: 1px;
-        background-color: #ccc;
+        bottom: -15px;
+        width: 2px;
+        background-color: #333;
     }
 }
 
@@ -102,8 +97,8 @@ body {
 }
 
 .ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
-    border-color: white transparent!important;
-    opacity: 1!important;
+    border-color: white transparent !important;
+    opacity: 1 !important;
 }
 
 .ng-table.table-three th.sortable.sort-desc, .ng-table th.sortable.sort-asc {
@@ -126,7 +121,7 @@ ul.pagination {
 }
 
 ul.pagination li {
-    display:  inline-block;
+    display: inline-block;
     position: relative;
     border-right: 1px solid #FFF;
 }
@@ -185,7 +180,7 @@ ul.pagination li.disabled a {
     }
 
     small {
-      cursor: pointer;
+        cursor: pointer;
     }
 
     .entry {

@@ -25,4 +25,4 @@ RUN cp server/config/config.js.dist server/config/config.js && \
     npm install && \
     npm cache clean
 
-ENTRYPOINT ["node", "/app/server/app/index.js"]
+ENTRYPOINT ["node", "/app/server/index.js"]

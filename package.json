@@ -1,6 +1,7 @@
 {
   "name": "plan",
   "version": "2.0.0",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "angular-gravatar": "^0.4.2",
