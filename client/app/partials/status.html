@@ -66,8 +66,8 @@
         </div>
 
         <div class="row">
-            <span class="pull-left" ng-if="delivery.start_date">Started at {{ delivery.start_date | moment }}</span>
-            <span class="pull-right" ng-if="delivery.target_date">Planned for {{ delivery.target_date | moment }}</span>
+            <span class="pull-left" ng-if="delivery.start_date">Started at {{ delivery.start_date | moment }} <small>({{ delivery.start_date | momentFromNow }})</small></span>
+            <span class="pull-right" ng-if="delivery.target_date">Planned for {{ delivery.target_date | moment }} <small>({{ delivery.target_date | momentFromNow }})</small></span>
         </div>
     </div>
 </div>

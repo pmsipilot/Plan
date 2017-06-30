@@ -11,8 +11,8 @@
     <table class="table table-three space-top table-striped" data-ng-table="tableParams" show-filter="true">
         <tr data-ng-repeat="delivery in $data">
             <td data-title="'Version'" sortable="'version'" filter="{ 'version': 'text' }">{{ delivery.version }}</td>
-            <td data-title="'Started at'">{{ delivery.start_date | moment }}</td>
-            <td data-title="'Planned for'">{{ delivery.target_date | moment }}</td>
+            <td data-title="'Started at'">{{ delivery.start_date | moment }} <small ng-if="delivery.start_date">({{ delivery.start_date | momentFromNow }})</small></td>
+            <td data-title="'Planned for'">{{ delivery.target_date | moment }} <small ng-if="delivery.target_date">({{ delivery.target_date | momentFromNow }})</small></td>
             <td data-title="'Locked'" sortable="'locked'">
                 <span ng-show="delivery.locked" class="label label-success">Yes</span>
                 <span ng-hide="delivery.locked" class="label label-danger">No</span>

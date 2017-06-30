@@ -71,7 +71,7 @@ angular
                             start = projectDelivery.start_date;
                         }
 
-                        var end_date = projectDelivery.end_date < projectDelivery.target_date ? projectDelivery.end_date : projectDelivery.target_date;
+                        var end_date = projectDelivery.end_date && projectDelivery.end_date < projectDelivery.target_date ? projectDelivery.end_date : projectDelivery.target_date;
 
                         if (target === null || target < end_date) {
                             target = end_date;
