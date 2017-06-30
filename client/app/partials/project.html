@@ -105,8 +105,8 @@
                 <th>Project Version</th>
                 <th>Status</th>
                 <th>Started at</th>
-                <th>Delivered at</th>
                 <th>Planned for</th>
+                <th>Delivered at</th>
                 <th>Release</th>
                 <th>Requirements</th>
                 <th></th>
@@ -119,8 +119,8 @@
                         <span data-project-delivery-status="pr_delivery.projectDelivery.status"></span>
                     </td>
                     <td>{{ pr_delivery.projectDelivery.start_date | moment }} <small ng-if="pr_delivery.projectDelivery.start_date">({{ pr_delivery.projectDelivery.start_date | momentFromNow }})</small></td>
-                    <td>{{ pr_delivery.projectDelivery.end_date | moment }} <small ng-if="pr_delivery.projectDelivery.end_date">({{ pr_delivery.projectDelivery.end_date | momentFromNow }})</small></td>
                     <td>{{ pr_delivery.projectDelivery.target_date | moment }} <small ng-if="pr_delivery.projectDelivery.target_date">({{ pr_delivery.projectDelivery.target_date | momentFromNow }})</small></td>
+                    <td>{{ pr_delivery.projectDelivery.end_date | moment }} <small ng-if="pr_delivery.projectDelivery.end_date">({{ pr_delivery.projectDelivery.end_date | momentFromNow }})</small></td>
 
                     <td>{{ pr_delivery.delivery.version }}</td>
                     <td>

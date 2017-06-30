@@ -33,9 +33,9 @@
                 (<a target="_blank" href="{{ gitlab.config.url }}/{{ prDelivery.project.extra.gitlab }}/blob/master/CHANGELOG.md">Changelog</a>)
                 </span>
             </td>
-            <td data-title="'Started at'" sortable="'startDate'">{{ prDelivery.startDate | moment }}</td>
-            <td data-title="'Planned for'" sortable="'plannedDate'">{{ prDelivery.plannedDate | moment }}</td>
-            <td data-title="'Delivered at'" sortable="'endDate'">{{ prDelivery.endDate | moment }}</td>
+            <td data-title="'Started at'" sortable="'startDate'">{{ prDelivery.startDate | moment }} <small ng-if="prDelivery.startDate">({{ prDelivery.startDate | momentFromNow }})</small></td>
+            <td data-title="'Planned for'" sortable="'plannedDate'">{{ prDelivery.plannedDate | moment }} <small ng-if="prDelivery.plannedDate">({{ prDelivery.plannedDate | momentFromNow }})</small></td>
+            <td data-title="'Delivered at'" sortable="'endDate'">{{ prDelivery.endDate | moment }} <small ng-if="prDelivery.endDate">({{ prDelivery.endDate | momentFromNow }})</small></td>
             <td data-title="'Status'" sortable="'status'" filter="{ 'status': 'text' }"><span data-ng-if="prDelivery.status" data-project-delivery-status="prDelivery.status"></span></td>
             <td>
                 <a ng-show="prDelivery.features" data-ng-click="showFeature = !showFeature" class="btn btn-two rounded pointer"><i class="fa fa-align-justify"></i></a>
