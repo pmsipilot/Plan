@@ -1,5 +1,5 @@
 // Loading Config
-var config = require("config/config"),
+var config = require("./config/config"),
     Bedoon = require('bedoon'),
     express = require('express'),
     passport = require('passport'),

@@ -19,7 +19,6 @@ body {
 
 .gantt-chart {
     position: relative;
-    margin-right: 20px;
 
     .gantt-rows {
         position: relative;
@@ -42,9 +41,8 @@ body {
         color: #999;
         margin-top: 8px;
         position: relative;
-        height: 60px;
-        border-top: 1px dashed #333;
-        overflow: hidden;
+        height: 80px;
+        border-top: 1px dashed #999;
 
         .gantt-range {
             position: absolute;
@@ -55,13 +53,21 @@ body {
             -moz-transform: rotate(56deg);
             -o-transform: rotate(56deg);
             writing-mode: lr-tb;
+
+            &:last-of-type {
+                -webkit-transform: rotate(-56deg);
+                -moz-transform: rotate(-56deg);
+                -o-transform: rotate(-56deg);
+                left: auto!important;
+                right: -15px;
+            }
         }
     }
 
     .gantt-current-date {
         position: absolute;
         top: 0;
-        bottom: -15px;
+        bottom: -11px;
         width: 2px;
         background-color: #333;
     }

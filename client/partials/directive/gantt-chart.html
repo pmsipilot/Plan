@@ -14,7 +14,11 @@
         </div>
 
         <div class="gantt-ranges">
-            <div class="gantt-range" data-ng-repeat="range in ranges" data-ng-style="{left: range.percent}">{{ range.value | moment }}</div>
+            <div class="gantt-range" data-ng-repeat="range in ranges" data-ng-style="{left: range.percent}">
+                <span ng-if="!$last">-</span>
+                {{ range.value | moment }}
+                <span ng-if="$last">-</span>
+            </div>
         </div>
     </div>
     

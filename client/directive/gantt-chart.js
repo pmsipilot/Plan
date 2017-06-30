@@ -34,7 +34,7 @@ angular.module('pmsiplan').directive('ganttChart', function() {
                 if ($scope.maximum !== null && $scope.minimum !== null && $scope.maximum.getTime() !== $scope.minimum.getTime()) {
 
                     ranges.push($scope.minimum);
-                    ranges.push($scope.maximum);
+
                     var rangeInterval = Math.floor(($scope.maximum.getTime() - $scope.minimum.getTime()) / 4 );
                     for (var i = 1; i <= 4; i++) {
                         var range = new Date($scope.minimum.getTime() + i * rangeInterval);
