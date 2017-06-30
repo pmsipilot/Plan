@@ -1,8 +1,12 @@
 <div class="block-content">
-    <div class="pull-right">
-        <a href="#!/project/new" class="btn btn-icon btn-three"><i class="icon fa fa-plus"></i> Add a new project</a>
+    <div class="row">
+        <h1 class="pull-left">Projects</h1>
+
+        <div class="pull-right">
+            <a href="#!/project/new" class="btn btn-icon btn-three"><i class="icon fa fa-plus"></i> Add a new project</a>
+        </div>
     </div>
-    <div class="clear"></div>
+
     <table class="table table-three space-top table-striped" data-ng-table="tableParams" show-filter="true" >
         <tr data-ng-repeat="project in $data">
             <td style="color: {{ project.color ? project.color : '#339999' }}"><i class="fa fa-square"></i></td>
