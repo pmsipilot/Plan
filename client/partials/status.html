@@ -1,4 +1,4 @@
-<div class="block-content">
+<div class="block-content" data-ng-init="sorting = '-target_date'">
     <div class="row">
         <h1 class="pull-left">Board</h1>
 
@@ -21,7 +21,7 @@
                     <li data-ng-class="{ active: sorting == '+target_date' || sorting == '-target_date' }">
                         <a class="pointer" data-ng-click="sorting = sorting == '+target_date' ? '-target_date' : '+target_date'">
                             <i class="fa fa-fw" data-ng-class="{ 'fa-sort-asc': sorting == '+target_date', 'fa-sort-desc': sorting == '-target_date' }"></i>
-                            Planned for
+                            Planned for/Delivered at
                         </a>
                     </li>
                     <li data-ng-class="{ active: sorting == '+progress' || sorting == '-progress' }">
@@ -40,7 +40,6 @@
                 </ul>
             </div>
         </div>
-
     </div>
 
     <div ng-if="showDelivered || delivery.progress < 100" ng-repeat="delivery in deliveries | orderBy:sorting"
@@ -67,7 +66,11 @@
 
         <div class="row">
             <span class="pull-left" ng-if="delivery.start_date">Started at {{ delivery.start_date | moment }} <small>({{ delivery.start_date | momentFromNow }})</small></span>
-            <span class="pull-right" ng-if="delivery.target_date">Planned for {{ delivery.target_date | moment }} <small>({{ delivery.target_date | momentFromNow }})</small></span>
+            <span class="pull-right" ng-if="delivery.target_date">
+                <span data-ng-if="delivery.progress < 100">Planned for</span>
+                <span data-ng-if="delivery.progress == 100">Delivered at</span>
+                {{ delivery.target_date | moment }} <small>({{ delivery.target_date | momentFromNow }})</small>
+            </span>
         </div>
     </div>
 </div>

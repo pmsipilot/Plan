@@ -5,6 +5,9 @@ angular.module('pmsiplan').controller('ServicesController', ['$scope', '$filter'
         ServiceFactory.getService('gitlab').then(function(service) {
             $scope.services.push(service);
         });
+        ServiceFactory.getService('slackbot').then(function(service) {
+            $scope.services.push(service);
+        });
 
         $scope.tableParams = new NgTableParams({
             page: 1,            // show first page

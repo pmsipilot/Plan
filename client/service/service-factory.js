@@ -7,7 +7,7 @@ angular
             return ServiceLoader.getService(name).then(function (service) {
                 if (service === undefined) {
                     service = AngularDataStore.create('service', {
-                        name: 'gitlab',
+                        name: name,
                         enabled: false,
                         config: {}
                     });

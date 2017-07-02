@@ -10,9 +10,7 @@
             </div>
         </div>
 
-        <div ng-switch="service.name">
-            <div ng-switch-when="gitlab"><div ng-include="'partials/service/gitlab-form.html'"></div></div>
-        </div>
+        <div ng-include="'partials/service/' + service.name + '-form.html'"></div>
 
         <div class="form-group">
             <button data-ng-click="save()" class="btn btn-one">Save</button>

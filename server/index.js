@@ -59,8 +59,14 @@ bedoon.app.use('/api/*', function (req, res, next) {
     }
 });
 
-bedoon.run(3700);
-console.log("Listening on port " + 3700);
+bedoon.models.service.findOne({ name: 'slackbot' }, function(err, result) {
+    if (result && result.enabled) {
+        require('./bot')(result.config, bedoon.models, bedoon.app);
+    }
+
+    bedoon.run(3700);
+    console.log("Listening on port " + 3700);
+});
 
 bedoon.app.post('/ldap/auth/login', passport.authenticate('ldapauth', {
     successRedirect: '/api/auth/loggedin',

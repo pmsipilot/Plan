@@ -9,21 +9,23 @@
                 </h1>
             </div>
             <div class="col-md-5">
-                <p><strong>Dependencies : </strong>
-                    <span data-ng-repeat="pr in dependancies"> {{ pr.name }}<span ng-ig="!$last">, </span></span>
+                <p>
+                    <strong>Dependencies : </strong>
+                    <a data-ng-repeat-start="pr in dependancies" href="#!/project/{{ pr.getPrimaryKey() }}">{{ pr.name }}</a><span data-ng-repeat-end ng-if="!$last">, </span>
                 </p>
 
-                <p ng-if="project.product_owner"><strong>Product owner: </strong>
+                <p ng-if="project.product_owner">
+                    <strong>Product owner: </strong>
                     <span> {{ project.product_owner }}</span>
                 </p>
-                <p ng-if="project.scrum_master"><strong>Scrum master: </strong>
+                <p ng-if="project.scrum_master">
+                    <strong>Scrum master: </strong>
                     <span> {{ project.scrum_master }}</span>
                 </p>
             </div>
             <div class="col-md-3">
                 <div class="pull-right">
                     <a href="#!/project/{{ project.getPrimaryKey() }}/edit" class="btn btn-two rounded" title="Edit this project"><i class="fa fa-edit"></i></a>
-                    <a class="btn btn-two rounded" title="Add a project delivery" data-ng-click="addDelivery()"><i class="fa fa-plus"></i></a>
                 </div>
             </div>
         </div>
@@ -97,8 +99,14 @@
     </div>
 
     <div class="space-top" data-ng-show="projectDeliveries.length && projectDelivery === null">
+        <div class="row">
+            <h2 class="pull-left">Project's releases</h2>
 
-        <h2>Project's releases</h2>
+            <div class="pull-right">
+                <a class="btn btn-icon btn-three" data-ng-click="addDelivery()"><i class="fa fa-plus"></i> Add a project release</a>
+            </div>
+        </div>
+
         <table class="table table-three table-striped space-top">
             <thead>
             <tr>
@@ -122,14 +130,20 @@
                     <td>{{ pr_delivery.projectDelivery.target_date | moment }} <small ng-if="pr_delivery.projectDelivery.target_date">({{ pr_delivery.projectDelivery.target_date | momentFromNow }})</small></td>
                     <td>{{ pr_delivery.projectDelivery.end_date | moment }} <small ng-if="pr_delivery.projectDelivery.end_date">({{ pr_delivery.projectDelivery.end_date | momentFromNow }})</small></td>
 
-                    <td>{{ pr_delivery.delivery.version }}</td>
+                    <td>
+                        <a href="#!/delivery/{{ pr_delivery.delivery.getPrimaryKey() }}">
+                            {{ pr_delivery.delivery.version }}
+                        </a>
+                    </td>
                     <td>
                         <div data-ng-show="pr_delivery.dependencies.length">
                             <ul>
                                 <li data-ng-repeat="dependancyConfig in pr_delivery.dependencies">
-                                    {{ dependancyConfig.project.name }}
-                                    {{ dependancyConfig.projectDelivery ? dependancyConfig.projectDelivery.version : ""}}
-                                    {{ dependancyConfig.projectDelivery && dependancyConfig.projectDelivery.status === "delivered" ? "" : " (not ready)"}}
+                                    <a href="#!/project/{{ dependancyConfig.project.getPrimaryKey() }}">
+                                        {{ dependancyConfig.project.name }}
+                                        {{ dependancyConfig.projectDelivery ? dependancyConfig.projectDelivery.version : ""}}
+                                        {{ dependancyConfig.projectDelivery && dependancyConfig.projectDelivery.status === "delivered" ? "" : " (not ready)"}}
+                                    </a>
                                 </li>
                             </ul>
                         </div>
