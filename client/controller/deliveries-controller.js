@@ -1,4 +1,4 @@
-angular.module('pmsiplan').controller('DeliveriesController', ['$scope', '$filter', 'AngularDataStore', 'DeliveryHelper', 'deliveries', 'NgTableParams',
+angular.module('plan').controller('DeliveriesController', ['$scope', '$filter', 'AngularDataStore', 'DeliveryHelper', 'deliveries', 'NgTableParams',
     function ($scope, $filter, AngularDataStore, DeliveryHelper, deliveries, NgTableParams) {
 
         $scope.baseDeliveries = deliveries;
@@ -45,4 +45,5 @@ angular.module('pmsiplan').controller('DeliveriesController', ['$scope', '$filte
             init();
             $scope.tableParams.reload();
         }, true));
-    }]);
+    }
+]);

@@ -1,7 +1,4 @@
-angular
-    .module('pmsiplan')
-    .factory('DeliveryHelper', ['$q', 'AngularDataStore', function ($q, AngularDataStore) {
-
+angular.module('plan').factory('DeliveryHelper', ['$q', 'AngularDataStore', function ($q, AngularDataStore) {
     var getPrimaryKey = function(entity) {
         if (entity.getPrimaryKey) {
             return entity.getPrimaryKey();

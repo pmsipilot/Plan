@@ -1,7 +1,4 @@
-angular
-    .module('pmsiplan')
-    .factory('ServiceFactory', ['ServiceLoader', 'AngularDataStore', function ServiceFactory (ServiceLoader, AngularDataStore) {
-
+angular.module('plan').factory('ServiceFactory', ['ServiceLoader', 'AngularDataStore', function (ServiceLoader, AngularDataStore) {
     return {
         getService: function (name) {
             return ServiceLoader.getService(name).then(function (service) {

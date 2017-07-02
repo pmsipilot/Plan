@@ -1,4 +1,4 @@
-angular.module('pmsiplan').directive('projectDependancyGraph', ['$q', function ($q) {
+angular.module('plan').directive('projectDependancyGraph', ['$q', function ($q) {
     return {
         scope: {
             projects: '=projectDependancyGraph',

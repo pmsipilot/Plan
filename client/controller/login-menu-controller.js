@@ -1,4 +1,4 @@
-angular.module('pmsiplan').controller('LoginMenuController', ['$scope', '$location', 'AuthenticateJS', '$modal',
+angular.module('plan').controller('LoginMenuController', ['$scope', '$location', 'AuthenticateJS', '$modal',
     function ($scope, $location, AuthenticateJS, $modal) {
         var reset = function () {
             $scope.loggedin = AuthenticateJS.isLoggedIn();

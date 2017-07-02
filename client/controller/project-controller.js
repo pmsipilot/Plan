@@ -1,4 +1,4 @@
-angular.module('pmsiplan').controller('ProjectController', ['$scope', '$location', '$route', 'AngularDataStore', 'DeliveryHelper', 'project', 'deliveries', 'gitlab',
+angular.module('plan').controller('ProjectController', ['$scope', '$location', '$route', 'AngularDataStore', 'DeliveryHelper', 'project', 'deliveries', 'gitlab',
     function($scope, $location, $route, AngularDataStore, DeliveryHelper, project, deliveries, gitlab) {
         $scope.project = project;
         $scope.gitlab = gitlab;
@@ -57,4 +57,5 @@ angular.module('pmsiplan').controller('ProjectController', ['$scope', '$location
                 });
             }
         };
-    }]);
+    }
+]);

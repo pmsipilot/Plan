@@ -1,4 +1,4 @@
-angular.module('pmsiplan').controller('DeliveryController', ['$scope', '$filter', '$location', 'AngularDataStore', 'ServiceFactory', 'delivery', 'projects', 'NgTableParams', 'gitlab', 'projectDeliveries',
+angular.module('plan').controller('DeliveryController', ['$scope', '$filter', '$location', 'AngularDataStore', 'ServiceFactory', 'delivery', 'projects', 'NgTableParams', 'gitlab', 'projectDeliveries',
     function ($scope, $filter, $location, AngularDataStore, ServiceFactory, delivery, projects, NgTableParams, gitlab, projectDeliveries) {
         $scope.delivery = delivery;
         $scope.projects = projects;
@@ -58,4 +58,5 @@ angular.module('pmsiplan').controller('DeliveryController', ['$scope', '$filter'
         $scope.$on('$destroy', $scope.$watch('deliveryProjects', function () {
             $scope.tableParams.reload();
         }, true));
-    }]);
+    }
+]);

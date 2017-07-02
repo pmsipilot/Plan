@@ -1,4 +1,4 @@
-angular.module('pmsiplan').controller('StatusController', ['$scope', '$filter', 'AngularDataStore', 'DeliveryHelper', 'deliveries',
+angular.module('plan').controller('StatusController', ['$scope', '$filter', 'AngularDataStore', 'DeliveryHelper', 'deliveries',
     function ($scope, $filter, AngularDataStore, DeliveryHelper, deliveries) {
         $scope.deliveries = [];
 
@@ -16,5 +16,5 @@ angular.module('pmsiplan').controller('StatusController', ['$scope', '$filter', 
 
             $scope.deliveries.push(delivery);
         });
-    }]);
-
+    }
+]);

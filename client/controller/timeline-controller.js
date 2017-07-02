@@ -1,4 +1,5 @@
-angular.module('pmsiplan').controller('TimelineController', ['$scope', 'history',
+angular.module('plan').controller('TimelineController', ['$scope', 'history',
     function ($scope, history) {
         $scope.history = history;
-    }]);
+    }
+]);

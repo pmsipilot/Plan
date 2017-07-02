@@ -1,4 +1,4 @@
-angular.module('pmsiplan', [
+angular.module('plan', [
     'angular-datastore',
     'ngRoute',
     'ngSanitize',
@@ -327,4 +327,3 @@ angular.module('pmsiplan', [
             });
     }])
 ;
-

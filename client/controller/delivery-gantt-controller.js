@@ -1,4 +1,4 @@
-angular.module('pmsiplan').controller('DeliveryGanttController', ['$scope', '$location', 'AngularDataStore', 'delivery', 'projects', 'projectDeliveries',
+angular.module('plan').controller('DeliveryGanttController', ['$scope', '$location', 'AngularDataStore', 'delivery', 'projects', 'projectDeliveries',
     function($scope, $location, AngularDataStore, delivery, projects, projectDeliveries) {
         $scope.delivery = delivery;
         $scope.projects = projects;
@@ -27,4 +27,5 @@ angular.module('pmsiplan').controller('DeliveryGanttController', ['$scope', '$lo
                 $scope.chartData.push(rowConfig);
             });
         });
-    }]);
+    }
+]);

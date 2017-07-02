@@ -23,4 +23,3 @@ $ docker-compose up
 ```
 
 From here, the application is available at the following URL: `http://localhost:3700`.
-

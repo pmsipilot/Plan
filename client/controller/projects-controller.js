@@ -1,4 +1,4 @@
-angular.module('pmsiplan').controller('ProjectsController', [
+angular.module('plan').controller('ProjectsController', [
     '$scope', '$filter', 'AngularDataStore', 'projects', 'NgTableParams', 'gitlab',
     function ($scope, $filter, AngularDataStore, projects, NgTableParams, gitlab) {
         $scope.gitlab = gitlab;

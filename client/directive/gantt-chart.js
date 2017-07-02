@@ -1,4 +1,4 @@
-angular.module('pmsiplan').directive('ganttChart', function() {
+angular.module('plan').directive('ganttChart', function() {
     return {
         scope: {
             data: '=ganttChart'

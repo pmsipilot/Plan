@@ -1,4 +1,4 @@
-angular.module('pmsiplan').controller('DeliveryFormController', ['$scope', '$location', 'delivery', 'AngularDataStore',
+angular.module('plan').controller('DeliveryFormController', ['$scope', '$location', 'delivery', 'AngularDataStore',
     function($scope, $location, delivery, AngularDataStore) {
         if (delivery.locked) {
             throw Error('delivery locked');
@@ -10,4 +10,5 @@ angular.module('pmsiplan').controller('DeliveryFormController', ['$scope', '$loc
             AngularDataStore.save($scope.delivery);
             $location.path('/delivery');
         };
-    }]);
+    }
+]);
