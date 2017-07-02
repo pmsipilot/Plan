@@ -1,8 +1,11 @@
-angular.module('pmsiplan').controller('ProjectController', ['$scope', '$location', '$route', 'AngularDataStore', 'DeliveryHelper', 'project', 'deliveries',
-    function($scope, $location, $route, AngularDataStore, DeliveryHelper, project, deliveries) {
+angular.module('pmsiplan').controller('ProjectController', ['$scope', '$location', '$route', 'AngularDataStore', 'DeliveryHelper', 'project', 'deliveries', 'ServiceFactory',
+    function($scope, $location, $route, AngularDataStore, DeliveryHelper, project, deliveries, ServiceFactory) {
         $scope.project = project;
         $scope.project.getDependancies().then(function(dependancies) {
             $scope.dependancies = dependancies;
+        });
+        ServiceFactory.getService('gitlab').then(function(gitlab) {
+            $scope.gitlab = gitlab;
         });
         var availableDeliveries = _.filter(deliveries, function(delivery) {
             return !delivery.locked;

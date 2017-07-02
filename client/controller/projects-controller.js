@@ -1,5 +1,8 @@
-angular.module('pmsiplan').controller('ProjectsController', ['$scope', '$filter', 'AngularDataStore', 'projects', 'NgTableParams',
-    function($scope, $filter, AngularDataStore, projects, NgTableParams) {
+angular.module('pmsiplan').controller('ProjectsController', ['$scope', '$filter', 'AngularDataStore', 'projects', 'NgTableParams', 'ServiceFactory',
+    function($scope, $filter, AngularDataStore, projects, NgTableParams, ServiceFactory) {
+    ServiceFactory.getService('gitlab').then(function(gitlab) {
+        $scope.gitlab = gitlab;
+    });
     $scope.projects = projects;
 
     $scope.removeProject = function(project) {

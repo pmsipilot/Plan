@@ -29,8 +29,8 @@
             <td data-title="'PO/SM'" sortable="'poSm'" filter="{ 'poSm': 'text' }">{{ prDelivery.poSm }}</td>
             <td data-title="'Version'" sortable="'version'" filter="{ 'version': 'text' }">
                 {{ prDelivery.version ? prDelivery.version : 'not specified yet' }}
-                <span ng-if="gitlab.enabled && prDelivery.project.extra.gitlab">
-                (<a target="_blank" href="{{ gitlab.config.url }}/{{ prDelivery.project.extra.gitlab }}/blob/master/CHANGELOG.md">Changelog</a>)
+                <span ng-if="gitlab.enabled && prDelivery.project.repository">
+                (<a target="_blank" href="{{ gitlab.config.url }}/{{ prDelivery.project.repository }}/blob/master/CHANGELOG.md">Changelog</a>)
                 </span>
             </td>
             <td data-title="'Started at'" sortable="'startDate'">{{ prDelivery.startDate | moment }} <small ng-if="prDelivery.startDate">({{ prDelivery.startDate | momentFromNow }})</small></td>

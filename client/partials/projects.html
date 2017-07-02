@@ -19,6 +19,7 @@
                 <div class="pull-right">
                     <a href="#!/project/{{ project.getPrimaryKey() }}/edit" class="btn btn-two rounded"><i class="fa fa-edit"></i></a>
                     <a href="#!/project/{{ project.getPrimaryKey() }}" class="btn btn-two rounded"><i class="fa fa-info"></i></a>
+                    <a ng-if="gitlab.enabled && project.repository" class="btn btn-two rounded" href="{{ gitlab.config.url }}/{{ project.repository }}/blob/master/CHANGELOG.md"><i class="fa fa-gitlab"></i></a>
                 </div>
             </td>
         </tr>
