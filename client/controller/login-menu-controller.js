@@ -18,13 +18,13 @@ angular.module('plan').controller('LoginMenuController', ['$scope', '$location',
         $scope.profile = function () {
             $modal.open({
                 templateUrl: 'partials/profile-modal.html',
-                controller: function ($scope, $modalInstance, user) {
-                    $scope.user = user;
+                controller: ['$scope', '$modalInstance', 'user', function (scope, $modalInstance, user) {
+                    scope.user = user;
 
-                    $scope.ok = function () {
+                    scope.ok = function () {
                         $modalInstance.close();
                     };
-                },
+                }],
                 resolve: {
                     user: function () {
                         return $scope.user.data;

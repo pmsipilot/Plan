@@ -5,7 +5,7 @@
 
     <h1>{{ {true: 'New', false: 'Edit'}[project.getPrimaryKey() == undefined] }} project</h1>
 
-    <form class="space-top" name="projectForm"  ng-class="{ 'has-error': projectForm.name.$error.required }">
+    <form class="space-top" name="projectForm"  ng-class="{ 'has-error': projectForm.name.$error.required }">
         <div class="form-group">
             <label class="control-label">Name</label>
             <div class="form-widget">
@@ -14,14 +14,14 @@
             </div>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-error': projectForm.repository.$error.required }">
+        <div class="form-group" ng-class="{ 'has-error': projectForm.repository.$error.required }">
             <label class="control-label">Repository</label>
             <div class="form-widget">
                 <input type="text" name="repository" data-ng-model="project.repository" class="form-control" required/>
             </div>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-error': projectForm.type.$error.required }">
+        <div class="form-group" ng-class="{ 'has-error': projectForm.type.$error.required }">
             <label class="control-label">Type</label>
             <div class="form-widget">
                 <select name="type" data-ng-model="project.type" class="form-control" required>
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-error': projectForm.description.$error.required }">
+        <div class="form-group" ng-class="{ 'has-error': projectForm.description.$error.required }">
             <label class="control-label">Description</label>
             <div class="form-widget">
                 <textarea name="description" data-ng-model="project.description" class="form-control" required rows="5"></textarea>
@@ -45,14 +45,14 @@
             </div>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-error': projectForm.project_owner.$error.required }">
+        <div class="form-group" ng-class="{ 'has-error': projectForm.project_owner.$error.required }">
             <label class="control-label">Project Owner</label>
             <div class="form-widget">
                 <input type="text" name="project_owner" data-ng-model="project.project_owner" class="form-control" required/>
             </div>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-error': projectForm.scrum_master.$error.required }">
+        <div class="form-group" ng-class="{ 'has-error': projectForm.scrum_master.$error.required }">
             <label class="control-label">Scrum Master</label>
             <div class="form-widget">
                 <input type="text" name="scrum_master" data-ng-model="project.scrum_master" class="form-control" required/>

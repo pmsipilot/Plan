@@ -81,11 +81,11 @@ var formatDate = function (date) {
 };
 
 var deliveryToAttachment = function (delivery, versions) {
-    var ready = !versions.find(function(version) { return version.status !== 'delivered'; });
+    var ready = !versions.find(function (version) { return version.status !== 'delivered'; });
     var start = null,
         target = null;
 
-    versions.forEach(function(version) {
+    versions.forEach(function (version) {
         if (start === null || start > version.start_date) {
             start = version.start_date;
         }
@@ -105,22 +105,22 @@ var deliveryToAttachment = function (delivery, versions) {
         color: deliveryStatusToColor(delivery.locked, ready),
         fields: [
             {
-                title: "Locked",
+                title: 'Locked',
                 value: deliveryLockToEmoji(delivery.locked) + ' ' + booleanToText(delivery.locked),
                 short: true
             },
             {
-                title: "Ready",
+                title: 'Ready',
                 value: deliveryStatusToEmoji(ready) + ' ' + booleanToText(ready),
                 short: true
             },
             {
-                title: "Started At",
+                title: 'Started At',
                 value: formatDate(start),
                 short: true
             },
             {
-                title: ready && delivery.locked ? "Delivered At" : "Planned For",
+                title: ready && delivery.locked ? 'Delivered At' : 'Planned For',
                 value: formatDate(target),
                 short: true
             }
@@ -136,12 +136,12 @@ var projectToAttachment = function (project) {
         color: project.color,
         fields: [
             {
-                title: "Scrum Master",
+                title: 'Scrum Master',
                 value: project.scrum_master,
                 short: true
             },
             {
-                title: "Project Owner",
+                title: 'Project Owner',
                 value: project.project_owner,
                 short: true
             }
@@ -152,17 +152,17 @@ var projectToAttachment = function (project) {
 var projectVersionToAttachment = function (version, project) {
     var fields = [
         {
-            title: "Status",
+            title: 'Status',
             value: projectStatusToEmoji(version.status) + ' ' + version.status,
             short: true
         },
         {
-            title: "Started At",
+            title: 'Started At',
             value: formatDate(version.start_date),
             short: true
         },
         {
-            title: "Planned For",
+            title: 'Planned For',
             value: formatDate(version.target_date),
             short: true
         }
@@ -170,7 +170,7 @@ var projectVersionToAttachment = function (version, project) {
 
     if (version.end_date) {
         fields.push({
-            title: "Delivered At",
+            title: 'Delivered At',
             value: formatDate(version.end_date),
             short: true
         });
@@ -181,7 +181,7 @@ var projectVersionToAttachment = function (version, project) {
         title_link: 'http://localhost:3700/#!/project/' + version.project,
         color: projectStatusToColor(version.status),
         fields: fields
-    }
+    };
 };
 
 module.exports = function (config, models, app) {
@@ -192,14 +192,14 @@ module.exports = function (config, models, app) {
         process.env.HUBOT_SLACK_TOKEN = config.token;
         robot = hubot.loadBot(null, 'slack', true, config.name || 'plan', config.alias || 'plan');
 
-        robot.on('attachment', function(data) {
+        robot.on('attachment', function (data) {
             robot.http(config.webhook)
-                .header("Content-Type", "application/json")
+                .header('Content-Type', 'application/json')
                 .post(JSON.stringify(data))(function (err, res, body) {
                     if (err) {
-                        robot.logger.error("Error!", err);
+                        robot.logger.error('Error!', err);
                     } else if (res.statusCode != 200) {
-                        robot.logger.error("Error!", res.statusCode, body);
+                        robot.logger.error('Error!', res.statusCode, body);
                     }
                 });
         });
@@ -207,10 +207,10 @@ module.exports = function (config, models, app) {
         robot.run();
 
         robot.respond(/release list/i, function (res) {
-            models.delivery.find(function(err, result) {
+            models.delivery.find(function (err, result) {
                 var promises = [];
 
-                result.forEach(function(delivery) {
+                result.forEach(function (delivery) {
                     promises.push(new Promise(function (resolve, reject) {
                         models.project_delivery.find({ delivery: delivery._id }, function (err, versions) {
                             resolve(deliveryToAttachment(delivery, versions));
@@ -224,18 +224,18 @@ module.exports = function (config, models, app) {
                         username: robot.name,
                         attachments: attachments
                     });
-                })
+                });
             });
         });
 
         robot.respond(/release describe (.+)/i, function (res) {
-            models.delivery.find({ version: res.match[1] }, function(err, result) {
+            models.delivery.find({ version: res.match[1] }, function (err, result) {
                 var delivery = result[0];
 
                 models.project_delivery.find({ delivery: delivery._id }, function (err, versions) {
                     var promises = versions.map(function (version) {
                         return new Promise(function (resolve, reject) {
-                            models.project.findOne(version.project, function(err, project) {
+                            models.project.findOne(version.project, function (err, project) {
                                 resolve(projectVersionToAttachment(version, project));
                             });
                         });
@@ -253,7 +253,7 @@ module.exports = function (config, models, app) {
         });
 
         robot.respond(/release (lock|unlock) (.+)/i, function (res) {
-            models.delivery.find({ version: res.match[2] }, function(err, result) {
+            models.delivery.find({ version: res.match[2] }, function (err, result) {
                 var delivery = result[0];
                 delivery.locked = res.match[1] === 'lock';
                 delivery.save();
@@ -269,7 +269,7 @@ module.exports = function (config, models, app) {
         });
 
         robot.respond(/project list/i, function (res) {
-            models.project.find(function(err, result) {
+            models.project.find(function (err, result) {
                 robot.emit('attachment', {
                     channel: res.envelope.room,
                     username: robot.name,
@@ -281,7 +281,7 @@ module.exports = function (config, models, app) {
         });
 
         robot.respond(/project describe (.+)/i, function (res) {
-            models.project.find({ name: res.match[1] }, function(err, result) {
+            models.project.find({ name: res.match[1] }, function (err, result) {
                 var project = result[0];
 
                 models.project_delivery.find({ project: project._id }, function (err, versions) {
@@ -290,7 +290,7 @@ module.exports = function (config, models, app) {
                         username: robot.name,
                         attachments: [projectToAttachment(project)]
                             .concat(versions
-                                .map(function(version) { return projectVersionToAttachment(version); })
+                                .map(function (version) { return projectVersionToAttachment(version); })
                                 .sort(function (a, b) {
                                     if (semver.gt(a.title, b.title)) {
                                         return -1;
@@ -316,10 +316,10 @@ module.exports = function (config, models, app) {
                 deliver: 'delivered'
             };
 
-            models.project.find({ name: res.match[2] }, function(err, result) {
+            models.project.find({ name: res.match[2] }, function (err, result) {
                 var project = result[0];
 
-                models.project_delivery.find({ version: res.match[3] }, function(err, result) {
+                models.project_delivery.find({ version: res.match[3] }, function (err, result) {
                     var version = result[0];
 
                     if (version.status !== statuses[res.match[1]]) {
@@ -357,7 +357,7 @@ module.exports = function (config, models, app) {
         }
     };
 
-    var restart = function() {
+    var restart = function () {
         stop();
 
         return start();

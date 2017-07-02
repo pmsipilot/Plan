@@ -1,5 +1,5 @@
 angular.module('plan').factory('DeliveryHelper', ['$q', 'AngularDataStore', function ($q, AngularDataStore) {
-    var getPrimaryKey = function(entity) {
+    var getPrimaryKey = function (entity) {
         if (entity.getPrimaryKey) {
             return entity.getPrimaryKey();
         }
@@ -9,10 +9,10 @@ angular.module('plan').factory('DeliveryHelper', ['$q', 'AngularDataStore', func
 
     return {
         progress: function (delivery) {
-            return AngularDataStore.findBy('project_delivery', {delivery: getPrimaryKey(delivery)}).then(function(projectDeliveries) {
+            return AngularDataStore.findBy('project_delivery', { delivery: getPrimaryKey(delivery) }).then(function (projectDeliveries) {
                 var nbProjects = projectDeliveries.length;
                 var nbDeliveredProjects = 0;
-                
+
                 angular.forEach(projectDeliveries, function (prDelivery) {
                     if (prDelivery.status === 'delivered') {
                         nbDeliveredProjects++;
@@ -24,7 +24,7 @@ angular.module('plan').factory('DeliveryHelper', ['$q', 'AngularDataStore', func
         },
 
         isReady: function (delivery) {
-            return AngularDataStore.findBy('project_delivery', {delivery: getPrimaryKey(delivery)}).then(function(projectDeliveries) {
+            return AngularDataStore.findBy('project_delivery', { delivery: getPrimaryKey(delivery) }).then(function (projectDeliveries) {
                 var ready = true;
                 angular.forEach(projectDeliveries, function (prDelivery) {
                     if (prDelivery.status !== 'delivered') {
@@ -39,10 +39,10 @@ angular.module('plan').factory('DeliveryHelper', ['$q', 'AngularDataStore', func
             var dependanciesConfig = [],
                 promises = [],
                 defer = $q.defer();
-            promises.push(AngularDataStore.findBy('project_delivery', {delivery: getPrimaryKey(delivery)}).then(function(projectDeliveries) {
-                angular.forEach(projectDeliveries, function(projectDelivery) {
-                    promises.push(projectDelivery.getProject().then(function(pr) {
-                        if (getPrimaryKey(project) !== getPrimaryKey(pr) && project.dependancies.indexOf(getPrimaryKey(pr)) !== -1 ) {
+            promises.push(AngularDataStore.findBy('project_delivery', { delivery: getPrimaryKey(delivery) }).then(function (projectDeliveries) {
+                angular.forEach(projectDeliveries, function (projectDelivery) {
+                    promises.push(projectDelivery.getProject().then(function (pr) {
+                        if (getPrimaryKey(project) !== getPrimaryKey(pr) && project.dependancies.indexOf(getPrimaryKey(pr)) !== -1) {
                             dependanciesConfig.push({
                                 project: pr,
                                 projectDelivery: projectDelivery
@@ -52,9 +52,9 @@ angular.module('plan').factory('DeliveryHelper', ['$q', 'AngularDataStore', func
                 });
             }));
 
-            $q.all(promises).then(function() {
+            $q.all(promises).then(function () {
                 defer.resolve(dependanciesConfig);
-            }, function() {
+            }, function () {
                 $q.reject();
             });
 
@@ -63,17 +63,17 @@ angular.module('plan').factory('DeliveryHelper', ['$q', 'AngularDataStore', func
 
         getStartAndTargetDates: function (delivery) {
             return AngularDataStore.findBy('project_delivery', { delivery: getPrimaryKey(delivery) })
-                .then(function(projectDeliveries) {
-                    var start = null,
-                        target = null;
+                .then(function (projectDeliveries) {
+                    var start = null;
+                    var target = null;
 
-                    angular.forEach(projectDeliveries, function(delivery) {
-                        if (start === null || start > delivery.start_date) {
-                            start = delivery.start_date;
+                    angular.forEach(projectDeliveries, function (prDelivery) {
+                        if (start === null || start > prDelivery.start_date) {
+                            start = prDelivery.start_date;
                         }
 
-                        var endDateIsSet = delivery.end_date && delivery.end_date < delivery.target_date;
-                        var endDate = endDateIsSet ? delivery.end_date : delivery.target_date;
+                        var endDateIsSet = prDelivery.end_date && prDelivery.end_date < prDelivery.target_date;
+                        var endDate = endDateIsSet ? prDelivery.end_date : prDelivery.target_date;
 
                         if (target === null || target < endDate) {
                             target = endDate;

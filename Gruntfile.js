@@ -4,11 +4,6 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
-        // validate js files
-        jshint: {
-            all: ['client/**/*.js']
-        },
-
         // Less build
         less: {
             all: {
@@ -94,7 +89,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
 
-    grunt.registerTask('default', ['less', 'copy', 'concat', 'uglify', 'jshint']);
+    grunt.registerTask('default', ['less', 'copy', 'concat', 'uglify']);
 };

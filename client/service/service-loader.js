@@ -6,7 +6,7 @@ angular.module('plan').factory('ServiceLoader', ['AngularDataStore', function (A
 
         getService: function (name) {
             return this.get().then(function (services) {
-                return services.find(function(service) {
+                return services.find(function (service) {
                     return service.name === name;
                 });
             });

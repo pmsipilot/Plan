@@ -19,7 +19,6 @@ angular.module('plan', [
             targetPage: '/',                    // url (frontend) of the target page on login success
             loginPage: '/login'                 // url (frontend) of the login page
         });
-
     }])
     .config(['markedProvider', function (markedProvider) {
         markedProvider.setOptions({
@@ -27,22 +26,24 @@ angular.module('plan', [
             tables: true
         });
     }])
-    .config(['AngularDataRestAdapterProvider', 'AngularDataStoreProvider', function(AngularDataRestAdapterProvider, AngularDataStoreProvider) {
+    .config(['AngularDataRestAdapterProvider', function (AngularDataRestAdapterProvider) {
         AngularDataRestAdapterProvider.setBaseUrl('api');
-        AngularDataStoreProvider.setSocketIOBaseUrl("/");
+    }])
+    .config(['AngularDataStoreProvider', function (AngularDataStoreProvider) {
+        AngularDataStoreProvider.setSocketIOBaseUrl('/');
 
         AngularDataStoreProvider.addModel({
             name: 'project',
             fields: {
-                _id: {type: 'integer'},
-                name: {type: 'string'},
-                description: {type: 'string'},
-                color: {type: 'string'},
-                project_owner: {type: 'string'},
-                scrum_master: {type: 'string'},
-                repository: {type: 'string'},
-                type: {type: 'string'},
-                extra: {type: 'mixed'}
+                _id: { type: 'integer' },
+                name: { type: 'string' },
+                description: { type: 'string' },
+                color: { type: 'string' },
+                project_owner: { type: 'string' },
+                scrum_master: { type: 'string' },
+                repository: { type: 'string' },
+                type: { type: 'string' },
+                extra: { type: 'mixed' }
             },
             hasMany: {
                 dependancies: { type: 'id', target: 'project' }
@@ -53,10 +54,10 @@ angular.module('plan', [
         AngularDataStoreProvider.addModel({
             name: 'delivery',
             fields: {
-                _id: {type: 'integer'},
-                version: {type: 'string'},
-                locked: {type: 'boolean'},
-                description: {type: 'string'}
+                _id: { type: 'integer' },
+                version: { type: 'string' },
+                locked: { type: 'boolean' },
+                description: { type: 'string' }
             },
             primaryKey: '_id'
         });
@@ -64,13 +65,13 @@ angular.module('plan', [
         AngularDataStoreProvider.addModel({
             name: 'project_delivery',
             fields: {
-                _id: {type: 'integer'},
-                version: {type: 'string'},
-                status: {type: 'string'},
-                start_date: {type: 'date'},
-                target_date: {type: 'date'},
-                end_date: {type: 'date'},
-                features: {type: 'string'}
+                _id: { type: 'integer' },
+                version: { type: 'string' },
+                status: { type: 'string' },
+                start_date: { type: 'date' },
+                target_date: { type: 'date' },
+                end_date: { type: 'date' },
+                features: { type: 'string' }
             },
             hasOne: {
                 project: { type: 'id', target: 'project' },
@@ -82,10 +83,10 @@ angular.module('plan', [
         AngularDataStoreProvider.addModel({
             name: 'service',
             fields: {
-                _id: {type: 'integer'},
-                name: {type: 'string'},
-                enabled: {type: 'boolean'},
-                config: {type: 'mixed'}
+                _id: { type: 'integer' },
+                name: { type: 'string' },
+                enabled: { type: 'boolean' },
+                config: { type: 'mixed' }
             },
             primaryKey: '_id'
         });
@@ -93,24 +94,24 @@ angular.module('plan', [
         AngularDataStoreProvider.addModel({
             name: 'histo',
             fields: {
-                _id: {type: 'integer'},
-                resource: {type: 'string'},
-                action: {type: 'string'},
-                date: {type: 'date'},
-                content: {type: 'string'},
-                username: {type: 'string'}
+                _id: { type: 'integer' },
+                resource: { type: 'string' },
+                action: { type: 'string' },
+                date: { type: 'date' },
+                content: { type: 'string' },
+                username: { type: 'string' }
             },
             primaryKey: '_id'
         });
     }])
-    .config(['$routeProvider', function($routeProvider) {
+    .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/status', {
                 templateUrl: 'partials/status.html',
                 controller: 'StatusController',
                 resolve: {
-                    deliveries: ['$http', function($http) {
-                        return $http.get('/dashboard').then(function(response) {
+                    deliveries: ['$http', function ($http) {
+                        return $http.get('/dashboard').then(function (response) {
                             return response.data;
                         });
                     }]
@@ -123,7 +124,7 @@ angular.module('plan', [
                 templateUrl: 'partials/timeline.html',
                 controller: 'TimelineController',
                 resolve: {
-                    history: ['AngularDataStore', function(AngularDataStore) {
+                    history: ['AngularDataStore', function (AngularDataStore) {
                         return AngularDataStore.findAll('histo');
                     }]
                 },
@@ -135,10 +136,10 @@ angular.module('plan', [
                 templateUrl: 'partials/projects.html',
                 controller: 'ProjectsController',
                 resolve: {
-                    projects: ['AngularDataStore', function(AngularDataStore) {
+                    projects: ['AngularDataStore', function (AngularDataStore) {
                         return AngularDataStore.findAll('project');
                     }],
-                    gitlab: ['ServiceFactory', function(ServiceFactory) {
+                    gitlab: ['ServiceFactory', function (ServiceFactory) {
                         return ServiceFactory.getService('gitlab');
                     }]
                 },
@@ -150,10 +151,10 @@ angular.module('plan', [
                 templateUrl: 'partials/project-form.html',
                 controller: 'ProjectFormController',
                 resolve: {
-                    projects: ['AngularDataStore', function(AngularDataStore) {
+                    projects: ['AngularDataStore', function (AngularDataStore) {
                         return AngularDataStore.findAll('project');
                     }],
-                    project: ['AngularDataStore', function(AngularDataStore) {
+                    project: ['AngularDataStore', function (AngularDataStore) {
                         return AngularDataStore.create('project');
                     }]
                 },
@@ -165,10 +166,10 @@ angular.module('plan', [
                 templateUrl: 'partials/project-form.html',
                 controller: 'ProjectFormController',
                 resolve: {
-                    projects: ['AngularDataStore', function(AngularDataStore) {
+                    projects: ['AngularDataStore', function (AngularDataStore) {
                         return AngularDataStore.findAll('project');
                     }],
-                    project: ['$route', 'AngularDataStore', function($route, AngularDataStore) {
+                    project: ['$route', 'AngularDataStore', function ($route, AngularDataStore) {
                         return AngularDataStore.find('project', $route.current.params.id);
                     }]
                 },
@@ -180,13 +181,13 @@ angular.module('plan', [
                 templateUrl: 'partials/project.html',
                 controller: 'ProjectController',
                 resolve: {
-                    project: ['$route', 'AngularDataStore', function($route, AngularDataStore) {
+                    project: ['$route', 'AngularDataStore', function ($route, AngularDataStore) {
                         return AngularDataStore.find('project', $route.current.params.id);
                     }],
-                    deliveries: ['AngularDataStore', function(AngularDataStore) {
+                    deliveries: ['AngularDataStore', function (AngularDataStore) {
                         return AngularDataStore.findAll('delivery');
                     }],
-                    gitlab: ['ServiceFactory', function(ServiceFactory) {
+                    gitlab: ['ServiceFactory', function (ServiceFactory) {
                         return ServiceFactory.getService('gitlab');
                     }]
                 },
@@ -198,7 +199,7 @@ angular.module('plan', [
                 templateUrl: 'partials/deliveries.html',
                 controller: 'DeliveriesController',
                 resolve: {
-                    deliveries: ['AngularDataStore', function(AngularDataStore) {
+                    deliveries: ['AngularDataStore', function (AngularDataStore) {
                         return AngularDataStore.findAll('delivery');
                     }]
                 },
@@ -210,7 +211,7 @@ angular.module('plan', [
                 templateUrl: 'partials/delivery-form.html',
                 controller: 'DeliveryFormController',
                 resolve: {
-                    delivery: ['AngularDataStore', function(AngularDataStore) {
+                    delivery: ['AngularDataStore', function (AngularDataStore) {
                         return AngularDataStore.create('delivery');
                     }]
                 },
@@ -222,7 +223,7 @@ angular.module('plan', [
                 templateUrl: 'partials/delivery-form.html',
                 controller: 'DeliveryFormController',
                 resolve: {
-                    delivery: ['$route', 'AngularDataStore', function($route, AngularDataStore) {
+                    delivery: ['$route', 'AngularDataStore', function ($route, AngularDataStore) {
                         return AngularDataStore.find('delivery', $route.current.params.id);
                     }]
                 },
@@ -234,16 +235,16 @@ angular.module('plan', [
                 templateUrl: 'partials/delivery.html',
                 controller: 'DeliveryController',
                 resolve: {
-                    delivery: ['$route', 'AngularDataStore', function($route, AngularDataStore) {
+                    delivery: ['$route', 'AngularDataStore', function ($route, AngularDataStore) {
                         return AngularDataStore.find('delivery', $route.current.params.id);
                     }],
-                    projects: ['AngularDataStore', function(AngularDataStore) {
+                    projects: ['AngularDataStore', function (AngularDataStore) {
                         return AngularDataStore.findAll('project');
                     }],
-                    projectDeliveries: ['$route', 'AngularDataStore', function($route, AngularDataStore) {
+                    projectDeliveries: ['$route', 'AngularDataStore', function ($route, AngularDataStore) {
                         return AngularDataStore.findBy('project_delivery', { delivery: $route.current.params.id });
                     }],
-                    gitlab: ['ServiceFactory', function(ServiceFactory) {
+                    gitlab: ['ServiceFactory', function (ServiceFactory) {
                         return ServiceFactory.getService('gitlab');
                     }]
                 },
@@ -255,13 +256,13 @@ angular.module('plan', [
                 templateUrl: 'partials/delivery-gantt.html',
                 controller: 'DeliveryGanttController',
                 resolve: {
-                    delivery: ['$route', 'AngularDataStore', function($route, AngularDataStore) {
+                    delivery: ['$route', 'AngularDataStore', function ($route, AngularDataStore) {
                         return AngularDataStore.find('delivery', $route.current.params.id);
                     }],
-                    projects: ['AngularDataStore', function(AngularDataStore) {
+                    projects: ['AngularDataStore', function (AngularDataStore) {
                         return AngularDataStore.findAll('project');
                     }],
-                    projectDeliveries: ['$route', 'AngularDataStore', function($route, AngularDataStore) {
+                    projectDeliveries: ['$route', 'AngularDataStore', function ($route, AngularDataStore) {
                         return AngularDataStore.findBy('project_delivery', { delivery: $route.current.params.id });
                     }]
                 },
@@ -273,16 +274,16 @@ angular.module('plan', [
                 templateUrl: 'partials/delivery-dependancies.html',
                 controller: 'DeliveryController',
                 resolve: {
-                    delivery: ['$route', 'AngularDataStore', function($route, AngularDataStore) {
+                    delivery: ['$route', 'AngularDataStore', function ($route, AngularDataStore) {
                         return AngularDataStore.find('delivery', $route.current.params.id);
                     }],
-                    projects: ['AngularDataStore', function(AngularDataStore) {
+                    projects: ['AngularDataStore', function (AngularDataStore) {
                         return AngularDataStore.findAll('project');
                     }],
-                    projectDeliveries: ['$route', 'AngularDataStore', function($route, AngularDataStore) {
+                    projectDeliveries: ['$route', 'AngularDataStore', function ($route, AngularDataStore) {
                         return AngularDataStore.findBy('project_delivery', { delivery: $route.current.params.id });
                     }],
-                    gitlab: ['ServiceFactory', function(ServiceFactory) {
+                    gitlab: ['ServiceFactory', function (ServiceFactory) {
                         return ServiceFactory.getService('gitlab');
                     }]
                 },
@@ -294,10 +295,10 @@ angular.module('plan', [
                 templateUrl: 'partials/services.html',
                 controller: 'ServicesController',
                 resolve: {
-                    gitlab: ['ServiceFactory', function(ServiceFactory) {
+                    gitlab: ['ServiceFactory', function (ServiceFactory) {
                         return ServiceFactory.getService('gitlab');
                     }],
-                    slackbot: ['ServiceFactory', function(ServiceFactory) {
+                    slackbot: ['ServiceFactory', function (ServiceFactory) {
                         return ServiceFactory.getService('slackbot');
                     }]
                 },
@@ -309,7 +310,7 @@ angular.module('plan', [
                 templateUrl: 'partials/service-form.html',
                 controller: 'ServiceFormController',
                 resolve: {
-                    service: ['$route', 'ServiceFactory', function($route, ServiceFactory) {
+                    service: ['$route', 'ServiceFactory', function ($route, ServiceFactory) {
                         return ServiceFactory.getService($route.current.params.name);
                     }]
                 },

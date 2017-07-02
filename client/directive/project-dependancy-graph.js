@@ -5,11 +5,10 @@ angular.module('plan').directive('projectDependancyGraph', ['$q', function ($q) 
             projectsConfigInDelivery: '=projectConfigInDelivery'
         },
         link: function (scope, element) {
-
             var defer = $q.defer(),
                 renderGraph = function (projects, projectsConfig) {
                     var
-                        graph = {
+                        graph = {
                             nodes: [],
                             links: []
                         },
@@ -19,13 +18,13 @@ angular.module('plan').directive('projectDependancyGraph', ['$q', function ($q) 
 
                     defer = $q.defer();
 
-                    angular.forEach(projectsConfig, function (projectsConfig,  key) {
+                    angular.forEach(projectsConfig, function (projectsConfig, key) {
                         nodeKeys[projectsConfig.primaryKey] = key;
                         nodesByPrimaryKey[projectsConfig.primaryKey] = { name: projectsConfig.name, group: 1, color: '#ccc' };
                         graph.nodes[key] = nodesByPrimaryKey[projectsConfig.primaryKey];
                     });
 
-                    angular.forEach(projects, function (project) {
+                    angular.forEach(projects, function (project) {
                         if (angular.isDefined(nodeKeys[project.getPrimaryKey()])) {
                             var defer = $q.defer();
                             project.getDependancies().then(function (dependancies) {
@@ -39,7 +38,7 @@ angular.module('plan').directive('projectDependancyGraph', ['$q', function ($q) 
                                     }
                                 });
                                 defer.resolve();
-                            }, function () {
+                            }, function () {
                                 defer.resolve();
                             });
 
@@ -62,7 +61,6 @@ angular.module('plan').directive('projectDependancyGraph', ['$q', function ($q) 
                     });
 
                     $q.all(promises).then(function () {
-
                         defer.resolve();
                         element.empty();
 
@@ -74,20 +72,20 @@ angular.module('plan').directive('projectDependancyGraph', ['$q', function ($q) 
                                 .linkDistance(10)
                                 .linkStrength(0)
                                 .size([width, height]),
-                            svg = d3.select('#' + element.attr('id')).append('svg')//better to keep the viewBox dimensions with variables
+                            svg = d3.select('#' + element.attr('id')).append('svg')// better to keep the viewBox dimensions with variables
                                 .attr('viewBox', '0 0 ' + width + ' ' + height)
                                 .attr('preserveAspectRatio', 'xMidYMid meet');
 
                         svg.append('defs').append('marker')
                             .attr('id', 'arrowhead')
-                            .attr('refX', 12 + 3) /*must be smarter way to calculate shift*/
+                            .attr('refX', 12 + 3) /* must be smarter way to calculate shift*/
                             .attr('refY', 4)
                             .attr('markerWidth', 16)
                             .attr('markerHeight', 16)
                             .attr('orient', 'auto')
                             .attr('class', 'marker')
                             .append('path')
-                            .attr('d', 'M 0,0 V 8 L8,4 Z'); //this is actual shape for arrowhead
+                            .attr('d', 'M 0,0 V 8 L8,4 Z'); // this is actual shape for arrowhead
 
                         force
                             .nodes(graph.nodes)
@@ -137,7 +135,7 @@ angular.module('plan').directive('projectDependancyGraph', ['$q', function ($q) 
                                     return link.source.index === d.index || link.target.index === d.index;
                                 }).style('opacity', 1);
                             })
-                            .on('mouseout',  function (d) {
+                            .on('mouseout', function (d) {
                                 svg.selectAll('circle').style('opacity', 1);
                                 svg.selectAll('text').style('opacity', 1);
                                 svg.selectAll('line').style('opacity', 1);

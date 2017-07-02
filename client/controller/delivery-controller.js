@@ -1,5 +1,8 @@
-angular.module('plan').controller('DeliveryController', ['$scope', '$filter', '$location', 'AngularDataStore', 'ServiceFactory', 'delivery', 'projects', 'NgTableParams', 'gitlab', 'projectDeliveries',
-    function ($scope, $filter, $location, AngularDataStore, ServiceFactory, delivery, projects, NgTableParams, gitlab, projectDeliveries) {
+angular.module('plan').controller('DeliveryController', [
+    '$scope', '$filter', '$location', 'AngularDataStore', 'ServiceFactory', 'delivery', 'projects', 'NgTableParams',
+    'gitlab', 'projectDeliveries',
+    function ($scope, $filter, $location, AngularDataStore, ServiceFactory, delivery, projects, NgTableParams,
+              gitlab, projectDeliveries) {
         $scope.delivery = delivery;
         $scope.projects = projects;
         $scope.deliveryProjects = [];
@@ -32,7 +35,7 @@ angular.module('plan').controller('DeliveryController', ['$scope', '$filter', '$
                     deliveryProject.primaryKey = project.getPrimaryKey();
                     deliveryProject.color = project.color ? project.color : '#339999';
                     deliveryProject.name = project.name;
-                    deliveryProject.poSm = (project.project_owner ? project.project_owner : '') + '/' + (project.scrum_master ? project.scrum_master : '');
+                    deliveryProject.poSm = (project.project_owner || 'N.A') + '/' + (project.scrum_master || 'N/A');
                     deliveryProject.project = project;
                 });
             });
@@ -55,8 +58,6 @@ angular.module('plan').controller('DeliveryController', ['$scope', '$filter', '$
 
         $scope.$on('$destroy', $scope.$watch('projects', function () { computeDeliveryProjects(); }, true));
         $scope.$on('$destroy', $scope.$watch('delivery', function () { computeDeliveryProjects(); }, true));
-        $scope.$on('$destroy', $scope.$watch('deliveryProjects', function () {
-            $scope.tableParams.reload();
-        }, true));
+        $scope.$on('$destroy', $scope.$watch('deliveryProjects', function () { $scope.tableParams.reload(); }, true));
     }
 ]);

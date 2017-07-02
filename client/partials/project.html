@@ -11,16 +11,16 @@
             <div class="col-md-5">
                 <p>
                     <strong>Dependencies : </strong>
-                    <a data-ng-repeat-start="pr in dependancies" href="#!/project/{{ pr.getPrimaryKey() }}">{{ pr.name }}</a><span data-ng-repeat-end ng-if="!$last">, </span>
+                    <a data-ng-repeat-start="pr in dependancies" href="#!/project/{{ pr.getPrimaryKey() }}">{{ pr.name }}</a><span data-ng-repeat-end ng-if="!$last">, </span>
                 </p>
 
                 <p ng-if="project.product_owner">
                     <strong>Product owner: </strong>
-                    <span> {{ project.product_owner }}</span>
+                    <span> {{ project.product_owner }}</span>
                 </p>
                 <p ng-if="project.scrum_master">
                     <strong>Scrum master: </strong>
-                    <span> {{ project.scrum_master }}</span>
+                    <span> {{ project.scrum_master }}</span>
                 </p>
             </div>
             <div class="col-md-3">
@@ -38,21 +38,21 @@
         <h2>{{ projectDelivery.isNew ? 'New' : 'Edit' }} version {{ projectDelivery.isNew ? '' : projectDelivery.version }} </h2>
 
         <form class="space-top" name="versionForm">
-            <div class="form-group" data-ng-hide="projectDeliveryDelivered" ng-class="{ 'has-error': versionForm.version.$error.required }">
+            <div class="form-group" data-ng-hide="projectDeliveryDelivered" ng-class="{ 'has-error': versionForm.version.$error.required }">
                 <label class="control-label">Version</label>
                 <div class="form-widget">
                     <input name="version" type="text" data-ng-model="projectDelivery.version" class="form-control" required />
                 </div>
             </div>
 
-            <div class="form-group" ng-class="{ 'has-error': versionForm.release.$error.required }">
+            <div class="form-group" ng-class="{ 'has-error': versionForm.release.$error.required }">
                 <label class="control-label">Release</label>
                 <div class="form-widget">
                     <select name="release" data-ng-model="projectDelivery.delivery" data-ng-options="delivery.getPrimaryKey() as delivery.version for delivery in deliveries" class="form-control"></select>
                 </div>
             </div>
 
-            <div class="form-group" ng-class="{ 'has-error': versionForm.start_date.$error.required }">
+            <div class="form-group" ng-class="{ 'has-error': versionForm.start_date.$error.required }">
                 <label class="control-label">Start Date</label>
                 <div class="form-widget datapicker">
                     <input name="start_date"
@@ -63,7 +63,7 @@
                 </div>
             </div>
 
-            <div class="form-group" ng-class="{ 'has-error': versionForm.delivery_date.$error.required }">
+            <div class="form-group" ng-class="{ 'has-error': versionForm.delivery_date.$error.required }">
                 <label class="control-label">Planned for</label>
                 <div class="form-widget datapicker">
                     <input name="delivery_date" type="date" data-ng-model="projectDelivery.target_date" class="form-control" required />
@@ -78,14 +78,14 @@
                 </div>
             </div>
 
-            <div class="form-group" ng-class="{ 'has-error': versionForm.status.$error.required }">
+            <div class="form-group" ng-class="{ 'has-error': versionForm.status.$error.required }">
                 <label class="control-label">Status</label>
                 <div class="form-widget">
                     <select name="status" data-ng-model="projectDelivery.status" data-ng-options="status for status in ['planned', 'current', 'blocked', 'delivered']" class="form-control" required></select>
                 </div>
             </div>
 
-            <div class="form-group" ng-class="{ 'has-error': versionForm.features.$error.required }">
+            <div class="form-group" ng-class="{ 'has-error': versionForm.features.$error.required }">
                 <label class="control-label">Features</label>
                 <div class="form-wdiget">
                     <textarea name="features" data-ng-model="projectDelivery.features" class="form-control" required rows="5" />
@@ -123,7 +123,7 @@
             </thead>
             <tbody>
                 <tr data-ng-repeat-start="pr_delivery in projectDeliveries | orderBy: 'projectDelivery.version':true">
-                    <td>{{ pr_delivery.projectDelivery.version }}</td>
+                    <td>{{ pr_delivery.projectDelivery.version }}</td>
                     <td>
                         <span data-project-delivery-status="pr_delivery.projectDelivery.status"></span>
                     </td>

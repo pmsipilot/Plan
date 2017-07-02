@@ -2,7 +2,7 @@ angular.module('plan').controller('StatusController', ['$scope', '$filter', 'Ang
     function ($scope, $filter, AngularDataStore, DeliveryHelper, deliveries) {
         $scope.deliveries = [];
 
-        angular.forEach(deliveries, function(delivery) {
+        angular.forEach(deliveries, function (delivery) {
             delivery.progress = delivery.progress || 0;
             delivery.progressPlanned = delivery.progressPlanned || 0;
             delivery.progressCurrent = delivery.progressCurrent || 0;

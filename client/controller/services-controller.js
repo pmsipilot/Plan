@@ -1,5 +1,5 @@
 angular.module('plan').controller('ServicesController', ['$scope', 'NgTableParams', 'gitlab', 'slackbot',
-    function($scope, NgTableParams, gitlab, slackbot) {
+    function ($scope, NgTableParams, gitlab, slackbot) {
         $scope.services = [gitlab, slackbot];
         $scope.tableParams = new NgTableParams(
             {
@@ -13,7 +13,7 @@ angular.module('plan').controller('ServicesController', ['$scope', 'NgTableParam
                 dataset: $scope.services
             }
         );
-        
+
         $scope.$on('$destroy', $scope.$watch('services', function () { $scope.tableParams.reload(); }, true));
     }
 ]);

@@ -1,5 +1,5 @@
 angular.module('plan').controller('DeliveryGanttController', ['$scope', '$location', 'AngularDataStore', 'delivery', 'projects', 'projectDeliveries',
-    function($scope, $location, AngularDataStore, delivery, projects, projectDeliveries) {
+    function ($scope, $location, AngularDataStore, delivery, projects, projectDeliveries) {
         $scope.delivery = delivery;
         $scope.projects = projects;
         $scope.toggle = function () {
@@ -20,9 +20,12 @@ angular.module('plan').controller('DeliveryGanttController', ['$scope', '$locati
                 };
 
                 rowConfig.hover = '<h3>' + project.name + '</h3>' +
-                    'Started at : ' + (prDelivery.start_date ? rowConfig.startDate.toLocaleDateString() : 'NA') + '<br>' +
-                    'Delivered at : ' + (prDelivery.end_date ? rowConfig.endDate.toLocaleDateString() : 'NA') + '<br>' +
-                    'Planned for : ' + (prDelivery.target_date ? rowConfig.plannedDate.toLocaleDateString() : 'NA');
+                    'Started at : ' +
+                    (prDelivery.start_date ? rowConfig.startDate.toLocaleDateString() : 'NA') + '<br>' +
+                    'Delivered at : ' +
+                    (prDelivery.end_date ? rowConfig.endDate.toLocaleDateString() : 'NA') + '<br>' +
+                    'Planned for : ' +
+                    (prDelivery.target_date ? rowConfig.plannedDate.toLocaleDateString() : 'NA');
 
                 $scope.chartData.push(rowConfig);
             });

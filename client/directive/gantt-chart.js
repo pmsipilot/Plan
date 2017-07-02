@@ -1,20 +1,19 @@
-angular.module('plan').directive('ganttChart', function() {
+angular.module('plan').directive('ganttChart', function () {
     return {
         scope: {
             data: '=ganttChart'
         },
         templateUrl: 'partials/directive/gantt-chart.html',
-        controller: ['$scope', '$filter', function($scope, $filter) {
-
+        controller: ['$scope', '$filter', function ($scope, $filter) {
             // Calcul des min et des max
-            $scope.$watch('data', function(data) {
+            $scope.$watch('data', function (data) {
                 data = angular.copy(data);
 
                 $scope.minimum = null;
                 $scope.maximum = null;
 
-                angular.forEach(data, function(row) {
-                    if (($scope.minimum === null && row.startDate)|| row.startDate < $scope.minimum) {
+                angular.forEach(data, function (row) {
+                    if (($scope.minimum === null && row.startDate) || row.startDate < $scope.minimum) {
                         $scope.minimum = row.startDate;
                     }
 
@@ -32,16 +31,15 @@ angular.module('plan').directive('ganttChart', function() {
                 $scope.rows = [];
                 var ranges = [];
                 if ($scope.maximum !== null && $scope.minimum !== null && $scope.maximum.getTime() !== $scope.minimum.getTime()) {
-
                     ranges.push($scope.minimum);
 
-                    var rangeInterval = Math.floor(($scope.maximum.getTime() - $scope.minimum.getTime()) / 4 );
+                    var rangeInterval = Math.floor(($scope.maximum.getTime() - $scope.minimum.getTime()) / 4);
                     for (var i = 1; i <= 4; i++) {
                         var range = new Date($scope.minimum.getTime() + i * rangeInterval);
                         ranges.push(range);
                     }
 
-                    angular.forEach(ranges, function(rangeValue) {
+                    angular.forEach(ranges, function (rangeValue) {
                         var percent = (rangeValue.getTime() - $scope.minimum.getTime()) / ($scope.maximum.getTime() - $scope.minimum.getTime()) * 100;
                         $scope.ranges.push({
                             value: rangeValue,
@@ -51,7 +49,7 @@ angular.module('plan').directive('ganttChart', function() {
                 }
 
                 if ($scope.maximum !== null && $scope.minimum !== null && $scope.maximum.getTime() !== $scope.minimum.getTime()) {
-                    angular.forEach(data, function(row) {
+                    angular.forEach(data, function (row) {
                         var
                             startPercent = (row.startDate.getTime() - $scope.minimum.getTime()) / ($scope.maximum.getTime() - $scope.minimum.getTime()) * 100,
                             plannedPercent = row.plannedDate ? (row.plannedDate.getTime() - row.startDate.getTime()) / ($scope.maximum.getTime() - $scope.minimum.getTime()) * 100 : 100,
@@ -63,7 +61,7 @@ angular.module('plan').directive('ganttChart', function() {
                             endPercent: endPercent + '%',
                             hover: row.hover,
                             title: row.title,
-                            
+
                             orderDate: row.plannedDate ? row.plannedDate.getTime() : 0
                         });
                     });
@@ -77,7 +75,6 @@ angular.module('plan').directive('ganttChart', function() {
 
                 $scope.rows = $filter('orderBy')($scope.rows, 'orderDate');
             }, true);
-
         }]
     };
 });

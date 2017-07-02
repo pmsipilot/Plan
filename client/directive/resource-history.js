@@ -10,10 +10,10 @@ angular.module('plan').directive('resourceHistory', ['AngularDataStore', functio
                 projects = {},
                 deliveries = {},
                 getDelivery = function (entry) {
-                    if(deliveries[entry.content.delivery]) {
+                    if (deliveries[entry.content.delivery]) {
                         entry.delivery = deliveries[entry.content.delivery];
                     } else {
-                        AngularDataStore.findBy('delivery', {_id: entry.content.delivery}).then(function (delivs) {
+                        AngularDataStore.findBy('delivery', { _id: entry.content.delivery }).then(function (delivs) {
                             deliveries[entry.content.delivery] = delivs[0];
 
                             entry.delivery = deliveries[entry.content.delivery];
@@ -21,10 +21,10 @@ angular.module('plan').directive('resourceHistory', ['AngularDataStore', functio
                     }
                 },
                 getProject = function (entry) {
-                    if(projects[entry.content.project]) {
+                    if (projects[entry.content.project]) {
                         entry.project = projects[entry.content.project];
                     } else {
-                        AngularDataStore.findBy('project', {_id: entry.content.project}).then(function (proj) {
+                        AngularDataStore.findBy('project', { _id: entry.content.project }).then(function (proj) {
                             projects[entry.content.project] = proj[0];
 
                             entry.project = projects[entry.content.project];
@@ -48,7 +48,7 @@ angular.module('plan').directive('resourceHistory', ['AngularDataStore', functio
                         .map(function (entry) {
                             try {
                                 entry.content = JSON.parse(entry.content);
-                            } catch(err) {}
+                            } catch (err) {}
 
                             return entry;
                         });
@@ -61,7 +61,7 @@ angular.module('plan').directive('resourceHistory', ['AngularDataStore', functio
 
                     scope.nbPages = Math.ceil(entries.length / nbEntryPerPage);
 
-                    if(scope.page + 1 > scope.nbPages) {
+                    if (scope.page + 1 > scope.nbPages) {
                         return;
                     }
 
@@ -70,11 +70,11 @@ angular.module('plan').directive('resourceHistory', ['AngularDataStore', functio
                         .map(function (entry) {
                             entry.showContent = function () {
                                 if (!entry.isContentVisible) {
-                                    if(entry.content.project) {
+                                    if (entry.content.project) {
                                         getProject(entry);
                                     }
 
-                                    if(entry.content.delivery) {
+                                    if (entry.content.delivery) {
                                         getDelivery(entry);
                                     }
                                 }
@@ -82,7 +82,7 @@ angular.module('plan').directive('resourceHistory', ['AngularDataStore', functio
                                 entry.isContentVisible = !entry.isContentVisible;
                             };
 
-                            if(entry.resource == 'project_delivery') {
+                            if (entry.resource == 'project_delivery') {
                                 getProject(entry);
                             }
 
@@ -94,7 +94,7 @@ angular.module('plan').directive('resourceHistory', ['AngularDataStore', functio
             scope.history = [];
             scope.page = 0;
             scope.fetch = function () {
-                if(attrs.type && !scope.entries) {
+                if (attrs.type && !scope.entries) {
                     scope.type = attrs.type;
 
                     AngularDataStore.findBy('histo', { resource: attrs.type }).then(function (entries) {
@@ -104,11 +104,11 @@ angular.module('plan').directive('resourceHistory', ['AngularDataStore', functio
                     });
                 }
 
-                if(scope.entries) {
+                if (scope.entries) {
                     callback(scope.entries);
                 }
             };
-            scope.more = function() {
+            scope.more = function () {
                 scope.page = scope.page + 1;
 
                 scope.fetch();

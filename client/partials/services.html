@@ -5,10 +5,10 @@
 
     <table class="table table-three space-top table-striped" data-ng-table="tableParams" show-filter="true">
         <tr data-ng-repeat="service in $data">
-            <td data-title="'Name'" sortable="'name'" filter="{ 'name': 'text' }">{{ service.name }}</td>
+            <td data-title="'Name'" sortable="'name'" filter="{ 'name': 'text' }">{{ service.name }}</td>
             <td data-title="'Active'" sortable="'enabled'">
                 <span class="label" data-ng-class="{ 'label-success': service.enabled, 'label-danger': !service.enabled }">
-                    {{ service.enabled ? 'Yes' : 'No' }}
+                    {{ service.enabled ? 'Yes' : 'No' }}
                 </span>
             </td>
             <td>

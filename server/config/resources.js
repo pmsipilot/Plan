@@ -7,7 +7,7 @@ module.exports = {
                 email: String,
                 token: String
             }
-   },
+        },
         user: true
     },
 

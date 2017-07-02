@@ -1,18 +1,18 @@
-angular.module('plan').controller('DeliveriesController', ['$scope', '$filter', 'AngularDataStore', 'DeliveryHelper', 'deliveries', 'NgTableParams',
+angular.module('plan').controller('DeliveriesController', [
+    '$scope', '$filter', 'AngularDataStore', 'DeliveryHelper', 'deliveries', 'NgTableParams',
     function ($scope, $filter, AngularDataStore, DeliveryHelper, deliveries, NgTableParams) {
-
         $scope.baseDeliveries = deliveries;
 
-        function init () {
+        function init() {
             $scope.deliveries = [];
 
-            angular.forEach(deliveries, function(delivery) {
+            angular.forEach(deliveries, function (delivery) {
                 var newDelivery = angular.copy(delivery);
-                DeliveryHelper.isReady(delivery).then(function(ready) {
+                DeliveryHelper.isReady(delivery).then(function (ready) {
                     newDelivery.ready = ready;
                 });
 
-                DeliveryHelper.getStartAndTargetDates(newDelivery).then(function(dates) {
+                DeliveryHelper.getStartAndTargetDates(newDelivery).then(function (dates) {
                     newDelivery.start_date = dates.start_date;
                     newDelivery.target_date = dates.target_date;
                 });
