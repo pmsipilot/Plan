@@ -1,7 +1,5 @@
 .git
-
-server/node_modules
-
-client/node_modules
-client/bower_components
-public
+node_modules/
+server/public/
+server/config/config.js
+npm-debug.log

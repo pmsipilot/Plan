@@ -1,0 +1,43 @@
+{
+  "name": "plan",
+  "version": "2.0.0",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "bedoon": "git+https://github.com/jubianchi/bedoon.git#master",
+    "coffee-script": "^1.12.6",
+    "express": "~3.4.0",
+    "hubot": "git+https://github.com/hubotio/hubot.git#master",
+    "hubot-slack": "^4.3.4",
+    "hubot-slack-attachment": "^1.0.1",
+    "passport": "~0.3.2",
+    "passport-http-bearer": "^1.0.1",
+    "passport-ldapauth": "~2.0.0",
+    "semver": "^5.3.0"
+  },
+  "devDependencies": {
+    "angular": "^1.6.4",
+    "angular-bootstrap": "^0.12",
+    "angular-datastore": "git+https://github.com/jubianchi/angular-datastore.git#master",
+    "angular-gravatar": "^0.4.2",
+    "angular-marked": "^1.2.2",
+    "angular-route": "^1.6.4",
+    "angular-sanitize": "^1.6.4",
+    "authenticatejs": "git+https://github.com/jubianchi/authenticate.js.git#master",
+    "bootstrap": "^3.3.7",
+    "d3": "~3.4.1",
+    "font-awesome": "^4.7.0",
+    "grunt": "^1.0",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-less": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-contrib-jshint": "*",
+    "jquery": "^3.2.1",
+    "marked": "^0.3.6",
+    "moment": "^2.18.1",
+    "ng-table": "^3.0.1",
+    "pmsipilot-ui": "^4.0.1"
+  }
+}

@@ -1,0 +1,175 @@
+<div class="block-content">
+
+    <div class="block">
+        <div class="row">
+            <div class="col-md-4">
+                <h1>
+                    <span style="color: {{ project.color ? project.color : '#339999' }}"><i class="fa fa-square"></i></span>
+                    {{ project.name }}
+                </h1>
+            </div>
+            <div class="col-md-5">
+                <p>
+                    <strong>Dependencies : </strong>
+                    <a data-ng-repeat-start="pr in dependancies" href="#!/project/{{ pr.getPrimaryKey() }}">{{ pr.name }}</a><span data-ng-repeat-end ng-if="!$last">, </span>
+                </p>
+
+                <p ng-if="project.product_owner">
+                    <strong>Product owner: </strong>
+                    <span> {{ project.product_owner }}</span>
+                </p>
+                <p ng-if="project.scrum_master">
+                    <strong>Scrum master: </strong>
+                    <span> {{ project.scrum_master }}</span>
+                </p>
+            </div>
+            <div class="col-md-3">
+                <div class="pull-right">
+                    <a href="#!/project/{{ project.getPrimaryKey() }}/edit" class="btn btn-two rounded" title="Edit this project"><i class="fa fa-edit"></i></a>
+                    <a ng-if="gitlab.enabled && project.repository" target="_blank" class="btn btn-two rounded" href="{{ gitlab.config.url }}/{{ project.repository }}/blob/master/CHANGELOG.md"><i class="fa fa-gitlab"></i></a>
+                </div>
+            </div>
+        </div>
+        <p data-ng-show="project.description" marked="project.description"></p>
+    </div>
+
+    <div class="block space-top" data-ng-show="projectDelivery !== null">
+
+        <h2>{{ projectDelivery.isNew ? 'New' : 'Edit' }} version {{ projectDelivery.isNew ? '' : projectDelivery.version }} </h2>
+
+        <form class="space-top" name="versionForm">
+            <div class="form-group" data-ng-hide="projectDeliveryDelivered" ng-class="{ 'has-error': versionForm.version.$error.required }">
+                <label class="control-label">Version</label>
+                <div class="form-widget">
+                    <input name="version" type="text" data-ng-model="projectDelivery.version" class="form-control" required />
+                </div>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error': versionForm.release.$error.required }">
+                <label class="control-label">Release</label>
+                <div class="form-widget">
+                    <select name="release" data-ng-model="projectDelivery.delivery" data-ng-options="delivery.getPrimaryKey() as delivery.version for delivery in deliveries" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error': versionForm.start_date.$error.required }">
+                <label class="control-label">Start Date</label>
+                <div class="form-widget datapicker">
+                    <input name="start_date"
+                        type="date"
+                        data-ng-model="projectDelivery.start_date"
+                        class="form-control"
+                        required />
+                </div>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error': versionForm.delivery_date.$error.required }">
+                <label class="control-label">Planned for</label>
+                <div class="form-widget datapicker">
+                    <input name="delivery_date" type="date" data-ng-model="projectDelivery.target_date" class="form-control" required />
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Delivery at</label>
+                <div class="form-widget datapicker">
+                    <input type="date" data-ng-model="projectDelivery.end_date" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error': versionForm.status.$error.required }">
+                <label class="control-label">Status</label>
+                <div class="form-widget">
+                    <select name="status" data-ng-model="projectDelivery.status" data-ng-options="status for status in ['planned', 'current', 'blocked', 'delivered']" class="form-control" required></select>
+                </div>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error': versionForm.features.$error.required }">
+                <label class="control-label">Features</label>
+                <div class="form-wdiget">
+                    <textarea name="features" data-ng-model="projectDelivery.features" class="form-control" required rows="5" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button ng-disabled="versionForm.$invalid" data-ng-click="doAddDelivery()" class="btn btn-one">Save</button>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="space-top" data-ng-show="projectDeliveries.length && projectDelivery === null">
+        <div class="row">
+            <h2 class="pull-left">Project's releases</h2>
+
+            <div class="pull-right">
+                <a class="btn btn-icon btn-three" data-ng-click="addDelivery()"><i class="fa fa-plus"></i> Add a project release</a>
+            </div>
+        </div>
+
+        <table class="table table-three table-striped space-top">
+            <thead>
+            <tr>
+                <th>Project Version</th>
+                <th>Status</th>
+                <th>Started at</th>
+                <th>Planned for</th>
+                <th>Delivered at</th>
+                <th>Release</th>
+                <th>Requirements</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat-start="pr_delivery in projectDeliveries | orderBy: 'projectDelivery.version':true">
+                    <td>{{ pr_delivery.projectDelivery.version }}</td>
+                    <td>
+                        <span data-project-delivery-status="pr_delivery.projectDelivery.status"></span>
+                    </td>
+                    <td>{{ pr_delivery.projectDelivery.start_date | moment }} <small ng-if="pr_delivery.projectDelivery.start_date">({{ pr_delivery.projectDelivery.start_date | momentFromNow }})</small></td>
+                    <td>{{ pr_delivery.projectDelivery.target_date | moment }} <small ng-if="pr_delivery.projectDelivery.target_date">({{ pr_delivery.projectDelivery.target_date | momentFromNow }})</small></td>
+                    <td>{{ pr_delivery.projectDelivery.end_date | moment }} <small ng-if="pr_delivery.projectDelivery.end_date">({{ pr_delivery.projectDelivery.end_date | momentFromNow }})</small></td>
+
+                    <td>
+                        <a href="#!/delivery/{{ pr_delivery.delivery.getPrimaryKey() }}">
+                            {{ pr_delivery.delivery.version }}
+                        </a>
+                    </td>
+                    <td>
+                        <div data-ng-show="pr_delivery.dependencies.length">
+                            <ul>
+                                <li data-ng-repeat="dependancyConfig in pr_delivery.dependencies">
+                                    <a href="#!/project/{{ dependancyConfig.project.getPrimaryKey() }}">
+                                        {{ dependancyConfig.project.name }}
+                                        {{ dependancyConfig.projectDelivery ? dependancyConfig.projectDelivery.version : ""}}
+                                        {{ dependancyConfig.projectDelivery && dependancyConfig.projectDelivery.status === "delivered" ? "" : " (not ready)"}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="pull-right">
+                            <a data-ng-click="editProjectDelivery(pr_delivery.projectDelivery)" class="btn btn-two rounded pointer"><i class="fa fa-edit"></i></a>
+                            <a ng-show="pr_delivery.projectDelivery.features" data-ng-click="showFeature = !showFeature" class="btn btn-two rounded pointer"><i class="fa fa-align-justify"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr data-ng-repeat-end ng-show="showFeature && pr_delivery.projectDelivery.features">
+                    <td colspan="8">
+                        <div marked="pr_delivery.projectDelivery.features"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<div class="block-content">
+    <h1>History</h1>
+
+    <resource-history type="project" id="project._id" entries="history"></resource-history>
+</div>

@@ -4,6 +4,7 @@ module.exports = {
         schema: {
             attributes: {
                 name: String,
+                email: String,
                 token: String
             }
    },

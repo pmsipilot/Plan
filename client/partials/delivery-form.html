@@ -1,0 +1,29 @@
+<div class="block-content">
+    <div class="pull-right">
+        <a href="#!/delivery/{{ delivery.getPrimaryKey() }}" class="btn btn-two rounded"><i class="fa fa-info"></i></a>
+    </div>
+
+    <h1>{{ {true: 'New', false: 'Edit'}[delivery.getPrimaryKey() == undefined] }} release</h1>
+
+    <form class="space-top" name="deliveryForm">
+
+        <div class="form-group" ng-class="{ 'has-error': deliveryForm.version.$error.required }">
+            <label class="control-label">Version</label>
+            <div class="form-widget">
+                <input type="text" name="version" data-ng-model="delivery.version" class="form-control" required />
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error': deliveryForm.description.$error.required }">
+            <label class="control-label">Description</label>
+            <div class="form-widget">
+                <textarea type="text" name="description" data-ng-model="delivery.description"  class="form-control" required rows="5"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button ng-disabled="deliveryForm.$invalid" data-ng-click="save()" class="btn btn-one">Save</button>
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,253 @@
+@import '../../node_modules/font-awesome/less/font-awesome';
+@import '../../node_modules/bootstrap/less/bootstrap';
+@import '../../node_modules/pmsipilot-ui/less/bootstrap';
+@import 'variables';
+
+body {
+    .theme-colored(@themeColorOne, @themeColorTwo, @themeColorThree);
+}
+
+.custom-scrollbar();
+
+.btn.btn-two {
+    color: @themeColorTwo - #555;
+
+    &:hover, &.active {
+        background: #769097;
+    }
+}
+
+.gantt-chart {
+    position: relative;
+
+    .gantt-rows {
+        position: relative;
+
+        .gantt-row {
+            background: #ddd;
+            height: 16px;
+            position: relative;
+            margin-bottom: 10px;
+
+            .gantt-duration {
+                position: absolute;
+                top: 3px;
+                height: 10px;
+            }
+        }
+    }
+
+    .gantt-ranges {
+        color: #999;
+        margin-top: 8px;
+        position: relative;
+        height: 80px;
+        border-top: 1px dashed #999;
+
+        .gantt-range {
+            position: absolute;
+            margin-left: -15px;
+            top: 30px;
+            white-space: nowrap;
+            -webkit-transform: rotate(56deg);
+            -moz-transform: rotate(56deg);
+            -o-transform: rotate(56deg);
+            writing-mode: lr-tb;
+
+            &:last-of-type {
+                -webkit-transform: rotate(-56deg);
+                -moz-transform: rotate(-56deg);
+                -o-transform: rotate(-56deg);
+                left: auto!important;
+                right: -15px;
+            }
+        }
+    }
+
+    .gantt-current-date {
+        position: absolute;
+        top: 0;
+        bottom: -11px;
+        width: 2px;
+        background-color: #333;
+    }
+}
+
+.gantt-legend {
+    clear: both;
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+
+    .row-legend {
+        display: inline-block;
+        margin: 0 5px;
+    }
+}
+
+.node {
+    stroke: #fff;
+    stroke-width: 1.5px;
+}
+
+.link, .marker {
+    stroke: #999;
+    fill: #999;
+    stroke-opacity: .6;
+}
+
+// ngtable --------------------------------
+
+.ng-table {
+    margin-bottom: 10px;
+}
+
+.ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
+    border-color: white transparent !important;
+    opacity: 1 !important;
+}
+
+.ng-table.table-three th.sortable.sort-desc, .ng-table th.sortable.sort-asc {
+    background-color: @themeColorThree + #111;
+    text-shadow: none;
+}
+
+.table-three thead .ng-table-filters th {
+    background-color: #FFFFFF;
+    padding: 8px 0;
+
+    input {
+        .border-radius(0);
+    }
+}
+
+ul.pagination {
+    list-style: none;
+    .btn-group;
+}
+
+ul.pagination li {
+    display: inline-block;
+    position: relative;
+    border-right: 1px solid #FFF;
+}
+
+ul.pagination > li + li {
+    margin-left: -3px;
+}
+
+ul.pagination li a {
+    .btn;
+}
+
+ul.pagination li.disabled a {
+    .btn.disabled;
+}
+
+// Login form ------------------------
+.login-form input[type=submit] {
+    .btn;
+    .buttonColored(@themeColorThree, @themeColorThree - #151515, white);
+}
+
+.form-control, input.form-control, select.form-control {
+    width: 100%;
+
+    &.disabled, &[disabled] {
+        cursor: auto;
+    }
+}
+
+.history {
+    margin-bottom: 0;
+    padding: 0 0 10px 20px;
+
+    &:first-of-type {
+        padding-top: 20px;
+    }
+
+    span.icon {
+        -moz-border-radius: 15px;
+        -webkit-border-radius: 15px;
+        -o-border-radius: 15px;
+        -ms-border-radius: 15px;
+        border-radius: 15px;
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        border: 0;
+        display: inline-block;
+        line-height: 30px;
+        text-align: center;
+        font-size: 13px;
+        margin-right: 15px;
+        background-color: @themeColorOne;
+        color: white;
+    }
+
+    small {
+        cursor: pointer;
+    }
+
+    .entry {
+        margin-top: 15px;
+        margin-right: 15px;
+        margin-left: 45px;
+    }
+
+    & + button {
+        width: 100%;
+    }
+}
+
+// Status
+.delivery-status {
+    h2 {
+        font-size: 30px;
+
+        a:hover {
+            text-decoration: none;
+            border: none;
+        }
+    }
+
+    h3 {
+        line-height: 30px;
+        font-weight: bold;
+    }
+}
+
+.sidebar {
+    width: 200px;
+}
+
+.sidebar-resizer {
+    left: 200px;
+}
+
+.content {
+    left: 206px;
+}
+
+.modal-body {
+    h2 img {
+        width: 50px;
+        height: auto;
+    }
+
+    form {
+        padding-left: 65px;
+    }
+}
+
+resource-history {
+    display: block;
+}
+
+#graph-dependancy {
+    position: absolute;
+    bottom: 0;
+    top: 110px;
+    left: 20px;
+    right: 20px;
+}

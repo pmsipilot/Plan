@@ -1,0 +1,76 @@
+<div class="block-content" data-ng-init="sorting = '-target_date'">
+    <div class="row">
+        <h1 class="pull-left">Board</h1>
+
+        <div class="pull-right">
+            <a class="btn btn-icon btn-three" ng-click="showDelivered = ! showDelivered">
+                <i class="icon fa" data-ng-class="{'fa-eye': !showDelivered, 'fa-eye-slash': showDelivered }"></i>
+                {{ showDelivered ? 'Hide' : 'Show' }} delivered releases
+            </a>
+            <div class="btn-group">
+                <button class="dropdown-toggle btn btn-three" data-toggle="dropdown">
+                    <i class="fa fa-sort"></i>
+                </button>
+                <ul class="pull-right dropdown-menu">
+                    <li data-ng-class="{ active: sorting == '+start_date' || sorting == '-start_date' }">
+                        <a class="pointer" data-ng-click="sorting = sorting == '+start_date' ? '-start_date' : '+start_date'">
+                            <i class="fa fa-fw" data-ng-class="{ 'fa-sort-asc': sorting == '+start_date', 'fa-sort-desc': sorting == '-start_date' }"></i>
+                            Started at
+                        </a>
+                    </li>
+                    <li data-ng-class="{ active: sorting == '+target_date' || sorting == '-target_date' }">
+                        <a class="pointer" data-ng-click="sorting = sorting == '+target_date' ? '-target_date' : '+target_date'">
+                            <i class="fa fa-fw" data-ng-class="{ 'fa-sort-asc': sorting == '+target_date', 'fa-sort-desc': sorting == '-target_date' }"></i>
+                            Planned for/Delivered at
+                        </a>
+                    </li>
+                    <li data-ng-class="{ active: sorting == '+progress' || sorting == '-progress' }">
+                        <a class="pointer" data-ng-click="sorting = sorting == '+progress' ? '-progress' : '+progress'">
+                            <i class="fa fa-fw" data-ng-class="{ 'fa-sort-asc': sorting == '+progress', 'fa-sort-desc': sorting == '-progress' }"></i>
+                            Progress
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a class="pointer" data-ng-click="sorting = ''">
+                            <i class="fa fa-fw fa-times"></i>
+                            Reset
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="showDelivered || delivery.progress < 100" ng-repeat="delivery in deliveries | orderBy:sorting"
+         class="delivery-status block space-top">
+        <h3 class="pull-right"
+            ng-class="{ 'text-danger': delivery.progress == 0, 'text-warning': delivery.progress < 100, 'text-success': delivery.progress == 100 }">
+            {{ delivery.progress | number:0 }}%</h3>
+        <h2><a ng-href="#!/delivery/{{ delivery.id }}">{{ delivery.version }}</a></h2>
+
+        <div class="progress clear"
+             title="{{ delivery.progress }}% Delivered, {{ delivery.progressPlanned }}% Planned, {{ delivery.progressCurrent }}% Work in progress, {{ delivery.progressBlocked }}% Blocked">
+            <div class="progress-bar progress-bar-success" style="width: {{ delivery.progress }}%"><span
+                    data-ng-if="delivery.progress > 0">{{ delivery.progress|number:1 }}% Delivered</span></div>
+            <div class="progress-bar progress-bar-info" style="width: {{ delivery.progressPlanned }}%"><span
+                    data-ng-if="delivery.progressPlanned > 0">{{ delivery.progressPlanned|number:1 }}% Planned</span>
+            </div>
+            <div class="progress-bar progress-bar-warning" style="width: {{ delivery.progressCurrent }}%"><span
+                    data-ng-if="delivery.progressCurrent > 0">{{ delivery.progressCurrent|number:1 }}% Work in progress</span>
+            </div>
+            <div class="progress-bar progress-bar-danger" style="width: {{ delivery.progressBlocked }}%"><span
+                    data-ng-if="delivery.progressBlocked > 0">{{ delivery.progressBlocked|number:1 }}% Blocked</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <span class="pull-left" ng-if="delivery.start_date">Started at {{ delivery.start_date | moment }} <small>({{ delivery.start_date | momentFromNow }})</small></span>
+            <span class="pull-right" ng-if="delivery.target_date">
+                <span data-ng-if="delivery.progress < 100">Planned for</span>
+                <span data-ng-if="delivery.progress == 100">Delivered at</span>
+                {{ delivery.target_date | moment }} <small>({{ delivery.target_date | momentFromNow }})</small>
+            </span>
+        </div>
+    </div>
+</div>

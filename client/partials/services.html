@@ -1,0 +1,21 @@
+<div class="block-content">
+    <div class="row">
+        <h1 class="pull-left">Services</h1>
+    </div>
+
+    <table class="table table-three space-top table-striped" data-ng-table="tableParams" show-filter="true">
+        <tr data-ng-repeat="service in $data">
+            <td data-title="'Name'" sortable="'name'" filter="{ 'name': 'text' }">{{ service.name }}</td>
+            <td data-title="'Active'" sortable="'enabled'">
+                <span class="label" data-ng-class="{ 'label-success': service.enabled, 'label-danger': !service.enabled }">
+                    {{ service.enabled ? 'Yes' : 'No' }}
+                </span>
+            </td>
+            <td>
+                <div class="pull-right">
+                    <a href="#!/service/{{ service.name }}/edit" class="btn btn-two rounded"><i class="fa fa-gear"></i></a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
