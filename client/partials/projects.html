@@ -9,7 +9,7 @@
 
     <table class="table table-three space-top table-striped" data-ng-table="tableParams" show-filter="true" >
         <tr data-ng-repeat="project in $data">
-            <td style="color: {{ project.color ? project.color : '#339999' }}"><i class="fa fa-square"></i></td>
+            <td ng-style="{ color: project.color ? project.color : '#339999' }"><i class="fa fa-square"></i></td>
             <td data-title="'Name'" sortable="'name'" filter="{ 'name': 'text' }">{{ project.name }}</td>
             <td data-title="'Project Owner'" sortable="'project_owner'" filter="{ 'project_owner': 'text' }">{{ project.project_owner }}</td>
             <td data-title="'Scrum Master'" sortable="'scrum_master'" filter="{ 'scrum_master': 'text' }">{{ project.scrum_master }}</td>
@@ -19,7 +19,7 @@
                 <div class="pull-right">
                     <a href="#!/project/{{ project.getPrimaryKey() }}/edit" class="btn btn-two rounded"><i class="fa fa-edit"></i></a>
                     <a href="#!/project/{{ project.getPrimaryKey() }}" class="btn btn-two rounded"><i class="fa fa-info"></i></a>
-                    <a ng-if="gitlab.enabled && project.repository" class="btn btn-two rounded" href="{{ gitlab.config.url }}/{{ project.repository }}/blob/master/CHANGELOG.md"><i class="fa fa-gitlab"></i></a>
+                    <a ng-if="gitlab.enabled && project.repository" target="_blank" class="btn btn-two rounded" href="{{ gitlab.config.url }}/{{ project.repository }}/blob/master/CHANGELOG.md"><i class="fa fa-gitlab"></i></a>
                 </div>
             </td>
         </tr>

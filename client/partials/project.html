@@ -26,7 +26,7 @@
             <div class="col-md-3">
                 <div class="pull-right">
                     <a href="#!/project/{{ project.getPrimaryKey() }}/edit" class="btn btn-two rounded" title="Edit this project"><i class="fa fa-edit"></i></a>
-                    <a ng-if="gitlab.enabled && project.repository" class="btn btn-two rounded pointer" href="{{ gitlab.config.url }}/{{ project.repository }}/blob/master/CHANGELOG.md"><i class="fa fa-gitlab"></i></a>
+                    <a ng-if="gitlab.enabled && project.repository" target="_blank" class="btn btn-two rounded" href="{{ gitlab.config.url }}/{{ project.repository }}/blob/master/CHANGELOG.md"><i class="fa fa-gitlab"></i></a>
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@
             <div class="form-group" ng-class="{ 'has-error': versionForm.status.$error.required }">
                 <label class="control-label">Status</label>
                 <div class="form-widget">
-                    <select name="status" data-ng-model="projectDelivery.status" data-ng-options="status for status in deliveryStatuses" class="form-control" required></select>
+                    <select name="status" data-ng-model="projectDelivery.status" data-ng-options="status for status in ['planned', 'current', 'blocked', 'delivered']" class="form-control" required></select>
                 </div>
             </div>
 

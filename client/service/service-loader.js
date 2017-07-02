@@ -1,22 +1,17 @@
 angular
     .module('pmsiplan')
-    .factory('ServiceLoader', ['AngularDataStore', function ServiceLoader (AngularDataStore) {
+    .factory('ServiceLoader', ['AngularDataStore', function (AngularDataStore) {
+        return {
+            get: function () {
+                return AngularDataStore.findAll('service');
+            },
 
-    var promise;
-
-    return {
-        get: function () {
-            if (!promise) {
-                promise = AngularDataStore.findAll('service');
+            getService: function (name) {
+                return this.get().then(function (services) {
+                    return services.find(function(service) {
+                        return service.name === name;
+                    });
+                });
             }
-
-            return promise;
-        },
-
-        getService: function (name) {
-            return this.get().then(function (services) {
-                return _.find(services, {name: name});
-            });
-        }
-    };
-}]);
+        };
+    }]);

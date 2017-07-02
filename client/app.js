@@ -8,7 +8,7 @@ angular.module('pmsiplan', [
     'hc.marked',
     'ui.gravatar'
 ])
-    .config(['$locationProvider', 'AuthenticateJSProvider', function ($locationProvider, AuthenticateJSProvider) {
+    .config(['AuthenticateJSProvider', function (AuthenticateJSProvider) {
         AuthenticateJSProvider.setConfig({
             host: '/',                          // your base api url
             loginUrl: 'ldap/auth/login',        // login api url
@@ -21,7 +21,12 @@ angular.module('pmsiplan', [
         });
 
     }])
-
+    .config(['markedProvider', function (markedProvider) {
+        markedProvider.setOptions({
+            gfm: true,
+            tables: true
+        });
+    }])
     .config(['AngularDataRestAdapterProvider', 'AngularDataStoreProvider', function(AngularDataRestAdapterProvider, AngularDataStoreProvider) {
         AngularDataRestAdapterProvider.setBaseUrl('api');
         AngularDataStoreProvider.setSocketIOBaseUrl("/");
@@ -98,11 +103,9 @@ angular.module('pmsiplan', [
             primaryKey: '_id'
         });
     }])
-
     .config(['$routeProvider', function($routeProvider) {
-        $routeProvider.
-
-            when('/status', {
+        $routeProvider
+            .when('/status', {
                 templateUrl: 'partials/status.html',
                 controller: 'StatusController',
                 resolve: {
@@ -134,6 +137,9 @@ angular.module('pmsiplan', [
                 resolve: {
                     projects: ['AngularDataStore', function(AngularDataStore) {
                         return AngularDataStore.findAll('project');
+                    }],
+                    gitlab: ['ServiceFactory', function(ServiceFactory) {
+                        return ServiceFactory.getService('gitlab');
                     }]
                 },
                 security: true,
@@ -179,6 +185,9 @@ angular.module('pmsiplan', [
                     }],
                     deliveries: ['AngularDataStore', function(AngularDataStore) {
                         return AngularDataStore.findAll('delivery');
+                    }],
+                    gitlab: ['ServiceFactory', function(ServiceFactory) {
+                        return ServiceFactory.getService('gitlab');
                     }]
                 },
                 security: true,
@@ -230,6 +239,12 @@ angular.module('pmsiplan', [
                     }],
                     projects: ['AngularDataStore', function(AngularDataStore) {
                         return AngularDataStore.findAll('project');
+                    }],
+                    projectDeliveries: ['$route', 'AngularDataStore', function($route, AngularDataStore) {
+                        return AngularDataStore.findBy('project_delivery', { delivery: $route.current.params.id });
+                    }],
+                    gitlab: ['ServiceFactory', function(ServiceFactory) {
+                        return ServiceFactory.getService('gitlab');
                     }]
                 },
                 security: true,
@@ -245,6 +260,9 @@ angular.module('pmsiplan', [
                     }],
                     projects: ['AngularDataStore', function(AngularDataStore) {
                         return AngularDataStore.findAll('project');
+                    }],
+                    projectDeliveries: ['$route', 'AngularDataStore', function($route, AngularDataStore) {
+                        return AngularDataStore.findBy('project_delivery', { delivery: $route.current.params.id });
                     }]
                 },
                 security: true,
@@ -260,6 +278,12 @@ angular.module('pmsiplan', [
                     }],
                     projects: ['AngularDataStore', function(AngularDataStore) {
                         return AngularDataStore.findAll('project');
+                    }],
+                    projectDeliveries: ['$route', 'AngularDataStore', function($route, AngularDataStore) {
+                        return AngularDataStore.findBy('project_delivery', { delivery: $route.current.params.id });
+                    }],
+                    gitlab: ['ServiceFactory', function(ServiceFactory) {
+                        return ServiceFactory.getService('gitlab');
                     }]
                 },
                 security: true,
@@ -269,6 +293,14 @@ angular.module('pmsiplan', [
             .when('/service', {
                 templateUrl: 'partials/services.html',
                 controller: 'ServicesController',
+                resolve: {
+                    gitlab: ['ServiceFactory', function(ServiceFactory) {
+                        return ServiceFactory.getService('gitlab');
+                    }],
+                    slackbot: ['ServiceFactory', function(ServiceFactory) {
+                        return ServiceFactory.getService('slackbot');
+                    }]
+                },
                 security: true,
                 active: 'service'
             })

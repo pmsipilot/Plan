@@ -12,9 +12,9 @@
                         <a class="btn square btn-two" href="#!/delivery/{{ delivery.getPrimaryKey() }}/dependancies"><i class="fa fa-code-fork"></i></a>
                     </div>
                     <a ng-if="!delivery.locked" href="#!/delivery/{{ delivery.getPrimaryKey() }}/edit" class="btn btn-two rounded"><i class="fa fa-edit"></i></a>
-                    <a ng-if="!delivery.locked" ng-click="lock(delivery)" class="btn btn-two rounded" title="Lock the delivery"><i class="fa fa-lock"></i></a>
-                    <a ng-if="delivery.locked" ng-click="unlock(delivery)" class="btn btn-two rounded" title="Unlock the delivery"><i class="fa fa-unlock"></i></a>
-
+                    <a ng-click="toggle(delivery)" class="btn btn-two rounded" title="{{ delivery.locked ? 'Unlock' : 'Lock' }} the delivery">
+                        <i class="fa" ng-class="{ 'fa-unlock': delivery.locked, 'fa-lock': !delivery.locked }"></i>
+                    </a>
                     <a ng-show="delivery.description" data-ng-click="showDescription = !showDescription" class="btn btn-two rounded"><i class="fa fa-align-justify"></i></a>
                 </div>
             </div>
@@ -29,9 +29,6 @@
             <td data-title="'PO/SM'" sortable="'poSm'" filter="{ 'poSm': 'text' }">{{ prDelivery.poSm }}</td>
             <td data-title="'Version'" sortable="'version'" filter="{ 'version': 'text' }">
                 {{ prDelivery.version ? prDelivery.version : 'not specified yet' }}
-                <span ng-if="gitlab.enabled && prDelivery.project.repository">
-                (<a target="_blank" href="{{ gitlab.config.url }}/{{ prDelivery.project.repository }}/blob/master/CHANGELOG.md">Changelog</a>)
-                </span>
             </td>
             <td data-title="'Started at'" sortable="'startDate'">{{ prDelivery.startDate | moment }} <small ng-if="prDelivery.startDate">({{ prDelivery.startDate | momentFromNow }})</small></td>
             <td data-title="'Planned for'" sortable="'plannedDate'">{{ prDelivery.plannedDate | moment }} <small ng-if="prDelivery.plannedDate">({{ prDelivery.plannedDate | momentFromNow }})</small></td>
@@ -39,6 +36,7 @@
             <td data-title="'Status'" sortable="'status'" filter="{ 'status': 'text' }"><span data-ng-if="prDelivery.status" data-project-delivery-status="prDelivery.status"></span></td>
             <td>
                 <a ng-show="prDelivery.features" data-ng-click="showFeature = !showFeature" class="btn btn-two rounded pointer"><i class="fa fa-align-justify"></i></a>
+                <a ng-if="gitlab.enabled && prDelivery.project.repository" target="_blank" class="btn btn-two rounded" href="{{ gitlab.config.url }}/{{ prDelivery.project.repository }}/blob/master/CHANGELOG.md"><i class="fa fa-gitlab"></i></a>
             </td>
         </tr>
         <tr data-ng-repeat-end ng-show="showFeature && prDelivery.features">

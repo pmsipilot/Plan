@@ -1,13 +1,11 @@
-angular.module('pmsiplan').controller('ProjectController', ['$scope', '$location', '$route', 'AngularDataStore', 'DeliveryHelper', 'project', 'deliveries', 'ServiceFactory',
-    function($scope, $location, $route, AngularDataStore, DeliveryHelper, project, deliveries, ServiceFactory) {
+angular.module('pmsiplan').controller('ProjectController', ['$scope', '$location', '$route', 'AngularDataStore', 'DeliveryHelper', 'project', 'deliveries', 'gitlab',
+    function($scope, $location, $route, AngularDataStore, DeliveryHelper, project, deliveries, gitlab) {
         $scope.project = project;
+        $scope.gitlab = gitlab;
         $scope.project.getDependancies().then(function(dependancies) {
             $scope.dependancies = dependancies;
         });
-        ServiceFactory.getService('gitlab').then(function(gitlab) {
-            $scope.gitlab = gitlab;
-        });
-        var availableDeliveries = _.filter(deliveries, function(delivery) {
+        var availableDeliveries = deliveries.filter(function(delivery) {
             return !delivery.locked;
         });
         AngularDataStore.findBy('project_delivery', { project: $scope.project.getPrimaryKey() }).then(function(projectDeliveries) {
@@ -15,31 +13,26 @@ angular.module('pmsiplan').controller('ProjectController', ['$scope', '$location
                 var config = { projectDelivery: projectDelivery };
                 projectDelivery.getDelivery().then(function(delivery) {
                     config.delivery = delivery;
+
                     DeliveryHelper.getProjectDependenciesRequirements($scope.project, delivery).then(function(dependencies) {
                         config.dependencies = dependencies;
                     });
-                    _.pull(availableDeliveries, delivery);
+
+                    availableDeliveries = availableDeliveries.filter(function(availableDelivery) {
+                        return availableDelivery.getPrimaryKey() !== delivery.getPrimaryKey();
+                    });
                 });
                 return config;
             });
         });
 
-        // Delete projects
-        $scope.remove = function() {
-            if (confirm('Are you sure you want to delete this project ?')) {
-                AngularDataStore.remove($scope.project);
-                $location.path('/project');
-            }
-        };
-
         // Project Delivery Handling
         $scope.projectDelivery = null;
         $scope.isSaving = false;
-        $scope.deliveryStatuses = ['planned', 'current', 'blocked', 'delivered'];
         $scope.editProjectDelivery = function(projectDelivery) {
             $scope.projectDelivery  = projectDelivery;
             $scope.deliveries = angular.copy(availableDeliveries);
-            $scope.deliveries.push(_.find(deliveries, function(delivery) {
+            $scope.deliveries.push(deliveries.find(function(delivery) {
                 return delivery.getPrimaryKey() === projectDelivery.delivery;
             }));
         };
@@ -64,6 +57,4 @@ angular.module('pmsiplan').controller('ProjectController', ['$scope', '$location
                 });
             }
         };
-
-
     }]);

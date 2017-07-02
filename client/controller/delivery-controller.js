@@ -1,83 +1,61 @@
-angular.module('pmsiplan').controller('DeliveryController', ['$scope', '$filter', '$location', 'AngularDataStore', 'ServiceFactory', 'delivery', 'projects', 'NgTableParams',
-    function ($scope, $filter, $location, AngularDataStore, ServiceFactory, delivery, projects, NgTableParams) {
+angular.module('pmsiplan').controller('DeliveryController', ['$scope', '$filter', '$location', 'AngularDataStore', 'ServiceFactory', 'delivery', 'projects', 'NgTableParams', 'gitlab', 'projectDeliveries',
+    function ($scope, $filter, $location, AngularDataStore, ServiceFactory, delivery, projects, NgTableParams, gitlab, projectDeliveries) {
         $scope.delivery = delivery;
         $scope.projects = projects;
         $scope.deliveryProjects = [];
+        $scope.gitlab = gitlab;
 
-        // Services
-        ServiceFactory.getService('gitlab').then(function(gitlab) {
-            $scope.gitlab = gitlab;
-        });
-
-        $scope.removeDelivery = function () {
-            if (confirm('Are you sure you want to delete this delivery ?')) {
-                AngularDataStore.remove($scope.delivery);
-                $location.path('/delivery');
-            }
-        };
-
-        $scope.lock = function () {
-            delivery.locked = true;
-            AngularDataStore.save(delivery);
-        };
-
-        $scope.unlock = function () {
-            delivery.locked = false;
+        $scope.toggle = function () {
+            delivery.locked = !delivery.locked;
             AngularDataStore.save(delivery);
         };
 
         $scope.deliveryProjects = [];
-        AngularDataStore.findBy('project_delivery', {delivery: delivery.getPrimaryKey()}).then(function(projectDeliveries) {
-            var computeDeliveryProjects = function () {
-                $scope.deliveryProjects.splice(0, $scope.deliveryProjects.length);
-                angular.forEach(projectDeliveries, function (prDelivery) {
-                    var deliveryProject = {
-                        primaryKey: null,
-                        color: null,
-                        name: null,
-                        poSm: null,
-                        version: prDelivery.version,
-                        features: prDelivery.features,
-                        startDate: prDelivery.start_date,
-                        endDate: prDelivery.end_date,
-                        plannedDate: prDelivery.target_date,
-                        status: prDelivery.status
-                    };
-                    $scope.deliveryProjects.push(deliveryProject);
+        var computeDeliveryProjects = function () {
+            $scope.deliveryProjects.splice(0, $scope.deliveryProjects.length);
+            angular.forEach(projectDeliveries, function (prDelivery) {
+                var deliveryProject = {
+                    primaryKey: null,
+                    color: null,
+                    name: null,
+                    poSm: null,
+                    version: prDelivery.version,
+                    features: prDelivery.features,
+                    startDate: prDelivery.start_date,
+                    endDate: prDelivery.end_date,
+                    plannedDate: prDelivery.target_date,
+                    status: prDelivery.status
+                };
+                $scope.deliveryProjects.push(deliveryProject);
 
-                    prDelivery.getProject().then(function (project) {
-                        deliveryProject.primaryKey = project.getPrimaryKey();
-                        deliveryProject.color = project.color ? project.color : '#339999';
-                        deliveryProject.name = project.name;
-                        deliveryProject.poSm = (project.project_owner ? project.project_owner : '') + '/' + (project.scrum_master ? project.scrum_master : '');
-                        deliveryProject.project = project;
-                    });
+                prDelivery.getProject().then(function (project) {
+                    deliveryProject.primaryKey = project.getPrimaryKey();
+                    deliveryProject.color = project.color ? project.color : '#339999';
+                    deliveryProject.name = project.name;
+                    deliveryProject.poSm = (project.project_owner ? project.project_owner : '') + '/' + (project.scrum_master ? project.scrum_master : '');
+                    deliveryProject.project = project;
                 });
-            };
-
-            computeDeliveryProjects();
-
-            $scope.tableParams = new NgTableParams({
-                page: 1,            // show first page
-                count: 100,          // count per page
-                sorting: {
-                    name: 'asc'     // initial sorting
-                }
-            }, {
-                dataset: $scope.deliveryProjects
             });
+        };
 
-            $scope.$watch('projects', function () {
-                computeDeliveryProjects();
-            }, true);
+        computeDeliveryProjects();
 
-            $scope.$watch('delivery', function () {
-                computeDeliveryProjects();
-            }, true);
+        $scope.tableParams = new NgTableParams(
+            {
+                page: 1,
+                count: 100,
+                sorting: {
+                    name: 'asc'
+                }
+            },
+            {
+                dataset: $scope.deliveryProjects
+            }
+        );
 
-            $scope.$watch('deliveryProjects', function () {
-                $scope.tableParams.reload();
-            }, true);
-
-        });
+        $scope.$on('$destroy', $scope.$watch('projects', function () { computeDeliveryProjects(); }, true));
+        $scope.$on('$destroy', $scope.$watch('delivery', function () { computeDeliveryProjects(); }, true));
+        $scope.$on('$destroy', $scope.$watch('deliveryProjects', function () {
+            $scope.tableParams.reload();
+        }, true));
     }]);

@@ -51,8 +51,6 @@ module.exports = function(grunt) {
                     'node_modules/angular-bootstrap/ui-bootstrap-tpls.min.js',
                     'node_modules/bootstrap/dist/js/bootstrap.min.js',
                     'node_modules/ng-table/bundles/ng-table.min.js',
-                    'node_modules/spectrum/lib/spectrum.js',
-                    'node_modules/lodash/lodash.min.js',
                     'node_modules/d3/d3.min.js',
                     'node_modules/authenticatejs/src/js/module.js',
                     'node_modules/authenticatejs/src/js/**/*.js',

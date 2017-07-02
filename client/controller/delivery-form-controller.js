@@ -10,5 +10,4 @@ angular.module('pmsiplan').controller('DeliveryFormController', ['$scope', '$loc
             AngularDataStore.save($scope.delivery);
             $location.path('/delivery');
         };
-
     }]);

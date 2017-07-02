@@ -1,25 +1,18 @@
-angular.module('pmsiplan').controller('ServicesController', ['$scope', '$filter', 'ServiceFactory', 'NgTableParams',
-    function($scope, $filter, ServiceFactory, NgTableParams) {
-
-        $scope.services = [];
-        ServiceFactory.getService('gitlab').then(function(service) {
-            $scope.services.push(service);
-        });
-        ServiceFactory.getService('slackbot').then(function(service) {
-            $scope.services.push(service);
-        });
-
-        $scope.tableParams = new NgTableParams({
-            page: 1,            // show first page
-            count: 100,          // count per page
-            sorting: {
-                version: 'desc'     // initial sorting
+angular.module('pmsiplan').controller('ServicesController', ['$scope', 'NgTableParams', 'gitlab', 'slackbot',
+    function($scope, NgTableParams, gitlab, slackbot) {
+        $scope.services = [gitlab, slackbot];
+        $scope.tableParams = new NgTableParams(
+            {
+                page: 1,
+                count: 100,
+                sorting: {
+                    version: 'desc'
+                }
+            },
+            {
+                dataset: $scope.services
             }
-        }, {
-            dataset: $scope.services
-        });
+        );
         
-        $scope.$watch('services', function () {
-            $scope.tableParams.reload();
-        }, true);
+        $scope.$on('$destroy', $scope.$watch('services', function () { $scope.tableParams.reload(); }, true));
 }]);

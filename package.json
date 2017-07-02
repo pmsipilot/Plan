@@ -35,7 +35,6 @@
     "grunt-contrib-watch": "*",
     "grunt-contrib-jshint": "*",
     "jquery": "^3.2.1",
-    "lodash": "^4.17.4",
     "marked": "^0.3.6",
     "moment": "^2.18.1",
     "ng-table": "^3.0.1",

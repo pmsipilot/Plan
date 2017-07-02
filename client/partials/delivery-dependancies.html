@@ -20,10 +20,9 @@
                     </div>
                     <a ng-if="!delivery.locked" href="#!/delivery/{{ delivery.getPrimaryKey() }}/edit"
                        class="btn btn-two rounded"><i class="fa fa-edit"></i></a>
-                    <a ng-if="!delivery.locked" ng-click="lock(delivery)" class="btn btn-two rounded"
-                       title="Lock the delivery"><i class="fa fa-lock"></i></a>
-                    <a ng-if="delivery.locked" ng-click="unlock(delivery)" class="btn btn-two rounded"
-                       title="Unlock the delivery"><i class="fa fa-unlock"></i></a>
+                    <a ng-click="toggle(delivery)" class="btn btn-two rounded" title="{{ delivery.locked ? 'Unlock' : 'Lock' }} the delivery">
+                        <i class="fa" ng-class="{ 'fa-unlock': delivery.locked, 'fa-lock': !delivery.locked }"></i>
+                    </a>
                 </div>
             </div>
         </div>
