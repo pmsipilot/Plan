@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "grunt",
-    "cs": "eslint server client --fix"
+    "cs": "eslint server client"
   },
   "dependencies": {
     "bedoon": "git+https://github.com/jubianchi/bedoon.git#master",
