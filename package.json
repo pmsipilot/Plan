@@ -30,6 +30,8 @@
     "authenticatejs": "git+https://github.com/jubianchi/authenticate.js.git#master",
     "bootstrap": "^3.3.7",
     "d3": "~3.4.1",
+    "eslint": "^2.0.0",
+    "eslint-config-airbnb-base": "^3.0.1",
     "font-awesome": "^4.7.0",
     "grunt": "^1.0",
     "grunt-contrib-concat": "*",
