@@ -8,7 +8,7 @@
     </div>
 
 
-    <table class="table table-three space-top table-striped" data-ng-table="tableParams" show-filter="true">
+    <table class="table table-three space-top table-striped table-hover" data-ng-table="tableParams" show-filter="true">
         <tr data-ng-repeat="delivery in $data">
             <td data-title="'Version'" sortable="'version'" filter="{ 'version': 'text' }">{{ delivery.version }}</td>
             <td data-title="'Started at'">{{ delivery.start_date | moment }} <small ng-if="delivery.start_date">({{ delivery.start_date | momentFromNow }})</small></td>

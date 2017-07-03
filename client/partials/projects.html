@@ -7,9 +7,9 @@
         </div>
     </div>
 
-    <table class="table table-three space-top table-striped" data-ng-table="tableParams" show-filter="true" >
+    <table class="table table-three space-top table-striped table-hover" data-ng-table="tableParams" show-filter="true" >
         <tr data-ng-repeat="project in $data">
-            <td ng-style="{ color: project.color ? project.color : '#339999' }"><i class="fa fa-square"></i></td>
+            <td ng-style="{ color: project.color ? project.color : '#339999' }"><i class="fa fa-2x fa-square"></i></td>
             <td data-title="'Name'" sortable="'name'" filter="{ 'name': 'text' }">{{ project.name }}</td>
             <td data-title="'Project Owner'" sortable="'project_owner'" filter="{ 'project_owner': 'text' }">{{ project.project_owner }}</td>
             <td data-title="'Scrum Master'" sortable="'scrum_master'" filter="{ 'scrum_master': 'text' }">{{ project.scrum_master }}</td>

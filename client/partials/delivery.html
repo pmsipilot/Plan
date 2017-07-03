@@ -22,9 +22,9 @@
         <p data-ng-show="showDescription && delivery.description" marked="delivery.description"></p>
     </div>
 
-    <table class="table table-three table-striped space-top" data-ng-table="tableParams" show-filter="true">
+    <table class="table table-three table-striped space-top table-hover" data-ng-table="tableParams" show-filter="true">
         <tr data-ng-repeat-start="prDelivery in $data">
-            <td style="color: {{ prDelivery.color }}"><i class="fa fa-square"></i></td>
+            <td style="color: {{ prDelivery.color }}"><i class="fa fa-2x  fa-square"></i></td>
             <td data-title="'Project'" sortable="'name'" filter="{ 'name': 'text' }"><a href="#!/project/{{ prDelivery.primaryKey }}">{{ prDelivery.name }}</a></td>
             <td data-title="'PO/SM'" sortable="'poSm'" filter="{ 'poSm': 'text' }">{{ prDelivery.poSm }}</td>
             <td data-title="'Version'" sortable="'version'" filter="{ 'version': 'text' }">
