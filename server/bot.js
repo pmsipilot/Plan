@@ -377,7 +377,10 @@ module.exports = function (enabled, config, models, app) {
     app.use(function (req, res, next) {
         next();
 
-        if (req.params.name === 'service' && req.method === 'PUT' && req.body.name === 'slackbot') {
+        var isService = req.params && req.params.name === 'service';
+        var isSlackBot = req.body && req.body.name === 'slackbot';
+
+        if (req.method === 'PUT' && isService && isSlackBot) {
             console.log('Updating slackbot configuration');
 
             if (!req.body.enabled) {
