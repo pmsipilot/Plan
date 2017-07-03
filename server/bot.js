@@ -226,11 +226,14 @@ module.exports = function (enabled, config, models, app) {
                 });
 
                 Promise.all(promises).then(function (attachments) {
-                    robot.emit('attachment', {
-                        channel: res.envelope.room,
-                        username: robot.name,
-                        attachments: attachments.map(function (attachment) { return formatLink(attachment, config); })
-                    });
+                    while(attachments.length > 0) {
+                        robot.emit('attachment', {
+                            channel: res.envelope.room,
+                            username: robot.name,
+                            attachments: attachments.splice(0, 10)
+                                .map(function (attachment) { return formatLink(attachment, config); })
+                        });
+                    }
                 });
             });
         });
@@ -253,9 +256,16 @@ module.exports = function (enabled, config, models, app) {
                             channel: res.envelope.room,
                             username: robot.name,
                             attachments: [deliveryToAttachment(delivery, versions)]
-                                .concat(attachments)
-                                .map(function (attachment) { return formatLink(attachment, config); })
                         });
+
+                        while(attachments.length > 0) {
+                            robot.emit('attachment', {
+                                channel: res.envelope.room,
+                                username: robot.name,
+                                attachments: attachments.splice(0, 10)
+                                    .map(function (attachment) { return formatLink(attachment, config); })
+                            });
+                        }
                     });
                 });
             });
@@ -279,15 +289,19 @@ module.exports = function (enabled, config, models, app) {
 
         robot.respond(/project list/i, function (res) {
             models.project.find(function (err, result) {
-                robot.emit('attachment', {
-                    channel: res.envelope.room,
-                    username: robot.name,
-                    attachments: result
-                        .map(function (project) {
-                            return projectToAttachment(project);
-                        })
-                        .map(function (attachment) { return formatLink(attachment, config); })
-                });
+                while(result.length > 0) {
+                    robot.emit('attachment', {
+                        channel: res.envelope.room,
+                        username: robot.name,
+                        attachments: result.splice(0, 10)
+                            .map(function (project) {
+                                return projectToAttachment(project);
+                            })
+                            .map(function (attachment) {
+                                return formatLink(attachment, config);
+                            })
+                    });
+                }
             });
         });
 
@@ -300,22 +314,30 @@ module.exports = function (enabled, config, models, app) {
                         channel: res.envelope.room,
                         username: robot.name,
                         attachments: [projectToAttachment(project)]
-                            .concat(versions
-                                .map(function (version) { return projectVersionToAttachment(version); })
-                                .sort(function (a, b) {
-                                    if (semver.gt(a.title, b.title)) {
-                                        return -1;
-                                    }
-
-                                    if (semver.lt(a.title, b.title)) {
-                                        return 1;
-                                    }
-
-                                    return 0;
-                                })
-                            )
-                            .map(function (attachment) { return formatLink(attachment, config); })
                     });
+
+                    versions = versions
+                        .map(function (version) { return projectVersionToAttachment(version); })
+                        .sort(function (a, b) {
+                            if (semver.gt(a.title, b.title)) {
+                                return -1;
+                            }
+
+                            if (semver.lt(a.title, b.title)) {
+                                return 1;
+                            }
+
+                            return 0;
+                        });
+
+                    while(versions.length > 0) {
+                        robot.emit('attachment', {
+                            channel: res.envelope.room,
+                            username: robot.name,
+                            attachments: versions.splice(0, 10)
+                                .map(function (attachment) { return formatLink(attachment, config); })
+                        });
+                    }
                 });
             });
         });
