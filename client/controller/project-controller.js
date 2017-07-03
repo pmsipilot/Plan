@@ -1,6 +1,7 @@
 angular.module('plan').controller('ProjectController', [
     '$scope', '$location', '$route', 'AngularDataStore', 'DeliveryHelper', 'project', 'deliveries', 'gitlab',
-    function ($scope, $location, $route, AngularDataStore, DeliveryHelper, project, deliveries, gitlab) {
+    'projects',
+    function ($scope, $location, $route, AngularDataStore, DeliveryHelper, project, deliveries, gitlab, projects) {
         $scope.project = project;
         $scope.gitlab = gitlab;
         $scope.project.getDependancies().then(function (dependancies) {
@@ -9,6 +10,13 @@ angular.module('plan').controller('ProjectController', [
         var availableDeliveries = deliveries.filter(function (delivery) {
             return !delivery.locked;
         });
+        $scope.projects = [project].concat(project.dependancies.map(function (dependency) {
+            return projects.find(function(p) {
+                return p._id === dependency;
+            })
+        }));
+
+        console.log($scope.projects);
         AngularDataStore.findBy('project_delivery', { project: $scope.project.getPrimaryKey() })
             .then(function (projectDeliveries) {
                 $scope.projectDeliveries = projectDeliveries.map(function (projectDelivery) {

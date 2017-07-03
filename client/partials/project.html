@@ -25,12 +25,18 @@
             </div>
             <div class="col-md-3">
                 <div class="pull-right">
+                    <div class="btn-group space-right-small">
+                        <a class="btn square btn-two active" href="#!/project/{{ project.getPrimaryKey() }}"><i class="fa fa-table"></i></a>
+                        <a class="btn square btn-two" href="#!/project/{{ project.getPrimaryKey() }}/dependencies"><i class="fa fa-code-fork"></i></a>
+                    </div>
+
                     <a href="#!/project/{{ project.getPrimaryKey() }}/edit" class="btn btn-two rounded" title="Edit this project"><i class="fa fa-edit"></i></a>
                     <a ng-if="gitlab.enabled && project.repository" target="_blank" class="btn btn-two rounded" href="{{ gitlab.config.url }}/{{ project.repository }}/blob/master/CHANGELOG.md"><i class="fa fa-gitlab"></i></a>
+                    <a ng-show="project.description" data-ng-click="showDescription = !showDescription" class="btn btn-two rounded"><i class="fa fa-align-justify"></i></a>
                 </div>
             </div>
         </div>
-        <p data-ng-show="project.description" marked="project.description"></p>
+        <p data-ng-show="showDescription && project.description" marked="project.description"></p>
     </div>
 
     <div class="block space-top" data-ng-show="projectDelivery !== null">

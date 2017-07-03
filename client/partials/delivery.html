@@ -9,7 +9,7 @@
                     <div class="btn-group space-right-small">
                         <a class="btn square btn-two active" href="#!/delivery/{{ delivery.getPrimaryKey() }}"><i class="fa fa-table"></i></a>
                         <a class="btn square btn-two" href="#!/delivery/{{ delivery.getPrimaryKey() }}/gantt"><i class="fa fa-bar-chart"></i></a>
-                        <a class="btn square btn-two" href="#!/delivery/{{ delivery.getPrimaryKey() }}/dependancies"><i class="fa fa-code-fork"></i></a>
+                        <a class="btn square btn-two" href="#!/delivery/{{ delivery.getPrimaryKey() }}/dependencies"><i class="fa fa-code-fork"></i></a>
                     </div>
                     <a ng-if="!delivery.locked" href="#!/delivery/{{ delivery.getPrimaryKey() }}/edit" class="btn btn-two rounded"><i class="fa fa-edit"></i></a>
                     <a ng-click="toggle(delivery)" class="btn btn-two rounded" title="{{ delivery.locked ? 'Unlock' : 'Lock' }} the delivery">

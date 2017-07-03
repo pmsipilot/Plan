@@ -49,12 +49,16 @@ angular.module('plan').directive('projectDependencyGraph', [function () {
                     });
 
                     project.dependancies.forEach(function (dependency) {
-                        dependencies.push({
-                            source: node.index,
-                            target: nodes.find(function (n) {
-                                return n.id === dependency;
-                            }).index
+                        var n = nodes.find(function (n) {
+                            return n.id === dependency;
                         });
+
+                        if (n) {
+                            dependencies.push({
+                                source: node.index,
+                                target: n.index
+                            });
+                        }
                     });
                 }
 

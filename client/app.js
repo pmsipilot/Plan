@@ -184,6 +184,30 @@ angular.module('plan', [
                     project: ['$route', 'AngularDataStore', function ($route, AngularDataStore) {
                         return AngularDataStore.find('project', $route.current.params.id);
                     }],
+                    projects: ['AngularDataStore', function (AngularDataStore) {
+                        return AngularDataStore.findAll('project');
+                    }],
+                    deliveries: ['AngularDataStore', function (AngularDataStore) {
+                        return AngularDataStore.findAll('delivery');
+                    }],
+                    gitlab: ['ServiceFactory', function (ServiceFactory) {
+                        return ServiceFactory.getService('gitlab');
+                    }]
+                },
+                security: true,
+                active: 'project'
+            })
+
+            .when('/project/:id/dependencies', {
+                templateUrl: 'partials/project-dependencies.html',
+                controller: 'ProjectController',
+                resolve: {
+                    project: ['$route', 'AngularDataStore', function ($route, AngularDataStore) {
+                        return AngularDataStore.find('project', $route.current.params.id);
+                    }],
+                    projects: ['AngularDataStore', function (AngularDataStore) {
+                        return AngularDataStore.findAll('project');
+                    }],
                     deliveries: ['AngularDataStore', function (AngularDataStore) {
                         return AngularDataStore.findAll('delivery');
                     }],
@@ -270,7 +294,7 @@ angular.module('plan', [
                 active: 'delivery'
             })
 
-            .when('/delivery/:id/dependancies', {
+            .when('/delivery/:id/dependencies', {
                 templateUrl: 'partials/delivery-dependancies.html',
                 controller: 'DeliveryController',
                 resolve: {

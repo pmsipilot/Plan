@@ -1,0 +1,40 @@
+<div class="block-content">
+    <div class="block">
+        <div class="row">
+            <div class="col-md-4">
+                <h1>
+                    <span style="color: {{ project.color ? project.color : '#339999' }}"><i class="fa fa-square"></i></span>
+                    {{ project.name }}
+                </h1>
+            </div>
+            <div class="col-md-5">
+                <p>
+                    <strong>Dependencies : </strong>
+                    <a data-ng-repeat-start="pr in dependancies" href="#!/project/{{ pr.getPrimaryKey() }}">{{ pr.name }}</a><span data-ng-repeat-end ng-if="!$last">, </span>
+                </p>
+
+                <p ng-if="project.product_owner">
+                    <strong>Product owner: </strong>
+                    <span> {{ project.product_owner }}</span>
+                </p>
+                <p ng-if="project.scrum_master">
+                    <strong>Scrum master: </strong>
+                    <span> {{ project.scrum_master }}</span>
+                </p>
+            </div>
+            <div class="col-md-3">
+                <div class="pull-right">
+                    <div class="btn-group space-right-small">
+                        <a class="btn square btn-two" href="#!/project/{{ project.getPrimaryKey() }}"><i class="fa fa-table"></i></a>
+                        <a class="btn square btn-two active" href="#!/project/{{ project.getPrimaryKey() }}/dependencies"><i class="fa fa-code-fork"></i></a>
+                    </div>
+
+                    <a href="#!/project/{{ project.getPrimaryKey() }}/edit" class="btn btn-two rounded" title="Edit this project"><i class="fa fa-edit"></i></a>
+                    <a ng-if="gitlab.enabled && project.repository" target="_blank" class="btn btn-two rounded" href="{{ gitlab.config.url }}/{{ project.repository }}/blob/master/CHANGELOG.md"><i class="fa fa-gitlab"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <project-dependency-graph projects="projects" deliveries="[]"></project-dependency-graph>
+</div>
