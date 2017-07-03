@@ -1,6 +1,6 @@
 angular.module('plan').controller('DeliveryGanttController', [
-    '$scope', '$location', 'AngularDataStore', 'delivery', 'projects', 'projectDeliveries',
-    function ($scope, $location, AngularDataStore, delivery, projects, projectDeliveries) {
+    '$scope', '$location', 'AngularDataStore', 'delivery', 'projects', 'projectDeliveries', 'DeliveryHelper',
+    function ($scope, $location, AngularDataStore, delivery, projects, projectDeliveries, DeliveryHelper) {
         $scope.delivery = delivery;
         $scope.projects = projects;
         $scope.toggle = function () {
@@ -30,6 +30,9 @@ angular.module('plan').controller('DeliveryGanttController', [
 
                 $scope.chartData.push(rowConfig);
             });
+        });
+        DeliveryHelper.isReady(delivery).then(function (ready) {
+            $scope.ready = ready;
         });
     }
 ]);

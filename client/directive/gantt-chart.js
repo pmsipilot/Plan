@@ -1,7 +1,8 @@
 angular.module('plan').directive('ganttChart', function () {
     return {
         scope: {
-            data: '=ganttChart'
+            data: '=ganttChart',
+            ready: '='
         },
         templateUrl: 'partials/directive/gantt-chart.html',
         controller: ['$scope', '$filter', function ($scope, $filter) {

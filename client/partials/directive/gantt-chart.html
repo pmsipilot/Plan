@@ -10,7 +10,7 @@
                 </div>
             </div>
 
-            <div class="gantt-current-date" data-ng-show="currentDatePercent" data-ng-style="{'left': currentDatePercent}"></div>
+            <div ng-if="!ready" class="gantt-current-date" data-ng-show="currentDatePercent" data-ng-style="{'left': currentDatePercent}"></div>
         </div>
 
         <div class="gantt-ranges">
