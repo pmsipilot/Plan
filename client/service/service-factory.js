@@ -4,8 +4,8 @@ angular.module('plan').factory('ServiceFactory', [
         return {
             getService: function (name) {
                 return ServiceLoader.getService(name).then(function (service) {
-                    if (service === undefined) {
-                        service = AngularDataStore.create('service', {
+                    if (!service) {
+                        return AngularDataStore.create('service', {
                             name: name,
                             enabled: false,
                             config: {}

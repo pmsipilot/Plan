@@ -1,8 +1,10 @@
+var resources = require('./resources');
+
 module.exports = {
-    db: process.env.PMSIPLAN_MONGO_URL,
+    db: process.env.PMSIPLAN_MONGO_URL || 'localhost',
     prefix: process.env.PMSIPLAN_API_PREFIX,
     histo: process.env.PMSIPLAN_HISTORY,
-    resources: require('./resources'),
+    resources: resources,
     ldap: {
         url: process.env.PMSIPLAN_LDAP_URL,
         searchBase: process.env.PMSIPLAN_LDAP_SEARCH_BASE,

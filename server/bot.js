@@ -1,6 +1,8 @@
 require('coffee-script/register');
-var semver = require('semver');
+
+var hubot = require('hubot');
 var moment = require('moment');
+var semver = require('semver');
 
 var projectStatusToEmoji = function (status) {
     switch (status) {
@@ -80,7 +82,7 @@ var formatDate = function (date) {
     return moment(date).format('LL') + ' (' + moment(date).fromNow() + ')';
 };
 
-var formatLink = function(attachment, config) {
+var formatLink = function (attachment, config) {
     attachment.title_link = config.public_url + attachment.title_link;
 
     return attachment;
@@ -88,8 +90,8 @@ var formatLink = function(attachment, config) {
 
 var deliveryToAttachment = function (delivery, versions) {
     var ready = !versions.find(function (version) { return version.status !== 'delivered'; });
-    var start = null,
-        target = null;
+    var start = null;
+    var target = null;
 
     versions.forEach(function (version) {
         if (start === null || start > version.start_date) {
@@ -191,7 +193,6 @@ var projectVersionToAttachment = function (version, project) {
 };
 
 module.exports = function (enabled, config, models, app) {
-    var hubot = require('hubot');
     var robot;
 
     var start = function () {

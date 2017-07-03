@@ -6,90 +6,92 @@ angular.module('plan').directive('resourceHistory', ['AngularDataStore', functio
             entries: '=entries'
         },
         link: function (scope, element, attrs) {
-            var nbEntryPerPage = 25,
-                projects = {},
-                deliveries = {},
-                getDelivery = function (entry) {
-                    if (deliveries[entry.content.delivery]) {
+            var nbEntryPerPage = 25;
+            var projects = {};
+            var deliveries = {};
+            var getDelivery = function (entry) {
+                if (deliveries[entry.content.delivery]) {
+                    entry.delivery = deliveries[entry.content.delivery];
+                } else {
+                    AngularDataStore.findBy('delivery', { _id: entry.content.delivery }).then(function (delivs) {
+                        deliveries[entry.content.delivery] = delivs[0];
+
                         entry.delivery = deliveries[entry.content.delivery];
-                    } else {
-                        AngularDataStore.findBy('delivery', { _id: entry.content.delivery }).then(function (delivs) {
-                            deliveries[entry.content.delivery] = delivs[0];
+                    });
+                }
+            };
+            var getProject = function (entry) {
+                if (projects[entry.content.project]) {
+                    entry.project = projects[entry.content.project];
+                } else {
+                    AngularDataStore.findBy('project', { _id: entry.content.project }).then(function (proj) {
+                        projects[entry.content.project] = proj[0];
 
-                            entry.delivery = deliveries[entry.content.delivery];
-                        });
-                    }
-                },
-                getProject = function (entry) {
-                    if (projects[entry.content.project]) {
                         entry.project = projects[entry.content.project];
-                    } else {
-                        AngularDataStore.findBy('project', { _id: entry.content.project }).then(function (proj) {
-                            projects[entry.content.project] = proj[0];
+                    });
+                }
+            };
+            var callback = function (entries) {
+                entries = entries
+                    .sort(function (a, b) {
+                        if (a.date < b.date) {
+                            return 1;
+                        }
 
-                            entry.project = projects[entry.content.project];
-                        });
-                    }
-                },
-                callback = function (entries) {
-                    entries = entries
-                        .sort(function (a, b) {
-                            if (a.date < b.date) {
-                                return 1;
-                            }
-
-                            if (a.date > b.date) {
-                                return -1;
-                            }
+                        if (a.date > b.date) {
+                            return -1;
+                        }
 
 
-                            return 0;
-                        })
-                        .map(function (entry) {
-                            try {
-                                entry.content = JSON.parse(entry.content);
-                            } catch (err) {}
+                        return 0;
+                    })
+                    .map(function (entry) {
+                        try {
+                            entry.content = JSON.parse(entry.content);
+                        } catch (err) {
+                            entry.content = {};
+                        }
 
-                            return entry;
-                        });
+                        return entry;
+                    });
 
-                    if (scope.id) {
-                        entries = entries.filter(function (entry) {
-                            return entry.content._id === scope.id;
-                        });
-                    }
+                if (scope.id) {
+                    entries = entries.filter(function (entry) {
+                        return entry.content._id === scope.id;
+                    });
+                }
 
-                    scope.nbPages = Math.ceil(entries.length / nbEntryPerPage);
+                scope.nbPages = Math.ceil(entries.length / nbEntryPerPage);
 
-                    if (scope.page + 1 > scope.nbPages) {
-                        return;
-                    }
+                if (scope.page + 1 > scope.nbPages) {
+                    return;
+                }
 
-                    scope.history = scope.history.concat(entries
-                        .slice(nbEntryPerPage * scope.page, nbEntryPerPage * (scope.page + 1))
-                        .map(function (entry) {
-                            entry.showContent = function () {
-                                if (!entry.isContentVisible) {
-                                    if (entry.content.project) {
-                                        getProject(entry);
-                                    }
-
-                                    if (entry.content.delivery) {
-                                        getDelivery(entry);
-                                    }
+                scope.history = scope.history.concat(entries
+                    .slice(nbEntryPerPage * scope.page, nbEntryPerPage * (scope.page + 1))
+                    .map(function (entry) {
+                        entry.showContent = function () {
+                            if (!entry.isContentVisible) {
+                                if (entry.content.project) {
+                                    getProject(entry);
                                 }
 
-                                entry.isContentVisible = !entry.isContentVisible;
-                            };
-
-                            if (entry.resource == 'project_delivery') {
-                                getProject(entry);
+                                if (entry.content.delivery) {
+                                    getDelivery(entry);
+                                }
                             }
 
-                            return entry;
-                        })
-                    );
-                };
+                            entry.isContentVisible = !entry.isContentVisible;
+                        };
+
+                        if (entry.resource === 'project_delivery') {
+                            getProject(entry);
+                        }
+
+                        return entry;
+                    })
+                );
+            };
 
             scope.history = [];
             scope.page = 0;

@@ -1,13 +1,13 @@
-// Loading Config
-var config = require('./config/config'),
-    Bedoon = require('bedoon'),
-    express = require('express'),
-    passport = require('passport'),
-    crypto = require('crypto'),
-    bedoon = new Bedoon(config),
-    port = 3700,
-    LdapStrategy = require('passport-ldapauth').Strategy,
-    BearerStrategy = require('passport-http-bearer').Strategy;
+var Bedoon = require('bedoon');
+var express = require('express');
+var passport = require('passport');
+var crypto = require('crypto');
+var config = require('./config/config');
+var bot = require('./bot');
+var bedoon = new Bedoon(config);
+var port = 3700;
+var LdapStrategy = require('passport-ldapauth').Strategy;
+var BearerStrategy = require('passport-http-bearer').Strategy;
 
 passport.use(new BearerStrategy(
     { passReqToCallback: true },
@@ -54,18 +54,18 @@ var auth = passport.authenticate(['bearer'], { session: false });
 bedoon.app.use('/api/*', function (req, res, next) {
     if (req.isAuthenticated()) {
         return next();
-    } else {
-        return auth(req, res, next);
     }
+
+    return auth(req, res, next);
 });
 
 bedoon.models.service.findOne({ name: 'slackbot' }, function (err, result) {
-    if (result ) {
-        require('./bot')(result.enabled, result.config, bedoon.models, bedoon.app);
+    if (result) {
+        bot(result.enabled, result.config, bedoon.models, bedoon.app);
     }
 
-    bedoon.run(3700);
-    console.log('Listening on port ' + 3700);
+    bedoon.run(port);
+    console.log('Listening on port ' + port);
 });
 
 bedoon.app.post('/ldap/auth/login', passport.authenticate('ldapauth', {
@@ -89,13 +89,13 @@ bedoon.app.get('/dashboard', function (req, res) {
                 progressBlocked: 0
             };
 
-            bedoon.models.project_delivery.find({ delivery: delivery.id }, function (err, project_deliveries) {
-                project_deliveries.forEach(function (project_delivery) {
-                    if (project_delivery.status !== 'delivered') {
+            bedoon.models.project_delivery.find({ delivery: delivery.id }, function (err, projectDeliveries) {
+                projectDeliveries.forEach(function (projectDelivery) {
+                    if (projectDelivery.status !== 'delivered') {
                         delivery.ready = false;
                     }
 
-                    switch (project_delivery.status) {
+                    switch (projectDelivery.status) {
                         case 'planned':
                             delivery.progressPlanned++;
                             break;
@@ -113,10 +113,10 @@ bedoon.app.get('/dashboard', function (req, res) {
                     }
                 });
 
-                delivery.progress = (delivery.progress / project_deliveries.length) * 100;
-                delivery.progressPlanned = (delivery.progressPlanned / project_deliveries.length) * 100;
-                delivery.progressCurrent = (delivery.progressCurrent / project_deliveries.length) * 100;
-                delivery.progressBlocked = (delivery.progressBlocked / project_deliveries.length) * 100;
+                delivery.progress = (delivery.progress / projectDeliveries.length) * 100;
+                delivery.progressPlanned = (delivery.progressPlanned / projectDeliveries.length) * 100;
+                delivery.progressCurrent = (delivery.progressCurrent / projectDeliveries.length) * 100;
+                delivery.progressBlocked = (delivery.progressBlocked / projectDeliveries.length) * 100;
                 statuses.push(delivery);
 
                 if (statuses.length === deliveries.length) {

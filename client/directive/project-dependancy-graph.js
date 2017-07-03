@@ -7,26 +7,30 @@ angular.module('plan').directive('projectDependancyGraph', ['$q', function ($q) 
         link: function (scope, element) {
             var defer = $q.defer(),
                 renderGraph = function (projects, projectsConfig) {
-                    var
-                        graph = {
-                            nodes: [],
-                            links: []
-                        },
-                        nodeKeys = {},
-                        promises = [],
-                        nodesByPrimaryKey = {};
+                    var graph = {
+                        nodes: [],
+                        links: []
+                    };
+                    var nodeKeys = {};
+                    var promises = [];
+                    var nodesByPrimaryKey = {};
 
                     defer = $q.defer();
 
-                    angular.forEach(projectsConfig, function (projectsConfig, key) {
-                        nodeKeys[projectsConfig.primaryKey] = key;
-                        nodesByPrimaryKey[projectsConfig.primaryKey] = { name: projectsConfig.name, group: 1, color: '#ccc' };
-                        graph.nodes[key] = nodesByPrimaryKey[projectsConfig.primaryKey];
+                    angular.forEach(projectsConfig, function (projectConfig, key) {
+                        nodeKeys[projectConfig.primaryKey] = key;
+                        nodesByPrimaryKey[projectConfig.primaryKey] = {
+                            name: projectConfig.name,
+                            group: 1,
+                            color: '#ccc'
+                        };
+                        graph.nodes[key] = nodesByPrimaryKey[projectConfig.primaryKey];
                     });
 
                     angular.forEach(projects, function (project) {
                         if (angular.isDefined(nodeKeys[project.getPrimaryKey()])) {
-                            var defer = $q.defer();
+                            var deferred = $q.defer();
+
                             project.getDependancies().then(function (dependancies) {
                                 angular.forEach(dependancies, function (dependancy) {
                                     if (angular.isDefined(nodeKeys[dependancy.getPrimaryKey()])) {
@@ -37,12 +41,13 @@ angular.module('plan').directive('projectDependancyGraph', ['$q', function ($q) 
                                         });
                                     }
                                 });
-                                defer.resolve();
+
+                                deferred.resolve();
                             }, function () {
-                                defer.resolve();
+                                deferred.resolve();
                             });
 
-                            promises.push(defer.promise);
+                            promises.push(deferred.promise);
                         }
                     });
 
@@ -64,28 +69,29 @@ angular.module('plan').directive('projectDependancyGraph', ['$q', function ($q) 
                         defer.resolve();
                         element.empty();
 
-                        var width = element.width(),
-                            height = element.height(),
-                            force = d3.layout.force()
-                                .gravity(0)
-                                .charge(-1)
-                                .linkDistance(10)
-                                .linkStrength(0)
-                                .size([width, height]),
-                            svg = d3.select('#' + element.attr('id')).append('svg')// better to keep the viewBox dimensions with variables
-                                .attr('viewBox', '0 0 ' + width + ' ' + height)
-                                .attr('preserveAspectRatio', 'xMidYMid meet');
+                        var width = element.width();
+                        var height = element.height();
+                        var force = d3.layout.force()
+                            .gravity(0)
+                            .charge(-1)
+                            .linkDistance(10)
+                            .linkStrength(0)
+                            .size([width, height]);
+                        var svg = d3.select('#' + element.attr('id')).append('svg')
+                            .attr('viewBox', '0 0 ' + width + ' ' + height)
+                            .attr('preserveAspectRatio', 'xMidYMid meet');
 
-                        svg.append('defs').append('marker')
+                        svg.append('defs')
+                            .append('marker')
                             .attr('id', 'arrowhead')
-                            .attr('refX', 12 + 3) /* must be smarter way to calculate shift*/
+                            .attr('refX', 12 + 3)
                             .attr('refY', 4)
                             .attr('markerWidth', 16)
                             .attr('markerHeight', 16)
                             .attr('orient', 'auto')
                             .attr('class', 'marker')
                             .append('path')
-                            .attr('d', 'M 0,0 V 8 L8,4 Z'); // this is actual shape for arrowhead
+                            .attr('d', 'M 0,0 V 8 L8,4 Z');
 
                         force
                             .nodes(graph.nodes)
@@ -94,7 +100,8 @@ angular.module('plan').directive('projectDependancyGraph', ['$q', function ($q) 
 
                         var link = svg.selectAll('.link')
                             .data(graph.links)
-                            .enter().append('line')
+                            .enter()
+                            .append('line')
                             .attr('class', 'link')
                             .style('stroke-width', function (d) { return Math.sqrt(d.value); })
                             .attr('marker-end', 'url(#arrowhead)');
@@ -111,31 +118,31 @@ angular.module('plan').directive('projectDependancyGraph', ['$q', function ($q) 
                                 svg.selectAll('circle').style('opacity', 0.3);
                                 svg.selectAll('text').style('opacity', 0.3);
                                 svg.selectAll('.link').style('opacity', 0.3);
-                                var nodeNeighbors = graph.links.filter(function (link) {
-                                    return link.source.index === d.index || link.target.index === d.index;
+                                var nodeNeighbors = graph.links.filter(function (l) {
+                                    return l.source.index === d.index || l.target.index === d.index;
                                 })
-                                .map(function (link) {
-                                    return link.source.index === d.index ? link.target.index : link.source.index;
+                                .map(function (l) {
+                                    return l.source.index === d.index ? l.target.index : l.source.index;
                                 });
 
-                                svg.selectAll('circle').filter(function (node) {
-                                    return nodeNeighbors.indexOf(node.index) > -1;
+                                svg.selectAll('circle').filter(function (n) {
+                                    return nodeNeighbors.indexOf(n.index) > -1;
                                 }).style('opacity', 1);
 
-                                svg.selectAll('text').filter(function (node) {
-                                    return nodeNeighbors.indexOf(node.index) > -1;
+                                svg.selectAll('text').filter(function (n) {
+                                    return nodeNeighbors.indexOf(n.index) > -1;
                                 }).style('opacity', 1);
 
                                 d3.select(this).attr('r', 10).style('opacity', 1);
-                                svg.selectAll('text').filter(function (node) {
-                                    return node.index === d.index;
+                                svg.selectAll('text').filter(function (n) {
+                                    return n.index === d.index;
                                 }).style('opacity', 1);
 
-                                svg.selectAll('.link').filter(function (link) {
-                                    return link.source.index === d.index || link.target.index === d.index;
+                                svg.selectAll('.link').filter(function (l) {
+                                    return l.source.index === d.index || l.target.index === d.index;
                                 }).style('opacity', 1);
                             })
-                            .on('mouseout', function (d) {
+                            .on('mouseout', function () {
                                 svg.selectAll('circle').style('opacity', 1);
                                 svg.selectAll('text').style('opacity', 1);
                                 svg.selectAll('line').style('opacity', 1);
@@ -144,7 +151,8 @@ angular.module('plan').directive('projectDependancyGraph', ['$q', function ($q) 
 
                         var text = svg.append('g').selectAll('text')
                             .data(force.nodes())
-                            .enter().append('text')
+                            .enter()
+                            .append('text')
                             .attr('text-anchor', 'middle')
                             .text(function (d) { return d.name; });
 

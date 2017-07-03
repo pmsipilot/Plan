@@ -1,4 +1,5 @@
-angular.module('plan').controller('StatusController', ['$scope', '$filter', 'AngularDataStore', 'DeliveryHelper', 'deliveries',
+angular.module('plan').controller('StatusController', [
+    '$scope', '$filter', 'AngularDataStore', 'DeliveryHelper', 'deliveries',
     function ($scope, $filter, AngularDataStore, DeliveryHelper, deliveries) {
         $scope.deliveries = [];
 
