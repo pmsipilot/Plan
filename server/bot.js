@@ -80,6 +80,12 @@ var formatDate = function (date) {
     return moment(date).format('LL') + ' (' + moment(date).fromNow() + ')';
 };
 
+var formatLink = function(attachment, config) {
+    attachment.title_link = config.public_url + attachment.title_link;
+
+    return attachment;
+};
+
 var deliveryToAttachment = function (delivery, versions) {
     var ready = !versions.find(function (version) { return version.status !== 'delivered'; });
     var start = null,
@@ -100,7 +106,7 @@ var deliveryToAttachment = function (delivery, versions) {
 
     return {
         title: delivery.version,
-        title_link: 'http://localhost:3700/#!/delivery/' + delivery._id,
+        title_link: '/#!/delivery/' + delivery._id,
         text: delivery.description,
         color: deliveryStatusToColor(delivery.locked, ready),
         fields: [
@@ -131,7 +137,7 @@ var deliveryToAttachment = function (delivery, versions) {
 var projectToAttachment = function (project) {
     return {
         title: project.name,
-        title_link: 'http://localhost:3700/#!/project/' + project._id,
+        title_link: '/#!/project/' + project._id,
         text: project.description,
         color: project.color,
         fields: [
@@ -178,13 +184,13 @@ var projectVersionToAttachment = function (version, project) {
 
     return {
         title: (project ? project.name + ' ' : '') + version.version,
-        title_link: 'http://localhost:3700/#!/project/' + version.project,
+        title_link: '/#!/project/' + version.project,
         color: projectStatusToColor(version.status),
         fields: fields
     };
 };
 
-module.exports = function (config, models, app) {
+module.exports = function (enabled, config, models, app) {
     var hubot = require('hubot');
     var robot;
 
@@ -222,7 +228,7 @@ module.exports = function (config, models, app) {
                     robot.emit('attachment', {
                         channel: res.envelope.room,
                         username: robot.name,
-                        attachments: attachments
+                        attachments: attachments.map(function (attachment) { return formatLink(attachment, config); })
                     });
                 });
             });
@@ -245,7 +251,9 @@ module.exports = function (config, models, app) {
                         robot.emit('attachment', {
                             channel: res.envelope.room,
                             username: robot.name,
-                            attachments: [deliveryToAttachment(delivery, versions)].concat(attachments)
+                            attachments: [deliveryToAttachment(delivery, versions)]
+                                .concat(attachments)
+                                .map(function (attachment) { return formatLink(attachment, config); })
                         });
                     });
                 });
@@ -262,7 +270,7 @@ module.exports = function (config, models, app) {
                     robot.emit('attachment', {
                         channel: res.envelope.room,
                         username: robot.name,
-                        attachments: [deliveryToAttachment(delivery, versions)]
+                        attachments: [formatLink(deliveryToAttachment(delivery, versions), config)]
                     });
                 });
             });
@@ -273,9 +281,11 @@ module.exports = function (config, models, app) {
                 robot.emit('attachment', {
                     channel: res.envelope.room,
                     username: robot.name,
-                    attachments: result.map(function (project) {
-                        return projectToAttachment(project);
-                    })
+                    attachments: result
+                        .map(function (project) {
+                            return projectToAttachment(project);
+                        })
+                        .map(function (attachment) { return formatLink(attachment, config); })
                 });
             });
         });
@@ -303,6 +313,7 @@ module.exports = function (config, models, app) {
                                     return 0;
                                 })
                             )
+                            .map(function (attachment) { return formatLink(attachment, config); })
                     });
                 });
             });
@@ -337,7 +348,7 @@ module.exports = function (config, models, app) {
                     robot.emit('attachment', {
                         channel: res.envelope.room,
                         username: robot.name,
-                        attachments: [projectVersionToAttachment(version, project)]
+                        attachments: [formatLink(projectVersionToAttachment(version, project), config)]
                     });
                 });
             });
@@ -379,7 +390,7 @@ module.exports = function (config, models, app) {
         }
     });
 
-    if (config.enabled) {
+    if (enabled) {
         start();
     }
 };

@@ -60,8 +60,8 @@ bedoon.app.use('/api/*', function (req, res, next) {
 });
 
 bedoon.models.service.findOne({ name: 'slackbot' }, function (err, result) {
-    if (result && result.enabled) {
-        require('./bot')(result.config, bedoon.models, bedoon.app);
+    if (result ) {
+        require('./bot')(result.enabled, result.config, bedoon.models, bedoon.app);
     }
 
     bedoon.run(3700);
