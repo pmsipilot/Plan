@@ -1,8 +1,4 @@
 <div class="block-content">
-    <div class="pull-right">
-        <a href="#!/delivery/{{ delivery.getPrimaryKey() }}" class="btn btn-two rounded"><i class="fa fa-info"></i></a>
-    </div>
-
     <h1>{{ {true: 'New', false: 'Edit'}[delivery.getPrimaryKey() == undefined] }} release</h1>
 
     <form class="space-top" name="deliveryForm">

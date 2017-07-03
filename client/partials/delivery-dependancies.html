@@ -2,7 +2,7 @@
     <div class="block">
         <div class="row">
             <div class="col-md-9">
-                <h1>Delivery {{ delivery.version }}</h1>
+                <h1>{{ delivery.version }}</h1>
             </div>
             <div class="col-md-3">
                 <div class="pull-right">
@@ -28,5 +28,5 @@
         </div>
     </div>
 
-    <div id="graph-dependancy" data-project-dependancy-graph="projects" data-project-config-in-delivery="deliveryProjects"></div>
+    <project-dependency-graph projects="projects" deliveries="projectDeliveries"></project-dependency-graph>
 </div>

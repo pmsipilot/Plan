@@ -1,8 +1,4 @@
 <div class="block-content">
-    <div class="pull-right">
-        <a href="#!/project/{{ project.getPrimaryKey() }}" class="btn btn-two rounded"><i class="fa fa-info"></i></a>
-    </div>
-
     <h1>{{ {true: 'New', false: 'Edit'}[project.getPrimaryKey() == undefined] }} project</h1>
 
     <form class="space-top" name="projectForm"  ng-class="{ 'has-error': projectForm.name.$error.required }">

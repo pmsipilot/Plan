@@ -13,7 +13,8 @@ angular.module('plan').controller('DeliveryController', [
             AngularDataStore.save(delivery);
         };
 
-        $scope.deliveryProjects = [];
+        $scope.projectDeliveries = projectDeliveries;
+
         var computeDeliveryProjects = function () {
             $scope.deliveryProjects.splice(0, $scope.deliveryProjects.length);
             angular.forEach(projectDeliveries, function (prDelivery) {
