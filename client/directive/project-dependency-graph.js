@@ -7,6 +7,11 @@ angular.module('plan').directive('projectDependencyGraph', [function () {
         link: function ($scope, $element) {
             var id = 0;
             var nodes = $scope.projects
+                .filter(function (project) {
+                    return !$scope.deliveries || !$scope.deliveries.length || $scope.deliveries.find(function (delivery) {
+                        return delivery.project === project._id;
+                    });
+                })
                 .map(function (project) {
                     var version = $scope.deliveries.find(function (delivery) {
                         return delivery.project === project._id;
@@ -18,9 +23,39 @@ angular.module('plan').directive('projectDependencyGraph', [function () {
                         name: project.name,
                         color: project.color,
                         status: version ? version.status : null,
-                        version: version ? version.version : null
+                        version: version ? version.version : null,
+                        dependencies: project.dependancies
                     };
                 });
+
+            nodes = nodes.reduce(function (prev, node) {
+                var deps = [];
+
+                node.dependencies.forEach(function (dep) {
+                    var dependency = prev.find(function (n) {
+                        return n.id === dep;
+                    });
+
+                    if (!dependency) {
+                        var project = $scope.projects.find(function (project) {
+                            return project._id === dep;
+                        });
+
+                        if (project) {
+                            deps.push({
+                                id: project._id,
+                                index: id++,
+                                name: project.name,
+                                color: project.color,
+                                dependencies: project.dependancies
+                            });
+                        }
+                    }
+                });
+
+                return prev.concat(deps);
+            }, nodes);
+
             var links = $scope.deliveries.reduce(function (prev, delivery) {
                 var project = $scope.projects.find(function (proj) {
                     return proj._id === delivery.project;
@@ -87,7 +122,8 @@ angular.module('plan').directive('projectDependencyGraph', [function () {
             var force = d3.layout.force()
                 .gravity(0)
                 .charge(-1)
-                .linkDistance(200)
+                .linkDistance(10)
+                .linkStrength(0)
                 .nodes(nodes)
                 .links(links)
                 .size([$element.find('svg').width(), $element.find('svg').height()])
