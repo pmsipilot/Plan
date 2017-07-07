@@ -22,10 +22,10 @@ module.exports = function(grunt) {
                 files: [
                     {expand: true, cwd: 'client', src: ['index.html'], dest: 'server/public'},
                     {expand: true, cwd: 'client/partials', src: ['**'], dest: 'server/public/partials'},
+                    {expand: true, cwd: 'client/images', src: ['**'], dest: 'server/public/images'},
                     {expand: true, cwd: 'node_modules/authenticatejs/build/partials', src: ['**'], dest: 'server/public/partials/authenticateJS'},
                     {expand: true, src: ['node_modules/font-awesome/fonts/*'], dest: 'server/public/font/', flatten: true},
-                    {expand: true, src: ['node_modules/pmsipilot-ui/font/*'], dest: 'server/public/font/', flatten: true},
-                    {expand: true, cwd: 'node_modules/pmsipilot-ui/images/', src: ['**'], dest: 'server/public/images'}
+                    {expand: true, src: ['node_modules/pmsipilot-ui/font/*'], dest: 'server/public/font/', flatten: true}
                 ]
             }
         },

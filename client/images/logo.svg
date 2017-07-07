@@ -1,0 +1,52 @@
+<svg id="Logo_plan" xmlns="http://www.w3.org/2000/svg" width="250" height="250" viewBox="0 0 250 250">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #434343;
+      }
+
+      .cls-2 {
+        fill: #ddd;
+      }
+
+      .cls-3 {
+        fill: #c0609f;
+      }
+
+      .cls-4 {
+        fill: #0076bc;
+      }
+
+      .cls-5 {
+        fill: #83c558;
+      }
+
+      .cls-6 {
+        fill: #ffdd1c;
+      }
+    </style>
+  </defs>
+  <title>logo_plan</title>
+  <g id="barre">
+    <rect id="verticale" class="cls-1" x="121.33" y="27.88" width="9.73" height="184.53"/>
+    <rect id="horizontal" class="cls-1" x="17.12" y="212.39" width="216.57" height="9.73"/>
+  </g>
+  <g id="Violet">
+    <rect id="barreGrise4" class="cls-2" x="145.65" y="175" width="89" height="24"/>
+    <g id="barreViolet">
+      <rect class="cls-3" x="51.65" y="170" width="96" height="35"/>
+    </g>
+  </g>
+  <g id="Bleu">
+    <rect id="barreGrise3" class="cls-2" x="145.65" y="131" width="89" height="25"/>
+    <rect id="barreBleu" class="cls-4" x="21.65" y="126" width="126" height="35"/>
+  </g>
+  <g id="vert">
+    <rect id="barreGrise2" class="cls-2" x="145.65" y="87" width="89" height="25"/>
+    <rect id="barreVert" class="cls-5" x="77.65" y="81" width="70" height="37"/>
+  </g>
+  <g id="jaune">
+    <rect id="barreGrise1" class="cls-2" x="145.65" y="43" width="89" height="25"/>
+    <rect id="barreJaune" class="cls-6" x="17.65" y="38" width="130" height="35"/>
+  </g>
+</svg>
