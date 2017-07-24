@@ -105,6 +105,12 @@
         </form>
     </div>
 
+    <div class="space-top alert alert-warning" data-ng-show="projectDeliveries.length <= 0 && projectDelivery === null">
+        <h2>Project's releases</h2>
+
+        <p>There is no project release yet. <a data-ng-click="addDelivery()" class="alert-link pointer">Click here</a> to create the first one.</p>
+    </div>
+
     <div class="space-top" data-ng-show="projectDeliveries.length && projectDelivery === null">
         <div class="row">
             <h2 class="pull-left">Project's releases</h2>

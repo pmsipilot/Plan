@@ -1,3 +1,9 @@
+<div class="space-top alert alert-warning" data-ng-show="history.length <= 0">
+    <h2>No entries</h2>
+
+    <p>There is no history entry yet.</p>
+</div>
+
 <div class="history block clearfix" data-ng-repeat="entry in history|orderBy:'date':true">
     <div class="row">
         <span class="icon" data-ng-switch="entry.action">
