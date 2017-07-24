@@ -89,7 +89,7 @@ bedoon.app.get('/dashboard', function (req, res) {
                 progressBlocked: 0
             };
 
-            bedoon.models.project_delivery.find({ delivery: delivery.id }, function (err, projectDeliveries) {
+            bedoon.models.project_delivery.find({ delivery: delivery.id }, function (error, projectDeliveries) {
                 projectDeliveries.forEach(function (projectDelivery) {
                     if (projectDelivery.status !== 'delivered') {
                         delivery.ready = false;

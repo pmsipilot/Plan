@@ -51,10 +51,10 @@ angular.module('plan').directive('ganttChart', function () {
 
                 if ($scope.maximum !== null && $scope.minimum !== null && $scope.maximum.getTime() !== $scope.minimum.getTime()) {
                     angular.forEach(data, function (row) {
-                        var
-                            startPercent = (row.startDate.getTime() - $scope.minimum.getTime()) / ($scope.maximum.getTime() - $scope.minimum.getTime()) * 100,
-                            plannedPercent = row.plannedDate ? (row.plannedDate.getTime() - row.startDate.getTime()) / ($scope.maximum.getTime() - $scope.minimum.getTime()) * 100 : 100,
-                            endPercent = (row.endDate.getTime() - row.startDate.getTime()) / (row.plannedDate.getTime() - row.startDate.getTime()) * 100;
+                        var startPercent = (row.startDate.getTime() - $scope.minimum.getTime()) / ($scope.maximum.getTime() - $scope.minimum.getTime()) * 100;
+                        var plannedPercent = row.plannedDate ? (row.plannedDate.getTime() - row.startDate.getTime()) / ($scope.maximum.getTime() - $scope.minimum.getTime()) * 100 : 100;
+                        var endPercent = (row.endDate.getTime() - row.startDate.getTime()) / (row.plannedDate.getTime() - row.startDate.getTime()) * 100;
+
                         $scope.rows.push({
                             color: row.color ? row.color : '#cccccc',
                             startPercent: startPercent + '%',

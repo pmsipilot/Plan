@@ -46,7 +46,9 @@ angular.module('plan').factory('DeliveryHelper', ['$q', 'AngularDataStore', func
                 .then(function (projectDeliveries) {
                     angular.forEach(projectDeliveries, function (projectDelivery) {
                         promises.push(projectDelivery.getProject().then(function (pr) {
-                            if (getPrimaryKey(project) !== getPrimaryKey(pr) && project.dependancies.indexOf(getPrimaryKey(pr)) !== -1) {
+                            var hasDependency = project.dependancies.indexOf(getPrimaryKey(pr)) === -1;
+
+                            if (getPrimaryKey(project) !== getPrimaryKey(pr) && !hasDependency) {
                                 dependanciesConfig.push({
                                     project: pr,
                                     projectDelivery: projectDelivery

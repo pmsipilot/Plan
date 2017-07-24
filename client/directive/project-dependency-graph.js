@@ -8,9 +8,11 @@ angular.module('plan').directive('projectDependencyGraph', [function () {
             var id = 0;
             var nodes = $scope.projects
                 .filter(function (project) {
-                    return !$scope.deliveries || !$scope.deliveries.length || $scope.deliveries.find(function (delivery) {
-                        return delivery.project === project._id;
-                    });
+                    return !$scope.deliveries ||
+                        !$scope.deliveries.length ||
+                        $scope.deliveries.find(function (delivery) {
+                            return delivery.project === project._id;
+                        });
                 })
                 .map(function (project) {
                     var version = $scope.deliveries.find(function (delivery) {
@@ -37,8 +39,8 @@ angular.module('plan').directive('projectDependencyGraph', [function () {
                     });
 
                     if (!dependency) {
-                        var project = $scope.projects.find(function (project) {
-                            return project._id === dep;
+                        var project = $scope.projects.find(function (p) {
+                            return p._id === dep;
                         });
 
                         if (project) {
@@ -84,8 +86,8 @@ angular.module('plan').directive('projectDependencyGraph', [function () {
                     });
 
                     project.dependancies.forEach(function (dependency) {
-                        var n = nodes.find(function (n) {
-                            return n.id === dependency;
+                        var n = nodes.find(function (nn) {
+                            return nn.id === dependency;
                         });
 
                         if (n) {

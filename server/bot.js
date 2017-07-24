@@ -205,7 +205,7 @@ module.exports = function (enabled, config, models, app) {
                 .post(JSON.stringify(data))(function (err, res, body) {
                     if (err) {
                         robot.logger.error('Error!', err);
-                    } else if (res.statusCode != 200) {
+                    } else if (res.statusCode !== 200) {
                         robot.logger.error('Error!', res.statusCode, body);
                     }
                 });
@@ -218,7 +218,7 @@ module.exports = function (enabled, config, models, app) {
                 var promises = [];
 
                 result.forEach(function (delivery) {
-                    promises.push(new Promise(function (resolve, reject) {
+                    promises.push(new Promise(function (resolve) {
                         models.project_delivery.find({ delivery: delivery._id }, function (err, versions) {
                             resolve(deliveryToAttachment(delivery, versions));
                         });
@@ -226,12 +226,15 @@ module.exports = function (enabled, config, models, app) {
                 });
 
                 Promise.all(promises).then(function (attachments) {
-                    while(attachments.length > 0) {
+                    var mapper = function (attachment) {
+                        return formatLink(attachment, config);
+                    };
+
+                    while (attachments.length > 0) {
                         robot.emit('attachment', {
                             channel: res.envelope.room,
                             username: robot.name,
-                            attachments: attachments.splice(0, 10)
-                                .map(function (attachment) { return formatLink(attachment, config); })
+                            attachments: attachments.splice(0, 10).map(mapper)
                         });
                     }
                 });
@@ -244,8 +247,8 @@ module.exports = function (enabled, config, models, app) {
 
                 models.project_delivery.find({ delivery: delivery._id }, function (err, versions) {
                     var promises = versions.map(function (version) {
-                        return new Promise(function (resolve, reject) {
-                            models.project.findOne(version.project, function (err, project) {
+                        return new Promise(function (resolve) {
+                            models.project.findOne(version.project, function (error, project) {
                                 resolve(projectVersionToAttachment(version, project));
                             });
                         });
@@ -258,12 +261,15 @@ module.exports = function (enabled, config, models, app) {
                             attachments: [deliveryToAttachment(delivery, versions)]
                         });
 
-                        while(attachments.length > 0) {
+                        var mapper = function (attachment) {
+                            return formatLink(attachment, config);
+                        };
+
+                        while (attachments.length > 0) {
                             robot.emit('attachment', {
                                 channel: res.envelope.room,
                                 username: robot.name,
-                                attachments: attachments.splice(0, 10)
-                                    .map(function (attachment) { return formatLink(attachment, config); })
+                                attachments: attachments.splice(0, 10).map(mapper)
                             });
                         }
                     });
@@ -277,7 +283,7 @@ module.exports = function (enabled, config, models, app) {
                 delivery.locked = res.match[1] === 'lock';
                 delivery.save();
 
-                models.project_delivery.find({ delivery: delivery._id }, function (err, versions) {
+                models.project_delivery.find({ delivery: delivery._id }, function (error, versions) {
                     robot.emit('attachment', {
                         channel: res.envelope.room,
                         username: robot.name,
@@ -289,27 +295,29 @@ module.exports = function (enabled, config, models, app) {
 
         robot.respond(/project list/i, function (res) {
             models.project.find(function (err, result) {
-                while(result.length > 0) {
+                var mapper = function (project) {
+                    return projectToAttachment(project);
+                };
+
+                var linker = function (attachment) {
+                    return formatLink(attachment, config);
+                };
+
+                while (result.length > 0) {
                     robot.emit('attachment', {
                         channel: res.envelope.room,
                         username: robot.name,
-                        attachments: result.splice(0, 10)
-                            .map(function (project) {
-                                return projectToAttachment(project);
-                            })
-                            .map(function (attachment) {
-                                return formatLink(attachment, config);
-                            })
+                        attachments: result.splice(0, 10).map(mapper).map(linker)
                     });
                 }
             });
         });
 
         robot.respond(/project describe (.+)/i, function (res) {
-            models.project.find({ name: res.match[1] }, function (err, result) {
-                var project = result[0];
+            models.project.find({ name: res.match[1] }, function (err, projects) {
+                var project = projects[0];
 
-                models.project_delivery.find({ project: project._id }, function (err, versions) {
+                models.project_delivery.find({ project: project._id }, function (error, versions) {
                     robot.emit('attachment', {
                         channel: res.envelope.room,
                         username: robot.name,
@@ -330,12 +338,15 @@ module.exports = function (enabled, config, models, app) {
                             return 0;
                         });
 
-                    while(versions.length > 0) {
+                    var mapper = function (attachment) {
+                        return formatLink(attachment, config);
+                    };
+
+                    while (versions.length > 0) {
                         robot.emit('attachment', {
                             channel: res.envelope.room,
                             username: robot.name,
-                            attachments: versions.splice(0, 10)
-                                .map(function (attachment) { return formatLink(attachment, config); })
+                            attachments: versions.splice(0, 10).map(mapper)
                         });
                     }
                 });
@@ -350,11 +361,11 @@ module.exports = function (enabled, config, models, app) {
                 deliver: 'delivered'
             };
 
-            models.project.find({ name: res.match[2] }, function (err, result) {
-                var project = result[0];
+            models.project.find({ name: res.match[2] }, function (err, projects) {
+                var project = projects[0];
 
-                models.project_delivery.find({ version: res.match[3] }, function (err, result) {
-                    var version = result[0];
+                models.project_delivery.find({ version: res.match[3] }, function (error, versions) {
+                    var version = versions[0];
 
                     if (version.status !== statuses[res.match[1]]) {
                         version.status = statuses[res.match[1]];

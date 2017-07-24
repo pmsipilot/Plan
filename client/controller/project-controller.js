@@ -11,9 +11,9 @@ angular.module('plan').controller('ProjectController', [
             return !delivery.locked;
         });
         $scope.projects = [project].concat(project.dependancies.map(function (dependency) {
-            return projects.find(function(p) {
+            return projects.find(function (p) {
                 return p._id === dependency;
-            })
+            });
         }));
 
         console.log($scope.projects);
